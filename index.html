@@ -1,41 +1,45 @@
 <!doctype html>
-<html lang="pt-BR" style="scroll-behavior: smooth;">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Intermediação de Jovens Aprendizes — Consultoria Estratégica</title>
   <meta name="description" content="Consultoria especializada na intermediação entre empresas, jovens e instituições de ensino. Definição de perfil, curadoria de candidatos e conformidade legal.">
   <meta name="theme-color" content="#0F4C81">
+  <link rel="canonical" href="https://seusite.com.br/">
+  <meta name="robots" content="index,follow,max-image-preview:large">
 
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Intermediação de Jovens Aprendizes — Consultoria Estratégica">
-  <meta property="og:description" content="Atuação consultiva para conectar empresas, jovens e instituições de ensino com foco em resultados e conformidade.">
+  <meta property="og:description" content="Conectamos empresas, jovens e instituições de ensino com foco em resultado e conformidade.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://seusite.com.br/">
   <meta property="og:image" content="https://seusite.com.br/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Intermediação de Jovens Aprendizes — Consultoria Estratégica">
-  <meta name="twitter:description" content="Atuação consultiva para conectar empresas, jovens e instituições de ensino com foco em resultados e conformidade.">
+  <meta name="twitter:description" content="Conectamos empresas, jovens e instituições de ensino com foco em resultado e conformidade.">
   <meta name="twitter:image" content="https://seusite.com.br/assets/og-image.png">
 
+  <!-- Critical CSS mínimo -->
   <style>
-    :root{--primary:#0F4C81;--secondary:#0EA5A4;--accent:#F59E0B;--bg:#F8FAFC;--surface:#FFFFFF;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--spacing-md:1rem;--spacing-lg:3rem;--header-height:65px}
+    :root{--primary:#0F4C81;--bg:#F8FAFC;--text:#0F172A;--border:#E2E8F0;--header-h:65px}
     *,::before,::after{box-sizing:border-box}
-    body{margin:0;font-family:Inter, Segoe UI, Roboto, -apple-system, system-ui, sans-serif;line-height:1.6;background-color:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-    h1,h2,h3{line-height:1.2;letter-spacing:-0.02em;margin:0}
-    a{color:var(--primary);text-decoration:none}
-    a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
-    .container{max-width:1120px;margin-inline:auto;padding-inline:var(--spacing-md)}
-    .site-header{position:sticky;top:0;background-color:var(--surface);border-bottom:1px solid var(--border);z-index:100;height:var(--header-height)}
+    body{margin:0;font-family:Inter,Segoe UI,Roboto,-apple-system,system-ui,sans-serif;line-height:1.6;background:var(--bg);color:var(--text)}
+    .container{max-width:1120px;margin-inline:auto;padding-inline:1rem}
+    .site-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);height:var(--header-h);z-index:100}
     .site-header .container{display:flex;justify-content:space-between;align-items:center;height:100%}
-    .brand{font-weight:700;font-size:1.25rem;color:var(--primary)}
-    .hero{padding-block:var(--spacing-lg);padding-top:2rem;background:linear-gradient(180deg, var(--surface), var(--bg))}
-    .hero h1{font-size:clamp(2rem, 5vw, 2.75rem)}
-    .hero p{font-size:1.125rem;max-width:65ch}
+    .brand{font-weight:700;font-size:1.25rem;color:var(--primary);text-decoration:none}
+    .hero{padding-block:3rem;background:linear-gradient(180deg,#fff,#f2f6fa);text-align:center}
+    .hero h1{font-size:clamp(2rem,5vw,2.75rem);line-height:1.2;margin:.25rem 0}
+    .skip-link{position:absolute;top:-100px;left:0;background:var(--primary);color:#fff;padding:1rem;z-index:1000}
+    .skip-link:focus{top:0}
   </style>
 
+  <!-- CSS principal -->
   <link rel="preload" href="assets/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="assets/styles.css"></noscript>
 
+  <!-- JSON-LD Organization -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,11 +48,12 @@
     "url": "https://seusite.com.br/",
     "contactPoint": {
       "@type": "ContactPoint",
+      "contactType": "consulting",
+      "email": "vittor.oliveira07@gmail.com",
       "telephone": "+55-18-99138-3166",
-      "contactType": "customer service",
-      "email": "vittor.oliveira07@gmail.com"
-    },
-    "sameAs": []
+      "areaServed": "BR",
+      "availableLanguage": ["Portuguese"]
+    }
   }
   </script>
 </head>
@@ -56,15 +61,17 @@
 
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
-  <header class="site-header">
+  <header class="site-header" role="banner">
     <div class="container">
-      <a href="#" class="brand" aria-label="Página inicial da Consultoria Jovem Aprendiz">Jovem Aprendiz</a>
-      <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+      <a href="#inicio" class="brand" aria-label="Página inicial">Jovem Aprendiz</a>
+
+      <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Abrir menu">
         <span class="sr-only">Abrir menu</span>
-        <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <nav class="primary-nav" id="primary-navigation">
+
+      <nav class="primary-nav" id="primary-navigation" aria-label="Navegação primária">
         <ul class="nav__list">
           <li><a href="#como-funciona" class="nav__link">Como funciona</a></li>
           <li><a href="#empresas" class="nav__link">Para empresas</a></li>
@@ -77,20 +84,16 @@
   </header>
 
   <main id="conteudo-principal" tabindex="-1">
-
     <section id="inicio" class="hero" aria-labelledby="hero-title">
       <div class="container">
         <h1 id="hero-title">Intermediação Estratégica de Jovens Aprendizes</h1>
-        <p class="muted">Atuação consultiva: definimos o perfil ideal, realizamos a curadoria dos jovens e articulamos a vaga com a instituição de ensino parceira — com total conformidade legal e foco em resultados.</p>
-        <div class="cta-group">
+        <p class="muted">Definimos o perfil, fazemos a curadoria dos jovens e articulamos com a instituição de ensino — com conformidade legal e foco em resultado.</p>
+        <div class="cta-group" role="group" aria-label="Ações principais">
           <a class="btn btn--primary" href="https://wa.me/5518991383166" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8 8h-.5a8.5 8.5 0 0 1-8-8v-.5a8.5 8.5 0 0 1 8-8h.5a8.5 8.5 0 0 1 8 8z"/></svg>
             <span>Fale no WhatsApp</span>
           </a>
-          <a class="btn" href="mailto:vittor.oliveira07@gmail.com?subject=Agendar%20conversa%20sobre%20Jovem%20Aprendiz">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            <span>Agendar conversa</span>
-          </a>
+          <a class="btn" href="mailto:vittor.oliveira07@gmail.com?subject=Agendar%20conversa%20sobre%20Jovem%20Aprendiz">Agendar conversa</a>
         </div>
       </div>
     </section>
@@ -98,31 +101,13 @@
     <section id="como-funciona" aria-labelledby="funciona-title">
       <div class="container">
         <h2 id="funciona-title">Como funciona a nossa intermediação</h2>
-        <ol class="timeline">
-          <li class="timeline__item">
-            <h3 class="timeline__title">Briefing do Perfil</h3>
-            <p class="muted">Análise de CBO, requisitos, jornada e ambiente.</p>
-          </li>
-          <li class="timeline__item">
-            <h3 class="timeline__title">Mapeamento</h3>
-            <p class="muted">Busca por instituições e candidatos aderentes.</p>
-          </li>
-          <li class="timeline__item">
-            <h3 class="timeline__title">Curadoria</h3>
-            <p class="muted">Triagem, entrevistas e apresentação de shortlist.</p>
-          </li>
-          <li class="timeline__item">
-            <h3 class="timeline__title">Alinhamento</h3>
-            <p class="muted">Comunicação entre empresa, instituição e jovem.</p>
-          </li>
-          <li class="timeline__item">
-            <h3 class="timeline__title">Formalização</h3>
-            <p class="muted">Apoio em contratos, rotinas e compliance.</p>
-          </li>
-          <li class="timeline__item">
-            <h3 class="timeline__title">Acompanhamento</h3>
-            <p class="muted">Monitoramento de indicadores, presença e evolução.</p>
-          </li>
+        <ol class="timeline" role="list">
+          <li class="timeline__item"><h3 class="timeline__title">Briefing do Perfil</h3><p class="muted">CBO, requisitos, jornada e ambiente.</p></li>
+          <li class="timeline__item"><h3 class="timeline__title">Mapeamento</h3><p class="muted">Instituições e candidatos aderentes.</p></li>
+          <li class="timeline__item"><h3 class="timeline__title">Curadoria</h3><p class="muted">Triagem, entrevistas e shortlist.</p></li>
+          <li class="timeline__item"><h3 class="timeline__title">Alinhamento</h3><p class="muted">Empresa × instituição × jovem.</p></li>
+          <li class="timeline__item"><h3 class="timeline__title">Formalização</h3><p class="muted">Contratos, rotinas e compliance.</p></li>
+          <li class="timeline__item"><h3 class="timeline__title">Acompanhamento</h3><p class="muted">Indicadores, presença e evolução.</p></li>
         </ol>
       </div>
     </section>
@@ -131,22 +116,10 @@
       <div class="container">
         <h2 id="emp-title">Para Empresas</h2>
         <div class="grid">
-          <article class="card">
-            <h3>Definição do Perfil</h3>
-            <p>Descrição clara de atribuições, requisitos e competências, respeitando a realidade operacional e a legislação.</p>
-          </article>
-          <article class="card">
-            <h3>Conformidade & Riscos</h3>
-            <p>Análise de enquadramento por CBO, atividades vedadas e documentação conforme Portaria MTE nº 3.872/2023.</p>
-          </article>
-          <article class="card">
-            <h3>Curadoria de Candidatos</h3>
-            <p>Triagem objetiva e apresentação de shortlist com alinhamento cultural, técnico e de soft skills.</p>
-          </article>
-          <article class="card">
-            <h3>Integração e Rotinas</h3>
-            <p>Apoio no onboarding, comunicação com a instituição e acompanhamento de desempenho do aprendiz.</p>
-          </article>
+          <article class="card"><h3>Definição do Perfil</h3><p>Descrição clara de atribuições, requisitos e competências, alinhadas à operação.</p></article>
+          <article class="card"><h3>Conformidade & Riscos</h3><p>Enquadramento por CBO, atividades vedadas e documentação (Portaria MTE nº 3.872/2023).</p></article>
+          <article class="card"><h3>Curadoria de Candidatos</h3><p>Triagem objetiva e shortlist com alinhamento técnico, cultural e de soft skills.</p></article>
+          <article class="card"><h3>Integração e Rotinas</h3><p>Onboarding, comunicação com a instituição e acompanhamento do desempenho.</p></article>
         </div>
       </div>
     </section>
@@ -155,22 +128,10 @@
       <div class="container">
         <h2 id="inst-title">Para Instituições de Ensino</h2>
         <div class="grid">
-          <article class="card">
-            <h3>Encaixe Acadêmico</h3>
-            <p>Compatibilização de calendário, carga horária e trilhas de aprendizagem com a jornada prática na empresa.</p>
-          </article>
-          <article class="card">
-            <h3>Acompanhamento Pedagógico</h3>
-            <p>Facilitação da tutoria, avaliação e coleta de evidências de aprendizagem alinhadas à prática profissional.</p>
-          </article>
-          <article class="card">
-            <h3>Relatórios & Indicadores</h3>
-            <p>Centralização de dados de presença, desempenho e comunicação para tomada de decisão assertiva.</p>
-          </article>
-          <article class="card">
-            <h3>Integração Processual</h3>
-            <p>Otimização de fluxos de matrícula, contratos e comunicação com o RH/DP da empresa contratante.</p>
-          </article>
+          <article class="card"><h3>Encaixe Acadêmico</h3><p>Compatibilização de calendário, carga horária e trilhas com a prática.</p></article>
+          <article class="card"><h3>Acompanhamento Pedagógico</h3><p>Tutoria, avaliação e evidências de aprendizagem alinhadas ao trabalho.</p></article>
+          <article class="card"><h3>Relatórios & Indicadores</h3><p>Presença, desempenho e comunicação executiva para decisão.</p></article>
+          <article class="card"><h3>Integração Processual</h3><p>Fluxos de matrícula, contratos e interface com RH/DP.</p></article>
         </div>
       </div>
     </section>
@@ -180,55 +141,45 @@
         <h2 id="legi-title">Legislação (Resumo Informativo)</h2>
         <div class="accordion">
           <details>
-            <summary>
-              <span class="summary-title">Lei 10.097/2000 — Lei da Aprendizagem</span>
-              <svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
-            </summary>
-            <div class="accordion__content">
-              <p>Prevê a contratação de aprendizes e a formação técnico-profissional. Define os princípios, a faixa etária e as características do vínculo empregatício especial.</p>
-            </div>
+            <summary><span class="summary-title">Lei 10.097/2000 — Lei da Aprendizagem</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="accordion__content"><p>Prevê contratação de aprendizes e a formação técnico-profissional.</p></div>
           </details>
           <details>
-            <summary>
-              <span class="summary-title">CLT, Artigos 428–433</span>
-              <svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
-            </summary>
-            <div class="accordion__content">
-              <p>Disciplina o contrato de aprendizagem, estabelecendo direitos, jornada de trabalho, hipóteses de término e os requisitos formais para sua validade.</p>
-            </div>
+            <summary><span class="summary-title">CLT, Artigos 428–433</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="accordion__content"><p>Rege contrato, direitos, jornada e término com requisitos formais.</p></div>
           </details>
           <details>
-            <summary>
-              <span class="summary-title">Decreto 9.579/2018</span>
-              <svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
-            </summary>
-            <div class="accordion__content">
-              <p>Consolida as normas sobre políticas públicas e aprendizagem, detalhando os parâmetros de cálculo da cota e as responsabilidades dos envolvidos.</p>
-            </div>
+            <summary><span class="summary-title">Decreto 9.579/2018</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="accordion__content"><p>Consolida normas, parâmetros de cota e responsabilidades.</p></div>
           </details>
           <details>
-            <summary>
-              <span class="summary-title">Portaria MTE nº 3.872/2023 (CNAP/CONAP)</span>
-              <svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
-            </summary>
-            <div class="accordion__content">
-              <p>Dispõe sobre a aprendizagem profissional, o Cadastro Nacional de Aprendizagem (CNAP) e o Catálogo Nacional de Cursos (CONAP), fornecendo diretrizes para entidades e empresas.</p>
-            </div>
+            <summary><span class="summary-title">Portaria MTE nº 3.872/2023 (CNAP/CONAP)</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <div class="accordion__content"><p>Diretrizes para aprendizagem, cadastro e catálogo.</p></div>
           </details>
         </div>
-        <p class="disclaimer muted"><strong>Aviso Legal:</strong> Este conteúdo é puramente informativo e não substitui uma consulta jurídica especializada.</p>
+        <p class="disclaimer muted"><strong>Aviso Legal:</strong> conteúdo informativo; não substitui consulta jurídica.</p>
       </div>
     </section>
 
-    <section id="contato" aria-labelledby="contato-title">
-      <div class="container contact-section">
-        <h2 id="contato-title">Inicie uma Parceria</h2>
-        <p>Vamos conversar sobre como podemos atender às necessidades da sua empresa ou instituição.</p>
-        <div class="contact-links">
-          <span>E-mail: <a href="mailto:vittor.oliveira07@gmail.com">vittor.oliveira07@gmail.com</a></span>
-          <span>WhatsApp: <a href="https://wa.me/5518991383166" target="_blank" rel="noopener noreferrer">(18) 99138‑3166</a></span>
+   <section id="contato" class="contact-section" aria-labelledby="contato-title">
+      <div class="container">
+        <h2 id="contato-title">Vamos Construir o Futuro Juntos</h2>
+        <p class="contact-subtitle">Entre em contato para alinhar as necessidades da sua empresa ou instituição. Estamos prontos para criar uma parceria de sucesso.</p>
+        <div class="contact-methods">
+          <div class="contact-card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="contact-icon"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <h3>WhatsApp</h3>
+            <p>Converse diretamente com um de nossos consultores.</p>
+            <a href="https://wa.me/5511913107557" target="_blank" rel="noopener noreferrer" class="contact-link">(11) 91310-7557</a>
+          </div>
+          <div class="contact-card">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="contact-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <h3>E-mail</h3>
+            <p>Envie sua demanda ou agende uma apresentação formal.</p>
+            <a href="mailto:vittor.oliveira07@gmail.com" class="contact-link">vittor.oliveira07@gmail.com</a>
+          </div>
         </div>
-        <p class="muted">Atendimento em São Paulo e região metropolitana. Outras localidades sob consulta.</p>
+        <p class="coverage-info muted">Atendimento consultivo disponível para todo o Brasil.</p>
       </div>
     </section>
   </main>
