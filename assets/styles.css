@@ -1,0 +1,23 @@
+/* styles.css — Tema corporativo */
+:root{
+  --primary:#0F4C81; --secondary:#0EA5A4; --accent:#F59E0B;
+  --bg:#F8FAFC; --surface:#FFFFFF; --text:#0F172A; --muted:#64748B; --border:#E2E8F0;
+  --radius:14px; --shadow:0 10px 30px rgba(2,8,23,.06);
+}
+*{box-sizing:border-box}
+img{max-width:100%;display:block}
+a{color:var(--primary);text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.container{max-width:1120px;margin-inline:auto;padding:0 1rem}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);padding:.75rem 1rem;border-radius:.75rem;font-weight:600;cursor:pointer}
+.btn:hover{box-shadow:0 8px 24px rgba(15,76,129,.15)}
+.btn-primary{background:var(--primary);color:#fff;border-color:transparent}
+.muted{color:var(--muted)}
+
+input,textarea,select{width:100%;padding:.65rem .75rem;border:1px solid var(--border);border-radius:.6rem;background:#fff;color:var(--text)}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(15,76,129,.15)}
+
+footer{border-top:1px solid var(--border);padding:2rem 0;background:#fff}
