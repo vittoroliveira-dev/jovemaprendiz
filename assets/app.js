@@ -1,39 +1,68 @@
-/* app.js — Interações básicas */
-(function(){
+/**
+ * APP.JS
+ * Contém interações essenciais do site.
+ * - Controle de navegação mobile.
+ * - Atualização dinâmica do ano no rodapé.
+ */
+
+(function () {
   'use strict';
-  const qs = (s,el=document)=>el.querySelector(s);
-  const year = qs('#year'); if (year) year.textContent = String(new Date().getFullYear());
 
-  // Calculadora de cotas
-  const btn = qs('#btn-calcular');
-  const out = qs('#calc-resultado');
-  if (btn && out){
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      const total = Number(qs('#empregados')?.value || 0);
-      const isMeepp = qs('#is_meepp')?.checked || false;
-      const isOscil = qs('#is_oscil')?.checked || false;
-      const isPerigo = qs('#is_perigo')?.checked || false;
-      const p = Number(qs('#percentual')?.value || 0);
+  /**
+   * Módulo de Navegação Mobile
+   * Controla a abertura e fechamento do menu em dispositivos móveis.
+   */
+  function initializeMobileNav() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const primaryNav = document.querySelector('.primary-nav');
+    const navLinks = document.querySelectorAll('.nav__link');
 
-      if (!Number.isFinite(total) || total <= 0){
-        out.textContent = 'Informe o total de empregados (número positivo).';
-        return;
-      }
+    // Checagem defensiva: se os elementos não existirem, não faz nada.
+    if (!navToggle || !primaryNav) {
+      console.warn('Elementos da navegação mobile não encontrados.');
+      return;
+    }
 
-      const min = Math.floor(total * 0.05);
-      const max = Math.ceil(total * 0.15);
-      const obs = [];
-      if (isMeepp) obs.push('ME/EPP: hipóteses de dispensa/parâmetros diferenciados.');
-      if (isOscil) obs.push('Entidade sem fins lucrativos: regras específicas.');
-      if (isPerigo) obs.push('Funções vedadas/periculosas: reavaliar base por CBO.');
+    const toggleNav = () => {
+      const isVisible = primaryNav.getAttribute('data-visible') === 'true';
+      primaryNav.setAttribute('data-visible', !isVisible);
+      navToggle.setAttribute('aria-expanded', !isVisible);
+      document.body.toggleAttribute('data-menu-open', !isVisible);
+    };
 
-      let alvo = '';
-      if (p && p > 0 && p <= 100){
-        const n = Math.round(total * (p/100));
-        alvo = ` • Estimativa pelo percentual pretendido (${p}%): ${n} aprendiz(es).`;
-      }
-      out.textContent = `Faixa estimada: ${min} a ${max} aprendiz(es).${alvo}${obs.length? ' Observações: ' + obs.join(' '): ''}`;
+    navToggle.addEventListener('click', toggleNav);
+    
+    // Fecha o menu ao clicar em um link (para navegação na mesma página)
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (primaryNav.getAttribute('data-visible') === 'true') {
+          toggleNav();
+        }
+      });
     });
   }
+
+  /**
+   * Módulo de Atualização do Rodapé
+   * Insere o ano atual no elemento com o ID #current-year.
+   */
+  function updateFooterYear() {
+    const yearSpan = document.getElementById('current-year');
+    
+    // Checagem defensiva
+    if (!yearSpan) {
+      return;
+    }
+    
+    yearSpan.textContent = new Date().getFullYear();
+  }
+
+  /**
+   * Inicializa todos os módulos quando o DOM estiver pronto.
+   */
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeMobileNav();
+    updateFooterYear();
+  });
+
 })();
