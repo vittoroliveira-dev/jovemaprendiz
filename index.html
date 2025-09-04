@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="auto">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EducaX — Conteúdo Educacional</title>
+  <meta name="description" content="Site educacional informativo, sem login, leve e responsivo." />
+  <meta property="og:title" content="EducaX — Conteúdo Educacional" />
+  <meta property="og:description" content="Site educacional informativo, sem login, leve e responsivo." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath fill='%23003770' d='M40 52h176v20H40zM40 92h120v20H40zM40 132h176v20H40zM40 172h140v20H40z'/%3E%3C/svg%3E">
+  <style>
+    /* ======= Design tokens ======= */
+    :root{
+      --bg: #ffffff; --text: #0b1220; --muted:#657089; --brand:#003770; --brand-2:#1c6dd0;
+      --card:#f5f7fb; --border:#e5e8f0; --shadow:0 6px 24px rgba(0,0,0,.08);
+      --radius:14px; --radius-sm:10px; --max:1080px; --gap: clamp(.8rem, 1.2vw, 1.2rem);
+    }
+    @media (prefers-color-scheme: dark){
+      html[data-theme="auto"]{
+        --bg:#0b1118; --text:#e6eaf2; --muted:#a6b0c2; --brand:#5aa9ff; --brand-2:#8ec2ff;
+        --card:#111826; --border:#1f2a3a; --shadow:0 6px 24px rgba(0,0,0,.5);
+      }
+    }
+    html[data-theme="dark"]{
+      --bg:#0b1118; --text:#e6eaf2; --muted:#a6b0c2; --brand:#5aa9ff; --brand-2:#8ec2ff;
+      --card:#111826; --border:#1f2a3a; --shadow:0 6px 24px rgba(0,0,0,.5);
+    }
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans";
+      background:var(--bg); color:var(--text); line-height:1.6;
+    }
+    .container{max-width:var(--max); margin-inline:auto; padding: 0 1.2rem;}
+    a{color:var(--brand-2); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .btn{display:inline-flex; align-items:center; gap:.6rem; padding:.8rem 1rem; border:1px solid var(--border);
+      border-radius:var(--radius-sm); background:var(--bg); color:var(--text); box-shadow:var(--shadow);
+      text-decoration:none; font-weight:600}
+    .btn.primary{background:var(--brand); color:#fff; border-color:transparent}
+    .btn.ghost{background:transparent}
+    .btn:focus{outline:2px solid var(--brand-2); outline-offset:2px}
+    header{
+      position:sticky; top:0; z-index:50; background:color-mix(in oklab, var(--bg) 92%, transparent);
+      backdrop-filter: saturate(1.2) blur(8px); border-bottom:1px solid var(--border)
+    }
+    nav{display:flex; align-items:center; justify-content:space-between; height:64px}
+    .brand{display:flex; align-items:center; gap:.6rem; font-weight:800}
+    .brand svg{width:28px; height:28px}
+    .nav-links{display:flex; gap:.8rem; flex-wrap:wrap}
+    .nav-links a{padding:.4rem .7rem; border-radius:8px}
+    .nav-links a.active{background:var(--card); text-decoration:none}
+    .theme-toggle{border:none; background:transparent; padding:.4rem .6rem; cursor:pointer; border-radius:8px}
+    .theme-toggle:hover{background:var(--card)}
+    .skip{position:absolute; left:-9999px}
+    .skip:focus{left:1rem; top:1rem; background:#000; color:#fff; padding:.5rem .8rem; z-index:999}
+    /* Hero */
+    .hero{padding: clamp(3rem, 6vw, 6rem) 0}
+    .hero-grid{display:grid; grid-template-columns:1.2fr 1fr; gap:2rem; align-items:center}
+    .hero h1{font-size:clamp(1.8rem, 3.2vw, 3rem); line-height:1.2; margin:.2rem 0 .6rem}
+    .hero p{color:var(--muted); margin:0 0 1.2rem}
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+      padding: clamp(1rem, 2vw, 1.4rem); box-shadow:var(--shadow);
+    }
+    .illus{aspect-ratio:4/3; border-radius:var(--radius); border:1px dashed var(--border);
+      display:grid; place-items:center; font-weight:700; color:var(--muted)}
+    /* Seções */
+    section{padding: clamp(2rem, 5vw, 3.6rem) 0}
+    .grid{display:grid; gap:var(--gap)}
+    .grid.cols-3{grid-template-columns:repeat(3, minmax(0,1fr))}
+    .grid.cols-2{grid-template-columns:repeat(2, minmax(0,1fr))}
+    @media (max-width:900px){.hero-grid,.grid.cols-3,.grid.cols-2{grid-template-columns:1fr}}
+    h2{font-size: clamp(1.3rem, 2.2vw, 2rem); margin:.2rem 0 1rem}
+    .muted{color:var(--muted)}
+    .tag{display:inline-block; padding:.2rem .55rem; border-radius:999px; background:var(--bg); border:1px solid var(--border); font-size:.8rem}
+    /* Conteúdo/Buscador */
+    .controls{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin:.6rem 0 1rem}
+    .controls input[type="search"]{flex:1; min-width:240px; padding:.7rem .9rem; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:var(--text)}
+    .filters{display:flex; gap:.4rem; flex-wrap:wrap}
+    .mini{font-size:.92rem}
+    .course{display:flex; flex-direction:column; gap:.6rem}
+    .course h3{margin:.2rem 0}
+    /* FAQ */
+    .faq button{
+      width:100%; text-align:left; border:none; background:var(--card); border:1px solid var(--border);
+      border-radius:var(--radius-sm); padding:1rem; font-size:1rem; font-weight:600; cursor:pointer
+    }
+    .faq button[aria-expanded="true"]{outline:2px solid var(--brand-2)}
+    .faq .panel{display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease; overflow:hidden}
+    .faq button[aria-expanded="true"] + .panel{grid-template-rows:1fr}
+    .faq .panel > div{min-height:0; padding:.8rem 1rem}
+    /* Rodapé */
+    footer{border-top:1px solid var(--border); padding:1.2rem 0; color:var(--muted)}
+    /* Botão topo */
+    #toTop{position:fixed; right:1rem; bottom:1rem; opacity:0; transform:translateY(8px);
+      transition:opacity .2s, transform .2s; z-index:60}
+    #toTop.show{opacity:1; transform:none}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+  <header role="banner">
+    <div class="container">
+      <nav aria-label="principal">
+        <div class="brand">
+          <!-- Logotipo minimalista (SVG inline) -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" d="M8 12h48v6H8zM8 26h33v6H8zM8 40h48v6H8z"/></svg>
+          <span>EducaX</span>
+        </div>
+        <div class="nav-links" id="navLinks">
+          <a href="#inicio">Início</a>
+          <a href="#areas">Áreas</a>
+          <a href="#conteudo">Conteúdo</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contato">Contato</a>
+          <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema" title="Tema claro/escuro">🌓</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="tag">Informativo • Sem login • Leve</span>
+          <h1>Aprenda com materiais claros, objetivos e gratuitos.</h1>
+          <p class="muted">Conteúdo educacional curado, organizado em trilhas. Sem cadastro, sem distração — apenas o essencial.</p>
+          <div style="display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.8rem">
+            <a class="btn primary" href="#conteudo">Explorar conteúdo</a>
+            <a class="btn ghost" href="#faq">Como funciona?</a>
+          </div>
+        </div>
+        <div class="card illus" aria-hidden="true">Seu Banner/Imagem aqui</div>
+      </div>
+    </section>
+
+    <!-- Áreas -->
+    <section id="areas" aria-label="Áreas de conhecimento">
+      <div class="container">
+        <h2>Áreas de conhecimento</h2>
+        <p class="muted mini">Sugestões iniciais; personalize os cartões, títulos e descrições conforme seu projeto.</p>
+        <div class="grid cols-3">
+          <article class="card">
+            <h3>Administração</h3>
+            <p class="muted">Fundamentos, processos, gestão do tempo e indicadores.</p>
+          </article>
+          <article class="card">
+            <h3>Logística</h3>
+            <p class="muted">Armazenagem, transporte, segurança e compliance.</p>
+          </article>
+          <article class="card">
+            <h3>Tecnologia</h3>
+            <p class="muted">Noções de dados, automação e ferramentas digitais.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conteúdo com busca/filtros -->
+    <section id="conteudo" aria-label="Conteúdo">
+      <div class="container">
+        <h2>Conteúdo</h2>
+        <div class="controls">
+          <label for="search" class="visually-hidden">Buscar</label>
+          <input id="search" type="search" placeholder="Buscar por título, descrição ou tag…" autocomplete="off" />
+          <div class="filters" role="group" aria-label="Filtros por tag">
+            <label class="tag"><input type="checkbox" name="tag" value="administracao"> Administração</label>
+            <label class="tag"><input type="checkbox" name="tag" value="logistica"> Logística</label>
+            <label class="tag"><input type="checkbox" name="tag" value="seguranca"> Segurança</label>
+            <label class="tag"><input type="checkbox" name="tag" value="tecnologia"> Tecnologia</label>
+          </div>
+        </div>
+
+        <div class="grid cols-3" id="courseList" role="list">
+          <!-- Exemplos de cartões de conteúdo -->
+          <article role="listitem" class="card course" data-tags="administracao tecnologia" data-title="Introdução a Indicadores (KPI/OKR)">
+            <h3>Introdução a Indicadores (KPI/OKR)</h3>
+            <p class="muted">Conceitos, exemplos práticos e erros comuns.</p>
+            <div style="display:flex; gap:.4rem; flex-wrap:wrap">
+              <span class="tag">administração</span><span class="tag">tecnologia</span>
+            </div>
+            <a class="btn" href="#!" aria-label="Abrir material de Introdução a Indicadores">Ver material</a>
+          </article>
+
+          <article role="listitem" class="card course" data-tags="logistica seguranca" data-title="Boas Práticas em Armazém">
+            <h3>Boas Práticas em Armazém</h3>
+            <p class="muted">Fluxo, 5S, movimentação segura e checklists.</p>
+            <div style="display:flex; gap:.4rem; flex-wrap:wrap">
+              <span class="tag">logística</span><span class="tag">segurança</span>
+            </div>
+            <a class="btn" href="#!" aria-label="Abrir material de Boas Práticas em Armazém">Ver material</a>
+          </article>
+
+          <article role="listitem" class="card course" data-tags="tecnologia" data-title="Automação com Planilhas">
+            <h3>Automação com Planilhas</h3>
+            <p class="muted">Dicas de fórmulas, validação e rotinas simples.</p>
+            <div style="display:flex; gap:.4rem; flex-wrap:wrap">
+              <span class="tag">tecnologia</span>
+            </div>
+            <a class="btn" href="#!" aria-label="Abrir material de Automação com Planilhas">Ver material</a>
+          </article>
+        </div>
+        <p id="emptyState" class="muted" style="display:none;margin-top:1rem">Nenhum item corresponde à sua busca/filtros.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" aria-label="Perguntas frequentes">
+      <div class="container">
+        <h2>Perguntas frequentes</h2>
+        <div class="grid cols-2 faq">
+          <div>
+            <button aria-expanded="false" aria-controls="p1">Precisa de cadastro ou login?</button>
+            <div id="p1" class="panel"><div>Não. Todo o conteúdo é aberto, leve e sem coleta de dados pessoais.</div></div>
+          </div>
+          <div>
+            <button aria-expanded="false" aria-controls="p2">Posso usar no celular?</button>
+            <div id="p2" class="panel"><div>Sim. O layout é responsivo e se adapta a telas pequenas.</div></div>
+          </div>
+          <div>
+            <button aria-expanded="false" aria-controls="p3">Como acrescento novos materiais?</button>
+            <div id="p3" class="panel"><div>Duplique um cartão de conteúdo em <em>Conteúdo</em> e ajuste título, descrição e <code>data-tags</code>.</div></div>
+          </div>
+          <div>
+            <button aria-expanded="false" aria-controls="p4">Tem modo escuro?</button>
+            <div id="p4" class="panel"><div>Sim. O tema alterna automaticamente pelo sistema e pode ser forçado pelo botão 🌓.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" aria-label="Contato">
+      <div class="container">
+        <h2>Contato</h2>
+        <p class="muted">Este site é apenas informativo. Dúvidas? Envie um e-mail.</p>
+        <a class="btn" href="mailto:contato@exemplo.com">✉️ Enviar e-mail</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <small>© <span id="year"></span> EducaX • Conteúdo livre. Sem cookies de terceiros.</small>
+    </div>
+  </footer>
+
+  <a id="toTop" class="btn" href="#inicio" aria-label="Voltar ao topo">↑ Topo</a>
+
+  <script>
+    // Utilidades
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => document.querySelectorAll(sel);
+
+    // Ano no rodapé
+    $('#year').textContent = new Date().getFullYear();
+
+    // Tema claro/escuro com persistência
+    (function themeInit(){
+      const saved = localStorage.getItem('theme'); // "light" | "dark" | null
+      if(saved === "light" || saved === "dark") document.documentElement.setAttribute('data-theme', saved);
+      $('#themeToggle').addEventListener('click', ()=>{
+        const cur = document.documentElement.getAttribute('data-theme') || 'auto';
+        const next = cur === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+
+    // Navegação ativa por seção (IntersectionObserver)
+    (function activeNav(){
+      const links = [...$('#navLinks').querySelectorAll('a[href^="#"]')];
+      const map = new Map(links.map(a => [a.getAttribute('href'), a]));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          const id = '#' + e.target.id;
+          if(map.has(id) && e.isIntersecting){
+            links.forEach(a=>a.classList.remove('active'));
+            map.get(id).classList.add('active');
+          }
+        });
+      }, {rootMargin:'-50% 0px -45% 0px', threshold:0});
+      ['inicio','areas','conteudo','faq','contato'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) obs.observe(el);
+      });
+    })();
+
+    // FAQ acordeão acessível
+    $$('.faq button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+      });
+    });
+
+    // Busca + filtros por tag (atributo data-tags)
+    (function filters(){
+      const list = $('#courseList');
+      const items = [...list.children];
+      const search = $('#search');
+      const checks = [...$$('input[name="tag"]')];
+      function apply(){
+        const q = (search.value || '').trim().toLowerCase();
+        const selTags = checks.filter(c=>c.checked).map(c=>c.value);
+        let visible = 0;
+        items.forEach(card=>{
+          const title = (card.dataset.title || '').toLowerCase();
+          const tags = (card.dataset.tags || '').split(/\s+/);
+          const okText = !q || title.includes(q) || card.textContent.toLowerCase().includes(q);
+          const okTag = selTags.length === 0 || selTags.some(t => tags.includes(t));
+          const show = okText && okTag;
+          card.style.display = show ? '' : 'none';
+          if(show) visible++;
+        });
+        $('#emptyState').style.display = visible ? 'none' : '';
+      }
+      search.addEventListener('input', apply);
+      checks.forEach(c=>c.addEventListener('change', apply));
+      apply();
+    })();
+
+    // Botão "Topo"
+    (function toTop(){
+      const btn = $('#toTop');
+      const onScroll = ()=>{
+        const y = window.scrollY || document.documentElement.scrollTop;
+        btn.classList.toggle('show', y > 600);
+      };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Respeitar redução de movimento
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.style.scrollBehavior = 'auto';
+    }
+  </script>
+</body>
+</html>
