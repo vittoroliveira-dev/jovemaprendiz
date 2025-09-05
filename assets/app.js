@@ -1,6 +1,6 @@
 /**
  * app.js — Interações e acessibilidade
- * - Navegação mobile (focus trap + Esc para fechar)
+ * - Navegação mobile (focus trap + Esc) + isolamento de leitura (inert/aria-hidden)
  * - Destaque da seção ativa (aria-current / .is-active)
  * - Atualização do ano no rodapé
  */
@@ -14,19 +14,30 @@
   const yearEl = qs('#current-year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  // Navegação Mobile (trap de foco + Esc)
+  // Navegação Mobile (trap de foco + Esc + isolamento do restante da página)
   (function initMobileNav(){
     const navToggle = qs('.nav-toggle');
     const nav = qs('.primary-nav');
+    const main = qs('main');
+    const footer = qs('footer');
     if (!navToggle || !nav) return;
 
     let focusables = [];
     const FOCUS = 'a, button, [tabindex]:not([tabindex="-1"])';
 
+    const setSiblingsInert = (open) => {
+      [main, footer].forEach(el => {
+        if (!el) return;
+        try { if ('inert' in el) el.inert = open; } catch(_) {}
+        if (open) el.setAttribute('aria-hidden','true'); else el.removeAttribute('aria-hidden');
+      });
+    };
+
     const setOpen = (open) => {
       nav.setAttribute('data-visible', String(open));
       navToggle.setAttribute('aria-expanded', String(open));
       document.body.toggleAttribute('data-menu-open', open);
+      setSiblingsInert(open);
 
       if (open){
         focusables = qsa(FOCUS, nav);
@@ -55,7 +66,7 @@
   // Destaque da seção ativa via IntersectionObserver
   (function highlightActive(){
     const links = qsa('.nav__link');
-    if (!('IntersectionObserver' in window) || !links.length) return;
+    if (!('IntersectionObserver' in window) || !links.length || typeof CSS === 'undefined' || !CSS.escape) return;
 
     const map = new Map();
     links.forEach(link => {
