@@ -3,221 +3,100 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Prisma Educação — Intermediação de Jovens Aprendizes</title>
-  <meta name="description" content="Prisma Educação: consultoria especializada na intermediação entre empresas, jovens e instituições de ensino. Definição de perfil, curadoria de candidatos e conformidade legal.">
+  <title>PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz</title>
+  <meta name="description" content="Seu RH sobrecarregado? A PRISMA TALENTOS assume triagem, entrevistas, documentação e interface com entidades formadoras de Jovem Aprendiz — libere o seu time e reduza risco jurídico. Atuação nacional.">
   <meta name="theme-color" content="#0F4C81">
-  <link rel="canonical" href="https://vittoroliveira-dev.github.io/jovemaprendiz/">
+
+  <link rel="canonical" href="https://prismatalentos.com.br/">
   <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <!-- Open Graph / Twitter (substituído o Hero.png pelo ícone para evitar imagem quebrada) -->
-  <meta property="og:title" content="Prisma Educação — Intermediação de Jovens Aprendizes">
-  <meta property="og:description" content="Conectamos empresas, jovens e instituições de ensino com foco em resultado e conformidade.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vittoroliveira-dev.github.io/jovemaprendiz/">
-  <meta property="og:image" content="https://vittoroliveira-dev.github.io/jovemaprendiz/assets/img/Icon.png">
-  <meta property="og:image:alt" content="Prisma Educação — Logomarca">
+  <meta property="og:site_name" content="PRISMA TALENTOS">
+  <meta property="og:title" content="PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz">
+  <meta property="og:description" content="R&S completo, profissionais sob demanda e Jovem Aprendiz — atuação nacional.">
+  <meta property="og:url" content="https://prismatalentos.com.br/">
+  <meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.webp">
+  <meta property="og:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Prisma Educação — Intermediação de Jovens Aprendizes">
-  <meta name="twitter:description" content="Conectamos empresas, jovens e instituições de ensino com foco em resultado e conformidade.">
-  <meta name="twitter:image" content="https://vittoroliveira-dev.github.io/jovemaprendiz/assets/img/Icon.png">
-  <meta name="twitter:image:alt" content="Prisma Educação — Logomarca">
+  <meta name="twitter:url" content="https://prismatalentos.com.br/">
+  <meta name="twitter:title" content="PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz">
+  <meta name="twitter:description" content="R&S completo com alcance nacional e programa Jovem Aprendiz.">
+  <meta name="twitter:image" content="https://prismatalentos.com.br/assets/img/og-cover.webp">
 
-  <!-- Favicon -->
-  <link rel="icon" href="https://vittoroliveira-dev.github.io/jovemaprendiz/assets/img/Icon.png" type="image/png">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self'; font-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
 
-  <!-- Critical CSS mínimo (inalterado) -->
-  <style>
-    :root{--primary:#0F4C81;--bg:#F8FAFC;--text:#0F172A;--border:#E2E8F0;--header-h:65px}
-    *,::before,::after{box-sizing:border-box}
-    body{margin:0;font-family:Inter,Segoe UI,Roboto,-apple-system,system-ui,sans-serif;line-height:1.6;background:var(--bg);color:var(--text)}
-    .container{max-width:1120px;margin-inline:auto;padding-inline:1rem}
-    .site-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);height:var(--header-h);z-index:100}
-    .site-header .container{display:flex;justify-content:space-between;align-items:center;height:100%}
-    .brand{font-weight:700;font-size:1.25rem;color:var(--primary);text-decoration:none}
-    .hero{padding-block:3rem;background:linear-gradient(180deg,#fff,#f2f6fa);text-align:center}
-    .hero h1{font-size:clamp(2rem,5vw,2.75rem);line-height:1.2;margin:.25rem 0}
-    .skip-link{position:absolute;top:-100px;left:0;background:var(--primary);color:#fff;padding:1rem;z-index:1000}
-    .skip-link:focus{top:0}
-  </style>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 
-  <!-- CSS principal -->
-  <link rel="stylesheet" href="assets/styles.css?v=6" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/css/main.css">
 
-  <!-- JSON-LD Organization -->
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Prisma Educação",
-    "url":"https://vittoroliveira-dev.github.io/jovemaprendiz/",
-    "contactPoint":{
-      "@type":"ContactPoint",
-      "contactType":"consulting",
-      "email":"vittor.oliveira07@gmail.com",
-      "telephone":"+55-11-91310-7557",
-      "areaServed":"BR",
-      "availableLanguage":["Portuguese"]
-    }
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://prismatalentos.com.br/#org",
+        "name": "PRISMA TALENTOS",
+        "url": "https://prismatalentos.com.br/",
+        "logo": "https://prismatalentos.com.br/assets/img/logo-512.png",
+        "email": "contato@prismatalentos.com.br",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "contato@prismatalentos.com.br",
+          "areaServed": "BR",
+          "availableLanguage": ["pt-BR"]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://prismatalentos.com.br/#website",
+        "url": "https://prismatalentos.com.br/",
+        "name": "PRISMA TALENTOS",
+        "publisher": {"@id":"https://prismatalentos.com.br/#org"},
+        "inLanguage": "pt-BR"
+      }
+    ]
   }
   </script>
 </head>
 <body>
+  <a class="u-skip" href="#conteudo-principal">Pular para o conteúdo principal</a>
 
-  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
-
-  <header class="site-header" role="banner">
-    <div class="container">
-      <a href="#inicio" class="brand" aria-label="Página inicial — Prisma Educação">
-        <img src="https://vittoroliveira-dev.github.io/jovemaprendiz/assets/img/Icon.png" class="brand-logo" alt="" aria-hidden="true" width="28" height="28">
-        <span class="brand-text">Prisma Educação</span>
+  <header class="c-header" role="banner">
+    <div class="o-container">
+      <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
+        <img src="/assets/img/logo.svg" alt="PRISMA TALENTOS" width="120" height="28">
       </a>
 
-      <button class="nav-toggle" aria-controls="primary-navigation" aria-expanded="false" aria-label="Abrir menu">
-        <span class="sr-only">Abrir menu</span>
-        <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button class="c-nav__toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" data-js="nav-toggle">
+        <span class="u-sr-only">Abrir menu</span>
+        <svg class="c-icon" aria-hidden="true" focusable="false" width="24" height="24"><use href="/assets/svg/sprite.svg#menu"/></svg>
       </button>
 
-      <nav class="primary-nav" id="primary-navigation" aria-label="Navegação primária">
-        <ul class="nav__list">
-          <li><a href="#como-funciona" class="nav__link">Como funciona</a></li>
-          <li><a href="#empresas" class="nav__link">Para empresas</a></li>
-          <li><a href="#instituicoes" class="nav__link">Para instituições</a></li>
-          <li><a href="#legislacao" class="nav__link">Legislação</a></li>
-          <li><a href="#contato" class="nav__link">Contato</a></li>
+      <nav id="primary-navigation" class="c-nav" aria-label="Navegação primária" data-js="nav">
+        <ul class="c-nav__list">
+          <li><a class="c-nav__link" href="/servicos.html">Serviços</a></li>
+          <li><a class="c-nav__link" href="/jovem-aprendiz.html">Jovem Aprendiz</a></li>
+          <li><a class="c-nav__link" href="/contato.html">Contato</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="conteudo-principal" tabindex="-1">
-    <!-- REMOVIDO "hero--image" -->
-    <section id="inicio" class="hero" aria-labelledby="hero-title">
-      <div class="container">
-        <h1 id="hero-title">Intermediação Estratégica de Jovens Aprendizes</h1>
-        <p class="muted">Na Prisma Educação, definimos o perfil, fazemos a curadoria dos jovens e articulamos com a instituição de ensino — com conformidade legal e foco em resultado.</p>
+  <main id="conteudo-principal">
+    </main>
 
-        <div class="cta-group" role="group" aria-label="Ações principais">
-          <a class="btn btn--lg btn--whatsapp"
-             href="https://wa.me/5511913107557" target="_blank" rel="noopener noreferrer"
-             aria-label="Fale no WhatsApp">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path fill="currentColor" d="M15.3 13.9c-.2.5-.8 1-1.3 1.1-.7.1-1.6-.1-2.7-.8-1.1-.6-2-1.5-2.7-2.7-.7-1.1-.9-2-.8-2.7.1-.5.6-1.1 1.1-1.3l.5-.2c.2 0 .4.1.5.3l1 1.7c.1.2.1.4 0 .6l-.3.5c-.1.2 0 .4.1.6.3.4.8.9 1.4 1.3.6.4 1.1.7 1.5.9.2.1.4.1.6 0l.5-.3c.2-.1.4-.1.6 0l1.7 1c.2.1.3.3.3.5l-.2.5z"/>
-            </svg>
-            <span>Fale no WhatsApp</span>
-          </a>
-
-          <a class="btn btn--lg btn--blue"
-             href="mailto:vittor.oliveira07@gmail.com?subject=Agendar%20conversa%20sobre%20Jovem%20Aprendiz">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M21 7L12 13 3 7" fill="none" stroke="currentColor" stroke-width="2" />
-            </svg>
-            <span>Agendar conversa</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- demais seções inalteradas -->
-    <section id="como-funciona" aria-labelledby="funciona-title">
-      <div class="container">
-        <h2 id="funciona-title">Como funciona a nossa intermediação</h2>
-        <ol class="timeline" role="list">
-          <li class="timeline__item"><h3 class="timeline__title">Briefing do Perfil</h3><p class="muted">CBO, requisitos, jornada e ambiente.</p></li>
-          <li class="timeline__item"><h3 class="timeline__title">Mapeamento</h3><p class="muted">Instituições e candidatos aderentes.</p></li>
-          <li class="timeline__item"><h3 class="timeline__title">Curadoria</h3><p class="muted">Triagem, entrevistas e shortlist.</p></li>
-          <li class="timeline__item"><h3 class="timeline__title">Alinhamento</h3><p class="muted">Empresa × instituição × jovem.</p></li>
-          <li class="timeline__item"><h3 class="timeline__title">Formalização</h3><p class="muted">Contratos, rotinas e compliance.</p></li>
-          <li class="timeline__item"><h3 class="timeline__title">Acompanhamento</h3><p class="muted">Indicadores, presença e evolução.</p></li>
-        </ol>
-      </div>
-    </section>
-
-    <section id="empresas" class="section--surface" aria-labelledby="emp-title">
-      <div class="container">
-        <h2 id="emp-title">Para Empresas</h2>
-        <div class="grid">
-          <article class="card"><h3>Definição do Perfil</h3><p>Descrição clara de atribuições, requisitos e competências, alinhadas à operação.</p></article>
-          <article class="card"><h3>Conformidade & Riscos</h3><p>Enquadramento por CBO, atividades vedadas e documentação (Portaria MTE nº 3.872/2023).</p></article>
-          <article class="card"><h3>Curadoria de Candidatos</h3><p>Triagem objetiva e shortlist com alinhamento técnico, cultural e de soft skills.</p></article>
-          <article class="card"><h3>Integração e Rotinas</h3><p>Onboarding, comunicação com a instituição e acompanhamento do desempenho.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="instituicoes" aria-labelledby="inst-title">
-      <div class="container">
-        <h2 id="inst-title">Para Instituições de Ensino</h2>
-        <div class="grid">
-          <article class="card"><h3>Encaixe Acadêmico</h3><p>Compatibilização de calendário, carga horária e trilhas com a prática.</p></article>
-          <article class="card"><h3>Acompanhamento Pedagógico</h3><p>Tutoria, avaliação e evidências de aprendizagem alinhadas ao trabalho.</p></article>
-          <article class="card"><h3>Relatórios & Indicadores</h3><p>Presença, desempenho e comunicação executiva para decisão.</p></article>
-          <article class="card"><h3>Integração Processual</h3><p>Fluxos de matrícula, contratos e interface com RH/DP.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="legislacao" class="section--surface" aria-labelledby="legi-title">
-      <div class="container">
-        <h2 id="legi-title">Legislação (Resumo Informativo)</h2>
-        <div class="accordion">
-          <details>
-            <summary><span class="summary-title">Lei 10.097/2000 — Lei da Aprendizagem</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-            <div class="accordion__content"><p>Prevê contratação de aprendizes e a formação técnico-profissional.</p></div>
-          </details>
-          <details>
-            <summary><span class="summary-title">CLT, Artigos 428–433</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-            <div class="accordion__content"><p>Rege contrato, direitos, jornada e término com requisitos formais.</p></div>
-          </details>
-          <details>
-            <summary><span class="summary-title">Decreto 9.579/2018</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-            <div class="accordion__content"><p>Consolida normas, parâmetros de cota e responsabilidades.</p></div>
-          </details>
-          <details>
-            <summary><span class="summary-title">Portaria MTE nº 3.872/2023 (CNAP/CONAP)</span><svg class="summary-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-            <div class="accordion__content"><p>Diretrizes para aprendizagem, cadastro e catálogo.</p></div>
-          </details>
-        </div>
-        <p class="disclaimer muted"><strong>Aviso Legal:</strong> conteúdo informativo; não substitui consulta jurídica.</p>
-      </div>
-    </section>
-
-    <section id="contato" class="contact-section" aria-labelledby="contato-title">
-      <div class="container">
-        <h2 id="contato-title">Vamos Construir o Futuro Juntos</h2>
-        <p class="contact-subtitle">Entre em contato para alinhar as necessidades da sua empresa ou instituição. Estamos prontos para criar uma parceria de sucesso.</p>
-        <div class="contact-methods">
-          <div class="contact-card">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="contact-icon"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <h3>WhatsApp</h3>
-            <p>Converse diretamente com um de nossos consultores.</p>
-            <a href="https://wa.me/5511913107557" target="_blank" rel="noopener noreferrer" class="contact-link">(11) 91310-7557</a>
-          </div>
-          <div class="contact-card">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="contact-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <h3>E-mail</h3>
-            <p>Envie sua demanda ou agende uma apresentação formal.</p>
-            <a href="mailto:vittor.oliveira07@gmail.com" class="contact-link">vittor.oliveira07@gmail.com</a>
-          </div>
-        </div>
-        <p class="coverage-info muted">Atendimento consultivo disponível para todo o Brasil.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <p><strong>Vittor Guilherme Borges de Oliveira</strong></p>
-      <p class="muted footer-role">
-        Consultor em Programas de Aprendizagem | Recrutamento &amp; Seleção | Educação Corporativa
-      </p>
-      <p class="muted">CNPJ 36.286.154/0001-39 – Prisma Educação</p>
-      <p class="muted">© <span id="current-year">2025</span> • Todos os direitos reservados.</p>
+  <footer class="c-footer" role="contentinfo">
+    <div class="o-container">
+      <p><strong>PRISMA TALENTOS</strong> — CNPJ 36.286.154/0001-39</p>
+      <p><a href="mailto:contato@prismatalentos.com.br">contato@prismatalentos.com.br</a></p>
+      <p>© <span data-js="year">2025</span>. Todos os direitos reservados.</p>
     </div>
   </footer>
 
-  <script src="https://vittoroliveira-dev.github.io/jovemaprendiz/assets/app.js" defer></script>
+  <script type="module" src="/assets/js/app.js"></script>
 </body>
 </html>
