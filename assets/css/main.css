@@ -1,0 +1,50 @@
+/* 1. Settings (tokens) */
+:root{
+  --color-primary:#0F4C81;
+  --color-bg:#F8FAFC;
+  --color-text:#0F172A;
+  --color-border:#E2E8F0;
+  --space-1:.25rem; --space-2:.5rem; --space-3:1rem; --space-4:1.5rem; --space-5:2rem;
+  --radius-2:.5rem; --radius-3:.75rem;
+}
+
+/* 2. Tools: (mixins se usar SCSS) */
+
+/* 3. Generic (reset/normalize mínimo) */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--color-text);background:var(--color-bg);line-height:1.6}
+
+/* 4. Elements */
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
+
+/* 5. Objects */
+.o-container{max-width:1120px;margin-inline:auto;padding-inline:var(--space-3)}
+.u-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* 6. Components */
+.c-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--color-border);z-index:10}
+.c-brand img{display:block}
+.c-nav{display:flex}
+.c-nav__list{display:flex;gap:var(--space-4);list-style:none;margin:0;padding:0}
+.c-nav__link{padding:var(--space-2) var(--space-3);border-radius:var(--radius-2)}
+.c-nav__link:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+
+.c-nav__toggle{display:none;background:none;border:1px solid var(--color-border);border-radius:var(--radius-2);padding:.5rem}
+.c-icon{width:24px;height:24px}
+
+@media (max-width: 960px){
+  .c-nav__toggle{display:inline-flex;align-items:center;justify-content:center}
+  .c-nav{display:none}
+  .c-nav.is-open{display:block}
+  .c-nav__list{flex-direction:column;gap:0}
+  .c-nav__link{display:block}
+}
+
+.c-footer{border-top:1px solid var(--color-border);padding-block:var(--space-4)}
+.u-muted{opacity:.75}
+
+/* 7. Utilities */
+.u-skip{position:absolute;left:-9999px;top:auto}
+.u-skip:focus{left:var(--space-3);top:var(--space-3);background:#000;color:#fff;padding:var(--space-2) var(--space-3);border-radius:var(--radius-2)}
