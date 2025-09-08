@@ -1,50 +1,138 @@
-/* 1. Settings (tokens) */
-:root{
-  --color-primary:#0F4C81;
-  --color-bg:#F8FAFC;
-  --color-text:#0F172A;
-  --color-border:#E2E8F0;
-  --space-1:.25rem; --space-2:.5rem; --space-3:1rem; --space-4:1.5rem; --space-5:2rem;
-  --radius-2:.5rem; --radius-3:.75rem;
+/* 1. Settings (Variáveis CSS, tokens de design) */
+:root {
+  --color-primary: #0F4C81;
+  --color-secondary: #0EA5A4;
+  --color-accent: #F59E0B;
+  --color-bg: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-border: #E2E8F0;
+
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+
+  --space-md: 1rem;
+  --space-lg: 3rem;
+  --header-height: 65px;
+  --transition-base: .2s ease-in-out;
 }
 
-/* 2. Tools: (mixins se usar SCSS) */
+/* 2. Tools (Mixins - se usar Sass) */
 
-/* 3. Generic (reset/normalize mínimo) */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--color-text);background:var(--color-bg);line-height:1.6}
-
-/* 4. Elements */
-a{color:inherit;text-decoration:none}
-img{max-width:100%;height:auto;display:block}
-
-/* 5. Objects */
-.o-container{max-width:1120px;margin-inline:auto;padding-inline:var(--space-3)}
-.u-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-/* 6. Components */
-.c-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--color-border);z-index:10}
-.c-brand img{display:block}
-.c-nav{display:flex}
-.c-nav__list{display:flex;gap:var(--space-4);list-style:none;margin:0;padding:0}
-.c-nav__link{padding:var(--space-2) var(--space-3);border-radius:var(--radius-2)}
-.c-nav__link:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
-
-.c-nav__toggle{display:none;background:none;border:1px solid var(--color-border);border-radius:var(--radius-2);padding:.5rem}
-.c-icon{width:24px;height:24px}
-
-@media (max-width: 960px){
-  .c-nav__toggle{display:inline-flex;align-items:center;justify-content:center}
-  .c-nav{display:none}
-  .c-nav.is-open{display:block}
-  .c-nav__list{flex-direction:column;gap:0}
-  .c-nav__link{display:block}
+/* 3. Generic (Reset, box-sizing) */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+/* Melhora a acessibilidade do scroll para âncoras */
+html {
+  scroll-padding-top: calc(var(--header-height) + 1rem);
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
-.c-footer{border-top:1px solid var(--color-border);padding-block:var(--space-4)}
-.u-muted{opacity:.75}
+/* 4. Elements (Estilos base para h1, p, a) */
+h1, h2, h3 {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: var(--font-weight-bold);
+}
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+a:hover, a:focus {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
 
-/* 7. Utilities */
-.u-skip{position:absolute;left:-9999px;top:auto}
-.u-skip:focus{left:var(--space-3);top:var(--space-3);background:#000;color:#fff;padding:var(--space-2) var(--space-3);border-radius:var(--radius-2)}
+/* 5. Objects (Classes de layout, e.g., container) */
+.o-container {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+/* 6. Components (Blocos de UI, e.g., c-header, c-card) */
+.c-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--header-height);
+  z-index: 100;
+}
+.c-header .o-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+.c-brand {
+  /* ... */
+}
+.c-nav__list {
+  display: flex;
+  gap: var(--space-md);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c-nav__toggle {
+  display: none; /* Mobile-first: escondido por padrão */
+}
+@media (max-width: 768px) {
+  .c-nav__toggle {
+    display: block;
+    /* ... estilos do botão hamburguer ... */
+  }
+  .c-nav {
+    display: none;
+    position: fixed;
+    /* ... estilos do menu overlay ... */
+  }
+  .c-nav.is-open {
+    display: flex;
+  }
+}
+
+/* 7. Utilities (Classes de ajuda, e.g., u-sr-only) */
+.u-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.u-skip {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+.u-skip:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: var(--color-text);
+  color: var(--color-surface);
+  padding: 0.5rem 1rem;
+  z-index: 9999;
+}
