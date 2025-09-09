@@ -14,9 +14,23 @@ export function initNav() {
   const focusablesSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
 
+  const pageMain = document.querySelector('main') || document.getElementById('conteudo-principal');
+
+  function setInertBehind(isInert) {
+    if (!pageMain) return;
+    if (isInert) {
+      // Fallback seguro sem polyfill
+      pageMain.setAttribute('aria-hidden', 'true');
+      pageMain.setAttribute('inert', '');
+    } else {
+      pageMain.removeAttribute('aria-hidden');
+      pageMain.removeAttribute('inert');
+    }
+  }
+
   function getFocusables() {
     return Array.from(nav.querySelectorAll(focusablesSelector))
-      .filter(el => el.offsetParent !== null || el === document.activeElement);
+      .filter(el => el.getClientRects().length > 0 || el === document.activeElement);
   }
 
   function trapFocus(e) {
@@ -55,9 +69,11 @@ export function initNav() {
   function openNav() {
     if (nav.classList.contains(OPEN_CLASS)) return;
     lastFocus = document.activeElement;
+
     nav.classList.add(OPEN_CLASS);
     toggle.setAttribute('aria-expanded', 'true');
     body.classList.add(BODY_LOCK_CLASS);
+    setInertBehind(true);
 
     // foco no primeiro link do menu, se existir
     const first = getFocusables()[0];
@@ -69,9 +85,11 @@ export function initNav() {
 
   function closeNav({ skipFocusRestore = false } = {}) {
     if (!nav.classList.contains(OPEN_CLASS)) return;
+
     nav.classList.remove(OPEN_CLASS);
     toggle.setAttribute('aria-expanded', 'false');
     body.classList.remove(BODY_LOCK_CLASS);
+    setInertBehind(false);
 
     document.removeEventListener('keydown', onKeyDown);
     document.removeEventListener('pointerdown', onDocPointerDown, { capture: true });
@@ -105,8 +123,10 @@ export function initNav() {
   };
   if (typeof mq.addEventListener === 'function') {
     mq.addEventListener('change', handleMQ);
+  } else if (typeof mq.addListener === 'function') {
+    // fallback para navegadores antigos
+    mq.addListener(handleMQ);
   } else {
-    // fallback
     window.addEventListener('resize', handleMQ);
   }
   handleMQ(); // estado inicial
