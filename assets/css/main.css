@@ -127,9 +127,8 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 .u-skip:focus-visible{position:fixed;top:1rem;left:1rem;background:var(--color-text);color:var(--color-surface);padding:.5rem 1rem;z-index:9999;border-radius:.5rem}
 
 /* 8. ===== HERO (fundo escuro, gradientes) ===== */
-/* ↓ Banner um pouco mais baixo */
-.c-hero{
-  position:relative; /* conter a mídia absoluta */
+.c-hero {
+  position: relative;
   background:
     radial-gradient(900px 600px at 80% 0%, rgba(14,165,164,.18) 0%, transparent 60%),
     radial-gradient(700px 500px at 20% 10%, rgba(15,76,129,.35) 0%, transparent 55%),
@@ -137,9 +136,13 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
   color:#fff;
   padding:clamp(3rem,5vw,6rem) 0;
   min-height: clamp(480px, 60vh, 680px);
-  display:grid;align-items:center;
+   display: grid;
+  align-items: center;
   overflow:clip;
+  /* ↓ A MÁGICA ACONTECE AQUI ↓ */
+  overflow-x: clip; 
 }
+
 /* Wrapper de BG para ancorar os pseudos */
 .c-hero__bg{position:absolute;inset:0;pointer-events:none}
 .c-hero__bg::before,.c-hero__bg::after{
