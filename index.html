@@ -7,69 +7,82 @@
   <meta name="description" content="Seu RH sobrecarregado? A PRISMA TALENTOS assume triagem, entrevistas, documentação e interface com entidades formadoras de Jovem Aprendiz — libere o seu time e reduza risco jurídico. Atuação nacional.">
   <meta name="theme-color" content="#0F4C81">
 
+  <!-- Canonical / Robots -->
   <link rel="canonical" href="https://prismatalentos.com.br/">
   <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="PRISMA TALENTOS">
-  <meta property="og:title" content="PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz">
-  <meta property="og:description" content="R&S completo, profissionais sob demanda e Jovem Aprendiz — atuação nacional.">
-  <meta property="og:url" content="https://prismatalentos.com.br/">
-  <meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.webp">
-  <meta property="og:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://prismatalentos.com.br/">
-  <meta name="twitter:title" content="PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz">
-  <meta name="twitter:description" content="R&S completo com alcance nacional e programa Jovem Aprendiz.">
-  <meta name="twitter:image" content="https://prismatalentos.com.br/assets/img/og-cover.webp">
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PRISMA TALENTOS">
+<meta property="og:title" content="PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz">
+<meta property="og:description" content="R&S completo, profissionais sob demanda e Jovem Aprendiz — atuação nacional.">
+<meta property="og:url" content="https://prismatalentos.com.br/">
 
+<!-- Principal em WebP + fallback PNG (alguns scrapers não leem WebP) -->
+<meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.webp">
+<meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.png">
+<meta property="og:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://prismatalentos.com.br/">
+<meta name="twitter:title" content="PRISMA TALENTOS — Recrutamento & Seleção • Jovem Aprendiz">
+<meta name="twitter:description" content="R&S completo com alcance nacional e programa Jovem Aprendiz.">
+
+<!-- Para Twitter é mais seguro PNG/JPG -->
+<meta name="twitter:image" content="https://prismatalentos.com.br/assets/img/og-cover.png">
+<meta name="twitter:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
+
+  <!-- CSP rígida via meta (sem 'unsafe-inline') -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self'; font-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
 
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  <!-- PWA / Ícones -->
+<link rel="manifest" href="/manifest.webmanifest">
 
+<!-- Favicon (ICO multi-res) + PNGs dedicados -->
+<link rel="icon" href="/assets/img/favicon.ico" sizes="16x16 32x32">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+
+<!-- Apple Touch Icon (180×180, fundo #0F4C81 com marca branca) -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+
+  <!-- CSS principal -->
   <link rel="stylesheet" href="/assets/css/main.css">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://prismatalentos.com.br/#org",
-        "name": "PRISMA TALENTOS",
-        "url": "https://prismatalentos.com.br/",
-        "logo": "https://prismatalentos.com.br/assets/img/logo-512.png",
-        "email": "contato@prismatalentos.com.br",
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "customer support",
-          "email": "contato@prismatalentos.com.br",
-          "areaServed": "BR",
-          "availableLanguage": ["pt-BR"]
-        }
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://prismatalentos.com.br/#website",
-        "url": "https://prismatalentos.com.br/",
-        "name": "PRISMA TALENTOS",
-        "publisher": {"@id":"https://prismatalentos.com.br/#org"},
-        "inLanguage": "pt-BR"
-      }
-    ]
-  }
-  </script>
 </head>
 <body>
   <a class="u-skip" href="#conteudo-principal">Pular para o conteúdo principal</a>
 
+  <!-- Schema.org via Microdata (CSP-friendly, sem script inline) -->
+  <div itemscope itemtype="https://schema.org/Organization" hidden>
+    <meta itemprop="name" content="PRISMA TALENTOS">
+    <meta itemprop="url" content="https://prismatalentos.com.br/">
+    <meta itemprop="logo" content="https://prismatalentos.com.br/assets/img/logo.png">
+    <meta itemprop="email" content="contato@prismatalentos.com.br">
+    <div itemprop="contactPoint" itemscope itemtype="https://schema.org/ContactPoint">
+      <meta itemprop="contactType" content="sales">
+      <meta itemprop="email" content="contato@prismatalentos.com.br">
+      <meta itemprop="areaServed" content="BR">
+      <meta itemprop="availableLanguage" content="pt-BR">
+    </div>
+  </div>
+  <div itemscope itemtype="https://schema.org/WebSite" hidden>
+    <meta itemprop="name" content="PRISMA TALENTOS">
+    <meta itemprop="url" content="https://prismatalentos.com.br/">
+    <meta itemprop="inLanguage" content="pt-BR">
+  </div>
+
   <header class="c-header" role="banner">
     <div class="o-container">
       <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
-        <img src="/assets/img/logo.svg" alt="PRISMA TALENTOS" width="120" height="28">
-      </a>
+  <img
+    src="/assets/img/logo.png"
+    srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
+    alt="PRISMA TALENTOS"
+    width="120" height="28"
+    decoding="async" fetchpriority="high">
+</a>
 
       <button class="c-nav__toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" data-js="nav-toggle">
         <span class="u-sr-only">Abrir menu</span>
@@ -87,7 +100,7 @@
   </header>
 
   <main id="conteudo-principal">
-    </main>
+  </main>
 
   <footer class="c-footer" role="contentinfo">
     <div class="o-container">
