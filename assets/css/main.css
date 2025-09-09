@@ -55,9 +55,8 @@ body {
   outline-offset: 2px;
 }
 
-/* Bloqueio de scroll quando menu aberto (compatível com 2 abordagens) */
-.has-nav-open,
-body[data-menu-open="true"] {
+/* Bloqueio de scroll quando o menu mobile está aberto */
+.has-nav-open {
   overflow: hidden;
   touch-action: none;
   overscroll-behavior: contain;
@@ -233,3 +232,156 @@ a:focus-visible {
   z-index: 9999;
   border-radius: .5rem;
 }
+
+/* 8. ===== HERO (estilo G4: fundo escuro, gradientes, transições) ===== */
+.c-hero {
+  position: relative;
+  background:
+    radial-gradient(900px 600px at 80% 0%, rgba(14,165,164,0.18) 0%, transparent 60%),
+    radial-gradient(700px 500px at 20% 10%, rgba(15,76,129,0.35) 0%, transparent 55%),
+    linear-gradient(180deg, #071427 0%, #050B18 100%);
+  color: #fff;
+  padding: clamp(3rem, 5vw, 6rem) 0;
+  min-height: clamp(520px, 70vh, 760px);
+  display: grid;
+  align-items: center;
+  overflow: clip;
+}
+
+/* Wrapper de BG para ancorar os pseudos */
+.c-hero__bg{
+  position:absolute; inset:0; pointer-events:none;
+}
+.c-hero__bg::before,
+.c-hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(255,255,255,0.04), transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+.c-hero__bg::after { inset: auto -20% -30% -20%; }
+
+.c-hero__inner { max-width: 1120px; margin-inline: auto; padding-inline: var(--space-md); }
+
+.c-hero__brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: .96;
+}
+.c-hero__logo { width: 40px; height: 40px; }
+.c-hero__wordmark { font-weight: 700; }
+.c-hero__wordmark strong { font-weight: 800; }
+
+.c-hero__kicker {
+  color: #91A4C6;
+  font-weight: 600;
+  letter-spacing: .04em;
+  margin: .25rem 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.c-hero__title {
+  font-size: clamp(1.8rem, 3.2vw + .5rem, 3.1rem);
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+.c-hero__lead {
+  color: #C7D4EA;
+  max-width: 60ch;
+  margin: 0 0 1.5rem;
+}
+
+.c-hero__actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+
+/* 9. Badges simples com bullets */
+.c-hero__badges {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  padding: 0; margin: 0; list-style: none; color: #AFC2E6;
+}
+.c-hero__badges .dot {
+  display: inline-block; width: .5rem; height: .5rem; margin-right: .5rem;
+  border-radius: 999px; background: var(--color-secondary);
+  box-shadow: 0 0 0 .15rem rgba(14,165,164,.2);
+}
+
+/* 10. Botões */
+.c-btn {
+  --btn-bg: var(--color-primary);
+  --btn-fg: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .5rem; padding: .75rem 1rem; border-radius: .6rem;
+  border: 1px solid transparent; font-weight: 600; text-decoration: none;
+  transition: transform var(--transition-base), background var(--transition-base), border-color var(--transition-base);
+}
+.c-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.c-btn--primary { background: var(--btn-bg); color: var(--btn-fg); }
+.c-btn--primary:hover { transform: translateY(-1px); background: #0d3e6a; }
+.c-btn--ghost { background: transparent; color: #DCE7FF; border-color: #2B3B5C; }
+.c-btn--ghost:hover { background: rgba(255,255,255,.06); transform: translateY(-1px); }
+
+/* ===== Split layout (texto + imagem à direita) ===== */
+.c-hero--split .c-hero__inner{
+  display:grid;
+  grid-template-columns: 1fr;
+  align-items:end;
+  gap: 1.25rem;
+}
+.c-hero__copy{ display:grid; gap:.5rem; }
+.c-hero__media{
+  width:min(520px,92%);
+  justify-self:center;
+  align-self:end;
+  aspect-ratio: 4/5;
+  position:relative;
+}
+.c-hero__media img{
+  width:100%; height:100%;
+  object-fit:contain; object-position: bottom right;
+}
+@media (min-width:56em){
+  .c-hero--split .c-hero__inner{
+    grid-template-columns: 1.05fr .95fr;
+    gap: 2rem;
+  }
+  .c-hero__media{ justify-self:end; }
+}
+
+/* 11. Cards “dores” */
+.c-pains { background: var(--color-bg); padding: clamp(2.5rem, 4vw, 4rem) 0; }
+.c-pains__title { text-align: center; font-size: clamp(1.4rem, 2.2vw + .5rem, 2rem); margin: 0 0 1.5rem; }
+.c-pains__grid {
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(12, 1fr);
+}
+.c-card {
+  grid-column: span 12;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: .8rem;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(2,8,20,.06);
+}
+.c-card__title { font-size: 1.05rem; margin: 0 0 .35rem; }
+.c-card__text { margin: 0; color: var(--color-text-muted); }
+@media (min-width: 48em) {
+  .c-card { grid-column: span 4; }
+}
+
+/* 12. Entrada animada com IntersectionObserver */
+[data-animate] { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+/* Compatível com os dois nomes de classe (is-in e is-inview) */
+[data-animate].is-in,
+[data-animate].is-inview { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] { opacity: 1; transform: none; transition: none; }
+}
+
+/* 13. Bloqueio de scroll quando o menu mobile está aberto (combina com seu nav.js) */
+body.has-nav-open { overflow: hidden; }
