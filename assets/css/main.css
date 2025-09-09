@@ -202,7 +202,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 
 .c-hero__media img {
   height: 100%;
-  width: auto;
+  width: clamp(320px, 45vw, 560px);
   object-fit: contain;
   /* --- ALTERAÇÃO AQUI --- */
   /* Ajuste a posição horizontal para mostrar mais do corpo */
