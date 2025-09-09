@@ -1,5 +1,5 @@
 // /sw.js
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE = `prisma-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `prisma-runtime-${CACHE_VERSION}`;
 
@@ -12,7 +12,7 @@ const PRECACHE_URLS = [
   '/manifest.webmanifest',
   '/assets/img/favicon.ico',
   '/assets/img/favicon-16.png',
-  '/assets/img/favicon-32.png',
+  // '/assets/img/favicon-32.png',
   '/assets/img/apple-touch-icon.png',
   '/assets/img/icon-192.png',
   '/assets/img/icon-192-maskable.png',
