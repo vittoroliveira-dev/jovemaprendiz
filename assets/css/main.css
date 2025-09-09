@@ -187,7 +187,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 .c-hero__media {
   position: absolute;
   /* 1. Empurra a imagem para fora da tela à direita */
-  right: clamp(-100px, -12vw, -50px);
+  right: clamp(-60px, -5vw, -30px); 
   bottom: 0;
   top: 0;
   /* 2. Define uma largura explícita e fluida para a imagem */
