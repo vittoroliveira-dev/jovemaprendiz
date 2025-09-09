@@ -172,23 +172,26 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 /* ===== HERO Split (texto + foto à direita) ===== */
 .c-hero.c-hero--split{position:relative}
 
-/* ↓ Reserva de espaço menor para a foto + texto um pouco mais à direita */
-.c-hero--split .c-hero__inner{
-  position: static; /* mantém a âncora da mídia no .c-hero */
-  padding-right: clamp(220px, 34vw, 520px);  /* antes: 260px,42vw,640px */
-  padding-left:  clamp(24px, 6vw, 80px);     /* empurra o texto p/ a direita */
+/* Ajuste a reserva de espaço para o texto */
+.c-hero--split .c-hero__inner {
+  position: static;
+  /* Deixe um espaço um pouco menor que a largura da imagem */
+  padding-right: clamp(280px, 40vw, 480px); 
+  /* Mantém o texto um pouco afastado da borda esquerda */
+  padding-left: clamp(24px, 6vw, 80px);
 }
 
 .c-hero__copy{position:relative;z-index:2}
 
-/* ↓ Foto um pouco menor e encostada no fim do hero */
+/* DEPOIS (versão com controle direto) */
 .c-hero__media {
   position: absolute;
-  right: max(env(safe-area-inset-right), clamp(0px, 2vw, 24px));
+  /* 1. Empurra a imagem para fora da tela à direita */
+  right: clamp(-100px, -12vw, -50px);
   bottom: 0;
-  /*+ ADICIONE ESTA LINHA +*/
-  top: 0; 
-  width: auto;
+  top: 0;
+  /* 2. Define uma largura explícita e fluida para a imagem */
+  width: clamp(320px, 45vw, 560px);
   z-index: 1;
   pointer-events: none;
   user-select: none;
