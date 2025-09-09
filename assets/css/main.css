@@ -194,7 +194,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
   bottom: 0;
   top: 0;
   /* 2. Define uma largura explícita e fluida para a imagem */
-  width: clamp(360px, 50vw, 620px);
+  width: clamp(340px, 45vw, 580px);
   z-index: 1;
   pointer-events: none;
   user-select: none;
@@ -249,4 +249,5 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 /* 13. Fallback sem JS */
 
 html:not(.js) [data-animate]{opacity:1;transform:none}
+
 
