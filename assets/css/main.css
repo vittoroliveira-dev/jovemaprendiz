@@ -73,7 +73,7 @@ a:hover, a:focus-visible { color: var(--color-secondary); text-decoration: under
   max-width: none; padding-inline: clamp(12px, 4vw, 32px);
 }
 
-/* Marca do header */
+/* Marca do header (maior + à esquerda) */
 .c-brand { display:flex; align-items:center; gap:.6rem; text-decoration:none; margin-right:auto; }
 .c-brand__logo { width:56px; height:auto; display:block; }
 @media (min-width: 64em) { .c-brand__logo { width:64px; } }
@@ -170,17 +170,17 @@ a:hover, a:focus-visible { color: var(--color-secondary); text-decoration: under
 .c-hero.c-hero--split { position: relative; }
 .c-hero--split .c-hero__inner{
   position: relative;
-  /* reserva espaço para a foto à direita no desktop */
-  padding-right: clamp(220px, 38vw, 560px);
+  /* reserva mais espaço para a foto no desktop (evita sobreposição ao texto) */
+  padding-right: clamp(260px, 42vw, 640px);
 }
 .c-hero__copy{ position: relative; z-index: 2; }
 
-/* a foto ancorada no canto inferior direito, responsiva */
+/* a foto ancorada no canto inferior direito, maior e encostada no fim do banner */
 .c-hero__media{
   position: absolute;
   right: clamp(8px, 4vw, 48px);
   bottom: 0;
-  height: clamp(320px, 64vh, 560px);
+  height: clamp(360px, 72vh, 640px);
   width: auto;
   z-index: 1;
   pointer-events: none; user-select: none;
