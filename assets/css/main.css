@@ -178,7 +178,7 @@ a:hover, a:focus-visible { color: var(--color-secondary); text-decoration: under
 /* a foto ancorada no canto inferior direito, maior e encostada no fim do banner */
 .c-hero__media{
   position: absolute;
-  right: clamp(8px, 4vw, 48px);
+  right: clamp(0px, 2vw, 24px);
   bottom: 0;
   height: clamp(360px, 72vh, 640px);
   width: auto;
