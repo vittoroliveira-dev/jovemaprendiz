@@ -194,7 +194,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
   bottom: 0;
   top: 0;
   /* 2. Define uma largura explícita e fluida para a imagem */
-  width: clamp(320px, 45vw, 560px);
+  width: clamp(320px, 50vw, 560px);
   z-index: 1;
   pointer-events: none;
   user-select: none;
@@ -202,7 +202,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 
 .c-hero__media img {
   height: 100%;
-  width: clamp(320px, 45vw, 560px);
+  width: clamp(360px, 45vw, 560px);
   object-fit: contain;
   /* --- ALTERAÇÃO AQUI --- */
   /* Ajuste a posição horizontal para mostrar mais do corpo */
@@ -247,4 +247,5 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 @media (prefers-reduced-motion:reduce){[data-animate]{opacity:1;transform:none;transition:none}}
 
 /* 13. Fallback sem JS */
+
 html:not(.js) [data-animate]{opacity:1;transform:none}
