@@ -200,11 +200,13 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
   user-select: none;
 }
 
-.c-hero__media img{
+.c-hero__media img {
   height: 100%;
   width: auto;
   object-fit: contain;
-  object-position: right bottom;
+  /* --- ALTERAÇÃO AQUI --- */
+  /* Ajuste a posição horizontal para mostrar mais do corpo */
+  object-position: center bottom; /* Ou "left bottom" se quiser que ele venha mais para a esquerda */
 }
 
 /* Mobile: mídia volta ao fluxo e mais discreta */
