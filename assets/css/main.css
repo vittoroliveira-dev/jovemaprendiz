@@ -325,33 +325,6 @@ a:focus-visible {
 .c-btn--ghost { background: transparent; color: #DCE7FF; border-color: #2B3B5C; }
 .c-btn--ghost:hover { background: rgba(255,255,255,.06); transform: translateY(-1px); }
 
-/* ===== Split layout (texto + imagem à direita) ===== */
-.c-hero--split .c-hero__inner{
-  display:grid;
-  grid-template-columns: 1fr;
-  align-items:end;
-  gap: 1.25rem;
-}
-.c-hero__copy{ display:grid; gap:.5rem; }
-.c-hero__media{
-  width:min(520px,92%);
-  justify-self:center;
-  align-self:end;
-  aspect-ratio: 4/5;
-  position:relative;
-}
-.c-hero__media img{
-  width:100%; height:100%;
-  object-fit:contain; object-position: bottom right;
-}
-@media (min-width:56em){
-  .c-hero--split .c-hero__inner{
-    grid-template-columns: 1.05fr .95fr;
-    gap: 2rem;
-  }
-  .c-hero__media{ justify-self:end; }
-}
-
 /* 11. Cards “dores” */
 .c-pains { background: var(--color-bg); padding: clamp(2.5rem, 4vw, 4rem) 0; }
 .c-pains__title { text-align: center; font-size: clamp(1.4rem, 2.2vw + .5rem, 2rem); margin: 0 0 1.5rem; }
@@ -385,3 +358,33 @@ a:focus-visible {
 
 /* 13. Bloqueio de scroll quando o menu mobile está aberto (combina com seu nav.js) */
 body.has-nav-open { overflow: hidden; }
+
+/* Header mais “colado” na esquerda */
+.o-container--fluid { max-width: none; padding-inline: 1rem; } /* só p/ header */
+
+/* Marca no header */
+.c-brand { display:flex; align-items:center; gap:.6rem; text-decoration:none; }
+.c-brand__logo { width:44px; height:auto; display:block; }
+@media (min-width: 64em) { .c-brand__logo { width:52px; } }
+
+.c-brand__wordmark {
+  font-weight: 800; letter-spacing:.04em; color: var(--color-text);
+}
+.c-brand__wordmark strong { font-weight: 900; }
+
+/* Split layout */
+.c-hero.c-hero--split { position: relative; }
+.c-hero--split .c-hero__inner {
+  display:grid; grid-template-columns: 1fr; gap:2rem; align-items:center;
+}
+.c-hero__copy { position:relative; z-index:2; }
+.c-hero__media {
+  position:absolute; right:0; bottom:0; top:0; z-index:1;
+  display:block; pointer-events:none; user-select:none;
+}
+.c-hero__media img, .c-hero__media source { height:100%; width:auto; object-fit:contain; }
+@media (max-width: 64em) {
+  .c-hero__media { opacity:.45; } /* mobile: imagem mais discreta */
+}
+
+html:not(.js) [data-animate] { opacity:1; transform:none; }
