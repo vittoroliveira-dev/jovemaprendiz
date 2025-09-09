@@ -1,12 +1,12 @@
 {
-  "id": "/",
+  "id": "/?source=pwa",
   "name": "PRISMA TALENTOS",
   "short_name": "PRISMA",
   "description": "Recrutamento & Seleção e Programa Jovem Aprendiz.",
   "lang": "pt-BR",
   "dir": "ltr",
 
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui", "browser"],
@@ -15,11 +15,10 @@
   "theme_color": "#0F4C81",
 
   "icons": [
-    { "src": "/assets/img/icon-192.png",           "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/assets/img/icon-512.png",           "sizes": "512x512", "type": "image/png", "purpose": "any" },
-
-    { "src": "/assets/img/icon-192-maskable.png",  "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "/assets/img/icon-512-maskable.png",  "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/assets/img/icon-192.png",          "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/icon-512.png",          "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/img/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
 
   "shortcuts": [
@@ -27,19 +26,39 @@
       "name": "Serviços",
       "short_name": "Serviços",
       "url": "/servicos.html",
-      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }]
+      "description": "Veja os serviços de R&S e alocação.",
+      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Jovem Aprendiz",
       "short_name": "Aprendiz",
       "url": "/jovem-aprendiz.html",
-      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }]
+      "description": "Programa Jovem Aprendiz sem atrito.",
+      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Contato",
       "short_name": "Contato",
       "url": "/contato.html",
-      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" }]
+      "description": "Fale com um especialista.",
+      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "/assets/img/og-cover.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "PRISMA TALENTOS — visão geral"
+    },
+    {
+      "src": "/assets/img/og-cover.png",
+      "sizes": "630x1200",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "PRISMA TALENTOS — visão mobile"
     }
   ],
 
