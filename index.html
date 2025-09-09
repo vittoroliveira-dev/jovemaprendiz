@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#0F4C81">
   <meta name="application-name" content="PRISMA TALENTOS">
   <meta name="apple-mobile-web-app-title" content="PRISMA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta property="og:locale" content="pt_BR">
 
   <!-- Canonical / Robots -->
@@ -83,11 +84,11 @@
     <div class="o-container">
       <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
   <img
-    src="/assets/img/logo.png"
-    srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
-    alt="PRISMA TALENTOS"
-    width="120" height="28"
-    decoding="async" fetchpriority="high">
+  src="/assets/img/logo.png"
+  srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
+  alt="PRISMA TALENTOS"
+  width="120" height="28"
+  decoding="async">
 </a>
 
       <button class="c-nav__toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" data-js="nav-toggle">
@@ -105,8 +106,82 @@
     </div>
   </header>
 
-  <main id="conteudo-principal">
-  </main>
+<main id="conteudo-principal">
+
+  <!-- HERO -->
+  <section class="c-hero c-hero--split" aria-labelledby="hero-title">
+  <div class="c-hero__bg" aria-hidden="true"></div>
+
+    <div class="o-container c-hero__inner">
+    <div class="c-hero__copy">
+      <div class="c-hero__brand" data-animate>
+        <img class="c-hero__logo" src="/assets/img/logo.svg" alt="" role="presentation" width="40" height="40">
+        <span class="c-hero__wordmark">PRISMA <strong>TALENTOS</strong></span>
+      </div>
+
+      <p class="c-hero__kicker" data-animate>R&amp;S sob medida • Programa Jovem Aprendiz</p>
+
+      <h1 id="hero-title" class="c-hero__title" data-animate>
+        Seu RH sem gargalos: triagem, entrevistas e documentação 100% com a PRISMA.
+      </h1>
+
+      <p class="c-hero__lead" data-animate>
+        Terceirize as etapas operacionais de Recrutamento &amp; Seleção e do Jovem Aprendiz.
+        Atuação nacional, SLA claro e redução de risco trabalhista.
+      </p>
+
+      <div class="c-hero__actions" data-animate>
+        <a class="c-btn c-btn--primary" href="/contato.html">Falar com um especialista</a>
+        <a class="c-btn c-btn--ghost" href="/servicos.html">Ver serviços</a>
+      </div>
+
+      <ul class="c-hero__badges" data-animate>
+        <li><span class="dot"></span>Triagem inicial em até 72h</li>
+        <li><span class="dot"></span>Integração com entidades formadoras</li>
+        <li><span class="dot"></span>Processo auditável e compliance</li>
+      </ul>
+    </div>
+
+    <!-- Foto/recorte à direita (use seus arquivos hero-person-*.webp) -->
+    <picture class="c-hero__media" data-animate>
+      <source type="image/webp"
+          srcset="/assets/img/hero-person-800.webp 800w,
+                  /assets/img/hero-person-1200.webp 1200w,
+                  /assets/img/hero-person-1600.webp 1600w"
+          sizes="(max-width: 64em) 50vw, 40vw">
+  <img
+    src="/assets/img/hero-person-1200.png"
+    alt=""
+    width="800" height="1000"
+    decoding="async"
+    fetchpriority="high"
+    loading="eager">
+</picture>
+  </div>
+</section>
+
+  <!-- SEÇÃO DOR/PROVA (opcional) -->
+  <section class="c-pains" aria-labelledby="pains-title">
+    <div class="o-container">
+      <h2 id="pains-title" class="c-pains__title" data-animate>As dores que resolvemos no seu RH</h2>
+      <div class="c-pains__grid">
+        <article class="c-card" data-animate>
+          <h3 class="c-card__title">Alto volume operacional</h3>
+          <p class="c-card__text">Triagem, agendamentos e entrevistas conduzidos pelo nosso time com SLA.</p>
+        </article>
+        <article class="c-card" data-animate>
+          <h3 class="c-card__title">Risco jurídico</h3>
+          <p class="c-card__text">Documentação padronizada, registros e trilhas que reduzem passivo trabalhista.</p>
+        </article>
+        <article class="c-card" data-animate>
+          <h3 class="c-card__title">Jovem Aprendiz sem atrito</h3>
+          <p class="c-card__text">Interface com entidades formadoras e acompanhamento da jornada.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
 
   <footer class="c-footer" role="contentinfo">
     <div class="o-container">
