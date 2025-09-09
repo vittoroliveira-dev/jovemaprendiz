@@ -23,11 +23,11 @@
 <meta property="og:url" content="https://prismatalentos.com.br/">
 
 <!-- Principal em WebP + fallback PNG (alguns scrapers não leem WebP) -->
-<meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.png">
 <meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.webp">
-<meta property="og:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
-<meta property="og:image:width" content="1200">
+<meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.png">
+<meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt"    content="PRISMA TALENTOS — marca e proposta de valor">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://prismatalentos.com.br/">
@@ -43,6 +43,11 @@
 
   <!-- PWA / Ícones -->
 <link rel="manifest" href="/manifest.webmanifest">
+
+<link rel="preload" as="image"
+      href="/assets/img/hero-person-1200.png"
+      imagesrcset="/assets/img/hero-person-800.webp 800w, /assets/img/hero-person-1200.webp 1200w, /assets/img/hero-person-1600.webp 1600w"
+      imagesizes="(max-width: 64em) 50vw, 40vw">
 
 <!-- Pré-carrega o módulo usado pelo app.js -->
 <link rel="modulepreload" href="/assets/js/modules/nav.js">
@@ -80,16 +85,15 @@
     <meta itemprop="inLanguage" content="pt-BR">
   </div>
 
-  <header class="c-header" role="banner">
-    <div class="o-container">
-      <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
-  <img
-  src="/assets/img/logo.png"
-  srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
-  alt="PRISMA TALENTOS"
-  width="120" height="28"
-  decoding="async">
-</a>
+<header class="c-header" role="banner">
+  <div class="o-container o-container--fluid">   <!-- <== novo modificador -->
+    <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
+      <img class="c-brand__logo"
+           src="/assets/img/logo.png"
+           srcset="/assets/img/logo.png 1x, /assets/img/logo@2x.png 2x"
+           alt="" width="44" height="44" decoding="async" fetchpriority="high">
+      <span class="c-brand__wordmark">PRISMA <strong>TALENTOS</strong></span>
+    </a>
 
       <button class="c-nav__toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" data-js="nav-toggle">
         <span class="u-sr-only">Abrir menu</span>
