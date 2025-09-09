@@ -2,15 +2,20 @@
 
 import { initNav } from './modules/nav.js';
 
+document.documentElement.classList.add('js');
+
 // Anima entrada dos elementos com [data-animate]
 function initInView() {
   const els = document.querySelectorAll('[data-animate]');
   if (!els.length) return;
 
-  // Respeita "reduzir animações"
-  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) {
-    els.forEach(el => el.classList.add('is-in')); // <- padronizado
+
+// Respeita "reduzir animações" com fallback seguro
+const reduceMotion = !!(typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('is-in'));
     return;
   }
 
