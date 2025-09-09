@@ -1,29 +1,40 @@
-// Arquivo: /assets/js/app.js
+// /assets/js/app.js
 
 // Módulo de navegação
 import { initNav } from './modules/nav.js';
 
-// Função principal para inicializar todos os módulos
 function main() {
   initNav();
 
-  // Atualiza o ano no rodapé
+  // Atualiza o ano no rodapé (PE)
   const yearSpan = document.querySelector('[data-js="year"]');
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear().toString();
-  }
+  if (yearSpan) yearSpan.textContent = String(new Date().getFullYear());
 
-  // Registra o Service Worker para PWA
+  // PWA — registro + ciclo de atualização enxuto
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch(err => {
-        console.error('Service Worker registration failed: ', err);
-      });
+      navigator.serviceWorker
+        .register('/sw.js', { scope: '/' })
+        .then((reg) => {
+          // dispara verificação de update em background (quando suportado)
+          if (typeof reg.update === 'function') reg.update();
+        })
+        .catch((err) => {
+          console.error('Service Worker registration failed:', err);
+        });
+    });
+
+    // Quando um SW novo assume o controle, recarrega UMA vez
+    let didRefresh = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (didRefresh) return;
+      didRefresh = true;
+      window.location.reload();
     });
   }
 }
 
-// Garante que o DOM está pronto
+// Garante DOM pronto
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', main);
 } else {
