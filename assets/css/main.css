@@ -127,6 +127,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 .u-skip:focus-visible{position:fixed;top:1rem;left:1rem;background:var(--color-text);color:var(--color-surface);padding:.5rem 1rem;z-index:9999;border-radius:.5rem}
 
 /* 8. ===== HERO (fundo escuro, gradientes) ===== */
+/* ↓ Banner um pouco mais baixo */
 .c-hero{
   position:relative; /* conter a mídia absoluta */
   background:
@@ -135,7 +136,7 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
     linear-gradient(180deg,#071427 0%,#050B18 100%);
   color:#fff;
   padding:clamp(3rem,5vw,6rem) 0;
-  min-height:clamp(520px,70vh,760px);
+  min-height: clamp(480px, 60vh, 680px);
   display:grid;align-items:center;
   overflow:clip;
 }
@@ -171,26 +172,34 @@ a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
 /* ===== HERO Split (texto + foto à direita) ===== */
 .c-hero.c-hero--split{position:relative}
 
-/* IMPORTANTE: o container volta a ser static para a mídia ancorar no .c-hero (full-width) */
+/* ↓ Reserva de espaço menor para a foto + texto um pouco mais à direita */
 .c-hero--split .c-hero__inner{
-  position:static;
-  /* reserva espaço no lado direito para a foto no desktop */
-  padding-right:clamp(260px,42vw,640px);
+  position: static; /* mantém a âncora da mídia no .c-hero */
+  padding-right: clamp(220px, 34vw, 520px);  /* antes: 260px,42vw,640px */
+  padding-left:  clamp(24px, 6vw, 80px);     /* empurra o texto p/ a direita */
 }
 
 .c-hero__copy{position:relative;z-index:2}
 
-/* foto ancorada no canto inferior direito, encostada no fim do banner */
-.c-hero__media{
-  position:absolute;
-  right:max(env(safe-area-inset-right), clamp(0px,2vw,24px));
-  bottom:0;
-  height:clamp(380px,74vh,680px);
-  width:auto;
-  z-index:1;
-  pointer-events:none;user-select:none
+/* ↓ Foto um pouco menor e encostada no fim do hero */
+.c-hero__media {
+  position: absolute;
+  right: max(env(safe-area-inset-right), clamp(0px, 2vw, 24px));
+  bottom: 0;
+  /*+ ADICIONE ESTA LINHA +*/
+  top: 0; 
+  width: auto;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
 }
-.c-hero__media img{height:100%;width:auto;object-fit:contain;object-position:right bottom}
+
+.c-hero__media img{
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: right bottom;
+}
 
 /* Mobile: mídia volta ao fluxo e mais discreta */
 @media (max-width:64em){
