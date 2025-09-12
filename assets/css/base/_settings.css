@@ -19,6 +19,7 @@
     --color-error-hover:#DC2626;
     --color-link-hover:#0D3E6A;
     --color-focus:var(--color-secondary);
+	--color-text-inverted: #FFFFFF; /* Branco, para texto em fundos escuros */
     /* específicas */
     --color-dropdown-bg:#111A2C;
     --color-dropdown-border:rgba(255,255,255,.1);
