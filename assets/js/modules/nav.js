@@ -1,133 +1,317 @@
 // /assets/js/modules/nav.js
 
+/**
+ * Inicializa a funcionalidade de navegação principal, incluindo menu mobile e dropdowns.
+ * Gerencia a abertura/fechamento do menu, foco, acessibilidade e responsividade.
+ */
+ 
 export function initNav() {
-  const toggle = document.querySelector('[data-js="nav-toggle"]');
-  const nav = document.querySelector('[data-js="nav"]');
-  const body = document.body;
+  // Seletores
+  const toggleButton = document.querySelector('[data-js="nav-toggle"]');
+  const navigationMenu = document.querySelector('[data-js="nav"]');
+  const bodyElement = document.body;
+  const mainContent = document.querySelector('main') || document.getElementById('conteudo-principal');
 
-  if (!toggle || !nav) return;
+  // Sai da função se os elementos essenciais não forem encontrados
+  if (!toggleButton || !navigationMenu) {
+    console.warn('Elementos de navegação (toggle ou menu) não encontrados.');
+    return; // Retorna sem inicializar a navegação
+  }
+  
+  
+   // A11y: estado inicial do toggle
+if (!toggleButton.hasAttribute('aria-expanded')) {
+  toggleButton.setAttribute('aria-expanded', 'false');
+}
 
-  const OPEN_CLASS = 'is-open';
-  const BODY_LOCK_CLASS = 'has-nav-open';
-  let lastFocus = null;
+// Suporte teclado se o toggle não for <button>
+if (toggleButton.tagName !== 'BUTTON') {
+  toggleButton.setAttribute('role', 'button');
+  if (toggleButton.tabIndex < 0) toggleButton.tabIndex = 0;
+  toggleButton.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      navigationMenu.classList.contains(CLASS_OPEN)
+        ? closeNavigationMenu()
+        : openNavigationMenu();
+    }
+  });
+}
 
-  const focusablesSelector =
+  // Classes CSS para controle de estado
+  const CLASS_OPEN = 'is-open';
+  const CLASS_BODY_LOCK = 'has-nav-open';
+
+  let lastFocusedElement = null; // Armazena o último elemento focado antes de abrir o menu
+
+
+  /**
+   * Verifica se o botão de toggle do menu mobile está visível (indicando modo mobile).
+   * @returns {boolean} True se o toggle estiver visível, false caso contrário.
+   */
+   
+  const isToggleButtonVisible = () => getComputedStyle(toggleButton).display !== 'none';
+
+  // Focáveis dentro do menu
+  const focusableElementsSelector =
     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
 
-  const pageMain = document.querySelector('main') || document.getElementById('conteudo-principal');
+  /**
+   * Obtém uma lista de todos os elementos focáveis dentro do menu de navegação.
+   * Filtra elementos que não estão visíveis (e.g., dentro de dropdowns fechados).
+   * @returns {HTMLElement[]} Array de elementos focáveis.
+   */
+   
+  const getFocusableElements = () =>
+    Array.from(navigationMenu.querySelectorAll(focusableElementsSelector)).filter(
+      (el) => el.getClientRects().length > 0 || el === document.activeElement
+    );
 
-  function setInertBehind(isInert) {
-    if (!pageMain) return;
+
+  /**
+   * Define o estado 'inert' e 'aria-hidden' para o conteúdo principal da página.
+   * Isso impede que usuários de teclado e leitores de tela interajam com o conteúdo atrás do menu aberto.
+   * @param {boolean} isInert - True para tornar o conteúdo inerte, false para remover.
+   */
+   
+  const setInertBehindMainContent = (isInert) => {
+    if (!mainContent) return;
     if (isInert) {
-      // Fallback seguro sem polyfill
-      pageMain.setAttribute('aria-hidden', 'true');
-      pageMain.setAttribute('inert', '');
+      mainContent.setAttribute('aria-hidden', 'true');
+      mainContent.setAttribute('inert', '');
     } else {
-      pageMain.removeAttribute('aria-hidden');
-      pageMain.removeAttribute('inert');
+      mainContent.removeAttribute('aria-hidden');
+      mainContent.removeAttribute('inert');
     }
-  }
+  };
 
-  function getFocusables() {
-    return Array.from(nav.querySelectorAll(focusablesSelector))
-      .filter(el => el.getClientRects().length > 0 || el === document.activeElement);
-  }
+  // --- Dropdowns Genéricos ---
 
-  function trapFocus(e) {
-    if (e.key !== 'Tab') return;
-    const nodes = getFocusables();
-    if (nodes.length === 0) return;
+  /**
+   * Gera um ID único para elementos (e.g., painéis de dropdown).
+   * @param {string} prefix - Prefixo para o ID (padrão: 'dd-').
+   * @returns {string} Um ID único.
+   */
+   
+  const generateUniqueId = (prefix = 'dd-') => prefix + Math.random().toString(36).slice(2, 9);
 
-    const first = nodes[0];
-    const last = nodes[nodes.length - 1];
-    const isShift = e.shiftKey;
+  function setupDropdown(dropdownItem) {
+    const trigger =
+      dropdownItem.querySelector('button.c-nav__link, .c-nav__link[role="button"]') ||
+      dropdownItem.querySelector('.c-nav__link');
+    const panel = dropdownItem.querySelector('.c-nav__dropdown');
+    if (!trigger || !panel) return null; // Sai se o gatilho ou o painel não forem encontrados
 
-    if (!isShift && document.activeElement === last) {
+// Garante que o painel tenha um ID para acessibilidade
+    if (!panel.id) panel.id = generateUniqueId();
+	    // Configura atributos ARIA para o gatilho
+    trigger.setAttribute('aria-controls', panel.id);
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-haspopup', 'menu');
+    panel.hidden = true;
+
+    /**
+     * Verifica se o dropdown está aberto.
+     * @returns {boolean} True se o dropdown estiver aberto, false caso contrário.
+     */
+	 
+    const isDropdownOpen = () => dropdownItem.classList.contains(CLASS_OPEN);
+
+    /** Abre o dropdown. */
+    const openDropdown = () => {
+      dropdownItem.classList.add(CLASS_OPEN);
+      trigger.setAttribute('aria-expanded', 'true');
+      panel.hidden = false;
+      if (document.activeElement === trigger) {
+        const firstFocusable = panel.querySelector('a, button, [tabindex]:not([tabindex="-1"])');
+        firstFocusable?.focus();
+      }
+    };
+	
+    /** Fecha o dropdown. */
+    const closeDropdown = () => {
+      dropdownItem.classList.remove(CLASS_OPEN);
+      trigger.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+	        // Remove o foco do gatilho para evitar o estado :focus-within no item pai
+      if (document.activeElement === trigger) trigger.blur();
+    };
+
+    // Event Listeners para o gatilho do dropdown
+    trigger.addEventListener('click', (e) => {
       e.preventDefault();
+      isDropdownOpen() ? closeDropdown() : openDropdown();
+    });
+
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        isDropdownOpen() ? closeDropdown() : openDropdown();
+      } else if (e.key === 'Escape') {
+        closeDropdown();
+        trigger.focus(); // Retorna o foco para o gatilho
+      }
+    });
+
+    // Fecha o dropdown se o foco sair do item pai do dropdown
+    dropdownItem.addEventListener('focusout', (e) => {
+      if (!dropdownItem.contains(e.relatedTarget)) closeDropdown();
+    });
+
+    return { isOpen: isDropdownOpen, close: closeDropdown };
+  }
+
+  // Inicializa todos os dropdowns e armazena suas APIs
+  const dropdownAPIs = Array.from(navigationMenu.querySelectorAll('.c-nav__item--has-dropdown'))
+    .map(setupDropdown)
+    .filter(Boolean);
+
+  /**
+   * Verifica se algum dropdown está aberto.
+   * @returns {boolean} True se pelo menos um dropdown estiver aberto, false caso contrário.
+   */
+   
+  const isAnyDropdownOpen = () => dropdownAPIs.some((d) => d.isOpen());
+  
+    /** Fecha todos os dropdowns abertos. */
+	
+  const closeAllDropdowns = () => dropdownAPIs.forEach((d) => d.close());
+
+  // --- Gerenciamento de Foco e Teclado para o Menu Mobile ---
+
+  /**
+   * Implementa a armadilha de foco (focus trap) para o menu mobile.
+   * Garante que o foco do teclado permaneça dentro do menu quando ele está aberto.
+   * @param {KeyboardEvent} event - O evento de teclado.
+   */
+   
+  function trapFocus(event) {
+    if (event.key !== 'Tab') return;
+    const focusableElements = getFocusableElements();
+    if (!focusableElements.length) return;
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
+    if (!event.shiftKey && document.activeElement === last) {
+		      // Se Tab for pressionado no último elemento, move o foco para o primeiro
+      event.preventDefault();
       first.focus();
-    } else if (isShift && document.activeElement === first) {
-      e.preventDefault();
+    } else if (event.shiftKey && document.activeElement === first) {
+		 // Se Shift+Tab for pressionado no primeiro elemento, move o foco para o último
+      event.preventDefault();
       last.focus();
     }
   }
 
-  function onKeyDown(e) {
-    if (e.key === 'Escape') {
-      closeNav();
-    } else {
-      trapFocus(e);
+
+  /**
+   * Manipulador global de eventos de teclado quando o menu mobile está aberto.
+   * @param {KeyboardEvent} event - O evento de teclado.
+   */
+   
+  function onGlobalKeyDown(event) {
+    if (event.key === 'Escape') {
+      isAnyDropdownOpen() ? closeAllDropdowns() : closeNavigationMenu();
+      return;
+    }
+    trapFocus(event); // Aplica a armadilha de foco
+  }
+
+  /**
+   * Manipulador global de eventos de clique/pointerdown para fechar o menu mobile.
+   * Fecha o menu se o clique ocorrer fora do menu ou do botão de toggle.
+   * @param {PointerEvent} event - O evento de pointerdown.
+   */
+   
+  function onDocumentPointerDown(event) {
+    if (!navigationMenu.contains(event.target) && !toggleButton.contains(event.target)) {
+      closeNavigationMenu();
     }
   }
 
-  function onDocPointerDown(e) {
-    const t = e.target;
-    if (!nav.contains(t) && !toggle.contains(t)) {
-      closeNav();
+  // --- Menu Mobile Principal ---
+
+  /** Abre o menu de navegação mobile. */
+  
+  function openNavigationMenu() {
+    if (navigationMenu.classList.contains(CLASS_OPEN)) return; // Sai se já estiver aberto
+    lastFocusedElement = document.activeElement; // Salva o elemento focado antes de abrir
+
+    navigationMenu.classList.add(CLASS_OPEN);
+    toggleButton.setAttribute('aria-expanded', 'true');
+    bodyElement.classList.add(CLASS_BODY_LOCK);
+    setInertBehindMainContent(true); // Torna o conteúdo principal inerte
+
+    // Move o foco para o primeiro elemento focável dentro do menu
+    getFocusableElements()[0]?.focus();
+
+    // Adiciona listeners globais para gerenciamento de foco e fechamento
+    document.addEventListener('keydown', onGlobalKeyDown);
+    document.addEventListener('pointerdown', onDocumentPointerDown, { capture: true });
+  }
+
+  /**
+   * Fecha o menu de navegação mobile.
+   * @param {object} [options] - Opções para o fechamento.
+   * @param {boolean} [options.skipFocusRestore=false] - Se true, não restaura o foco para o elemento anterior.
+   */
+   
+  function closeNavigationMenu({ skipFocusRestore = false } = {}) {
+    if (!navigationMenu.classList.contains(CLASS_OPEN)) return; // Sai se já estiver fechado
+
+    closeAllDropdowns(); // Fecha quaisquer dropdowns abertos dentro do menu
+
+    navigationMenu.classList.remove(CLASS_OPEN);
+    toggleButton.setAttribute('aria-expanded', 'false');
+    bodyElement.classList.remove(CLASS_BODY_LOCK);
+    setInertBehindMainContent(false); // Remove o estado inerte do conteúdo principal
+
+    // Remove listeners globais
+    document.removeEventListener('keydown', onGlobalKeyDown);
+    document.removeEventListener('pointerdown', onDocumentPointerDown, { capture: true });
+
+    // Restaura o foco para o elemento que estava focado antes de abrir o menu
+    if (!skipFocusRestore && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
     }
+    lastFocusedElement = null; // Limpa a referência
   }
 
-  function openNav() {
-    if (nav.classList.contains(OPEN_CLASS)) return;
-    lastFocus = document.activeElement;
+  // --- Eventos Principais ---
 
-    nav.classList.add(OPEN_CLASS);
-    toggle.setAttribute('aria-expanded', 'true');
-    body.classList.add(BODY_LOCK_CLASS);
-    setInertBehind(true);
+  // Listener para o botão de toggle do menu mobile
+  
+  toggleButton.addEventListener('click', () =>
+    navigationMenu.classList.contains(CLASS_OPEN) ? closeNavigationMenu() : openNavigationMenu()
+  );
 
-    // foco no primeiro link do menu, se existir
-    const first = getFocusables()[0];
-    if (first) first.focus();
-
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('pointerdown', onDocPointerDown, { capture: true });
-  }
-
-  function closeNav({ skipFocusRestore = false } = {}) {
-    if (!nav.classList.contains(OPEN_CLASS)) return;
-
-    nav.classList.remove(OPEN_CLASS);
-    toggle.setAttribute('aria-expanded', 'false');
-    body.classList.remove(BODY_LOCK_CLASS);
-    setInertBehind(false);
-
-    document.removeEventListener('keydown', onKeyDown);
-    document.removeEventListener('pointerdown', onDocPointerDown, { capture: true });
-
-    if (!skipFocusRestore && lastFocus && typeof lastFocus.focus === 'function') {
-      lastFocus.focus();
-    }
-    lastFocus = null;
-  }
-
-  // Toggle click
-  toggle.addEventListener('click', () => {
-    const isOpen = nav.classList.contains(OPEN_CLASS);
-    if (isOpen) closeNav(); else openNav();
+  // Fecha o menu mobile ao clicar em um link dentro dele (se o toggle estiver visível)
+  navigationMenu.addEventListener('click', (e) => {
+    const clickedLink = e.target.closest('a[href]');
+    if (clickedLink && isToggleButtonVisible()) closeNavigationMenu();
   });
 
-  // Fecha ao clicar em um link do menu (melhor UX no mobile)
-  nav.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    // Só fecha se o menu está em modo "off-canvas" (toggle visível)
-    const toggleHidden = window.getComputedStyle(toggle).display === 'none';
-    if (!toggleHidden) closeNav();
-  });
+  // --- Responsividade e Reset de Estado ---
 
-  // Reset saudável ao mudar para desktop (quando o toggle some via CSS)
-  const mq = window.matchMedia('(min-width: 64em)'); // alinhe com seu breakpoint de desktop
-  const handleMQ = () => {
-    const toggleHidden = window.getComputedStyle(toggle).display === 'none';
-    if (toggleHidden) closeNav({ skipFocusRestore: true });
+  // Media Query para detectar transição entre mobile e desktop
+  
+  const mediaQuery = window.matchMedia('(min-width: 64em)'); // 64em = 1024px (se 1em=16px)
+
+  /**
+   * Manipulador para mudanças na media query (redimensionamento da janela).
+   * Fecha o menu mobile e dropdowns quando a tela é redimensionada para desktop.
+   */
+   
+  const handleMediaQueryChange = () => {
+    if (!isToggleButtonVisible()) {
+		      // Se o toggle não está visível, estamos em desktop
+      closeNavigationMenu({ skipFocusRestore: true }); // Fecha o menu sem restaurar foco
+      closeAllDropdowns(); // Fecha todos os dropdowns
+    }
   };
-  if (typeof mq.addEventListener === 'function') {
-    mq.addEventListener('change', handleMQ);
-  } else if (typeof mq.addListener === 'function') {
-    // fallback para navegadores antigos
-    mq.addListener(handleMQ);
-  } else {
-    window.addEventListener('resize', handleMQ);
-  }
-  handleMQ(); // estado inicial
+
+  mediaQuery.addEventListener?.('change', handleMediaQueryChange);
+  mediaQuery.addListener?.(handleMediaQueryChange); // fallback
+  window.addEventListener('resize', handleMediaQueryChange);
+  // Chama o manipulador uma vez na inicialização para definir o estado inicial
+  handleMediaQueryChange();
 }
