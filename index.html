@@ -83,26 +83,36 @@
         <nav id="primary-navigation" class="c-nav" aria-label="Navegação primária" data-js="nav">
           <ul class="c-nav__list">
             <li class="c-nav__item c-nav__item--has-dropdown">
+			
               <button class="c-nav__link c-nav__link--pill"
                 id="servicos-menu-trigger"
                 type="button"
-                aria-haspopup="true"
+                aria-haspopup="menu"
                 aria-expanded="false"
                 aria-controls="servicos-menu">
                 Serviços
                 <svg class="c-icon c-icon--dropdown-arrow" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
-                  <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                 <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </button>
-              <div class="c-nav__dropdown" id="servicos-menu" role="group" aria-labelledby="servicos-menu-trigger" hidden>
+			  
+			  
+              <div class="c-nav__dropdown" 
+			  id="servicos-menu" 
+			  role="group" 
+			  aria-labelledby="servicos-menu-trigger" 
+			  hidden>
+			  
+			  
                 <div class="c-dropdown__grid">
                   <nav aria-labelledby="nav-sol-title">
                     <h3 id="nav-sol-title" class="c-dropdown__title">Soluções</h3>
                     <ul class="c-dropdown__list">
                       <li><a class="c-dropdown__link" href="/servicos.html#rs">Recrutamento &amp; Seleção</a></li>
-                      <li><a class="c-dropdown__link" href="/servicos.html#outsourcing">Profissionais sob demanda</a></li>
+                    <li><a class="c-dropdown__link" href="/servicos.html#outsourcing">Profissionais sob demanda</a></li>
                     </ul>
                   </nav>
+				  
                   <nav aria-labelledby="nav-prog-title">
                     <h3 id="nav-prog-title" class="c-dropdown__title">Programas</h3>
                     <ul class="c-dropdown__list">
@@ -112,20 +122,27 @@
                 </div>
               </div>
             </li>
+			
             <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/sobre.html">Sobre Nós</a></li>
-            <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/contato.html">Contato</a></li>
-          </ul>
+          <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/contato.html">Contato</a></li>
+          
+		  </ul>
         </nav>
 
         <div class="c-header__actions">
-          <a href="https://wa.me/11913107557" class="c-btn-whatsapp" aria-label="Fale conosco pelo WhatsApp" target="_blank" rel="noopener noreferrer">
-            <svg class="c-icon" aria-hidden="true"><use href="/assets/svg/sprite.svg#whatsapp"></use></svg>
-          </a>
-          <button class="c-nav__toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" data-js="nav-toggle">
-            <span class="u-sr-only">Abrir menu</span>
-            <svg class="c-icon" width="24" height="24" aria-hidden="true"><use href="/assets/svg/sprite.svg#menu"></use></svg>
-          </button>
-        </div>
+        <a href="https://wa.me/11913107557" class="c-btn-whatsapp" aria-label="Fale conosco pelo WhatsApp" target="_blank" rel="noopener noreferrer">
+          <svg class="c-icon" aria-hidden="true"><use href="/assets/svg/sprite.svg#whatsapp"></use></svg>
+        </a>
+		  
+<button class="c-nav__toggle" type="button"
+                aria-controls="primary-navigation"
+                aria-expanded="false"
+                data-js="nav-toggle">
+          <span class="u-sr-only">Abrir menu</span>
+          <span class="c-nav__lines" aria-hidden="true"></span>
+        </button>
+       
+	   </div>
       </div>
     </div>
   </header>
