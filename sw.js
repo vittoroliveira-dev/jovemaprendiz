@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v28'; 
+const VERSION = 'v29'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
@@ -20,8 +20,8 @@ const PRECACHE_URLS = [
   '/assets/css/main.css',
   '/assets/css/base/_elements.css', 
   '/assets/css/base/_generic.css', 
-  '/assets/css/base/_settings.css' 
-  '/assets/css/objects/_o-container.css' 
+  '/assets/css/base/_settings.css', 
+  '/assets/css/objects/_o-container.css', 
   '/assets/css/utilities/_u-helpers.css', 
   '/assets/css/utilities/_u-sr-only.css',   
   '/assets/css/components/_c-band.css',
@@ -268,4 +268,5 @@ async function notifyClients(type) {
   }
 
 }
+
 
