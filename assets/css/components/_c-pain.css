@@ -11,12 +11,9 @@
     align-items: stretch;
   }
 
-  .c-pain-card{
+  .c-pain-card {
     display: flex;
     flex-direction: column;
-	content-visibility: auto;
-	contain-intrinsic-size: 300px;
-	overflow: hidden;
     height: 100%;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -27,6 +24,14 @@
       transform var(--transition-base),
       box-shadow var(--transition-base),
       border-color var(--transition-base);
+  }
+  
+  /* --- Otimizações de Performance --- */
+  @supports (content-visibility: auto) {
+    .c-pain-card {
+      content-visibility: auto;
+      contain-intrinsic-size: 300px; /* Ajuste este valor para uma altura média estimada */
+    }
   }
 
   .c-pain-card:hover{
@@ -48,27 +53,27 @@
     font-size: 1.25rem;
   }
 
-  .c-pain-card__text{
+ .c-pain-card__text {
     margin: 0;
-    flex: 1 1 auto;
+    flex: 1; /* Simplificado: permite que o elemento cresça e encolha */
     color: var(--color-text-muted);
-    text-wrap: pretty;
-    text-align: justify;
-    text-align-last: justify;
-    text-justify: inter-word;
-    hyphens: auto;           /* requer <html lang="pt-BR"> */
-    -webkit-hyphens: auto;   /* Safari/iOS */
-    -ms-hyphens: auto;       /* IE/Edge Legacy */
-    word-break: normal;
-    overflow-wrap: break-word;
     font-size: var(--font-size-base);
     line-height: 1.6;
-    margin-bottom: var(--space-sm);
-  }
+    text-wrap: pretty;
+    
+    /* SUGESTÃO: Alinhamento à esquerda para melhor legibilidade */
+    text-align: left; 
 
-  /* clamp opcional */
-  @supports (-webkit-line-clamp: 1) or (line-clamp: 1){
-    .c-pain--clamp .c-pain-card__text{
+    /* Propriedades de hifenização mantidas */
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    overflow-wrap: break-word;
+  }
+  
+   /* --- Clamp de Linhas (opcional) --- */
+  @supports (line-clamp: 1) or (-webkit-line-clamp: 1) {
+    .c-pain--clamp .c-pain-card__text {
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -76,31 +81,37 @@
     }
   }
   
-  @supports (content-visibility: auto) {
-  .c-pain-card{
-    content-visibility: auto;
-    contain-intrinsic-size: 300px;
+   /* --- Media Queries de Acessibilidade e Responsividade --- */
+  @media (pointer: coarse) {
+    .c-pain-card:hover { 
+      transform: none; /* Remove o efeito de "salto" no toque */
+    }
+    .c-pain-card { 
+      padding: calc(var(--space-xl) * .9);
+    }
   }
-}
 
+@media (prefers-reduced-motion: reduce) {
+    .c-pain-card {
+      transition: none;
+    }
+    .c-pain-card:hover {
+      transform: none;
+    }
+  }
 
-@media (pointer: coarse){
-  .c-pain-card{ transform: none; }          /* menos “salto” no mobile */
-  .c-pain-card:hover{ transform: none; }
-  .c-pain-card{ padding: calc(var(--space-xl) * .9); }
-}
+  @media (forced-colors: active) {
+    .c-pain-card { 
+      border: 1px solid CanvasText;
+      box-shadow: none;
+    }
+  }
 
-@media (forced-colors: active){
-  .c-pain-card{ border: 1px solid CanvasText; box-shadow: none; }
-}
-
-@media print{
-  .c-pain-card{ box-shadow: none; border-color: #000; }
-}
-
-  /* acessibilidade: reduz movimento */
-  @media (prefers-reduced-motion: reduce){
-    .c-pain-card{ transition: none; transform: none; box-shadow: var(--shadow-md); }
+  @media print {
+    .c-pain-card {
+      box-shadow: none;
+      border-color: #000;
+    }
   }
 }
 

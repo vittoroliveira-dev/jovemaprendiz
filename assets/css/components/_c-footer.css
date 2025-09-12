@@ -1,24 +1,26 @@
-/* ========================================================================
-   PRISMA TALENTOS | CSS/COMPONENTS/C FOOTER — FUSÃO
-   Critérios: contraste AA, foco visível, alvos 44px, tokens com fallbacks.
-   ======================================================================== */
 @layer components {
+  /* ========================================================================
+     Componente: Rodapé (Footer)
+     ======================================================================== */
+
   .c-footer {
     position: relative;
     z-index: 1;
     background: var(--color-surface);
     color: var(--color-text, #0f172a);
     border-top: 1px solid var(--color-border);
-    padding-top: var(--space-lg, 24px);
-    padding-bottom: var(--space-lg, 24px);
+    padding: var(--space-lg, 24px) 0;
   }
 
   .c-footer__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--space-xl, clamp(16px, 2vw, 32px));
-    padding-block: var(--space-md, clamp(12px, 2.2vw, 18px));
+    gap: var(--space-xl, 32px);
+    /* Adicionado container para respeitar o padding da página */
+    max-width: var(--container-width, 1200px);
+    margin-inline: auto;
+    padding-inline: var(--space-lg, 24px);
   }
 
   .c-footer__legal p {
@@ -27,37 +29,14 @@
     font-size: var(--font-size-base, 1rem);
   }
 
-  /* marca nunca azul */
   .c-footer__brand {
     font-weight: var(--font-weight-medium, 600);
-    color: var(--color-text, #0f172a);
   }
-  .c-footer__brand a {
-    color: var(--color-text, #0f172a);
+  
+  .c-footer a { 
+    color: inherit; 
     text-decoration: none;
   }
-
-  /* LINKS NO FOOTER — base sem sublinhado nem cor forçada */
-  .c-footer a { color: inherit; text-decoration: none; }
-
-  /* destaque só onde faz sentido (conteúdo) */
-  .c-footer__legal a,
-  .c-footer__links a,
-  .c-footer__contact a{
-    color: var(--color-link-strong, #0b63e5);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
-  }
-  .c-footer__legal a:visited,
-  .c-footer__links a:visited,
-  .c-footer__contact a:visited{
-    color: var(--color-link-visited, #5a3ec8);
-  }
-
-  /* remover sublinhado do selo Reclame AQUI */
-  .c-footer__ra{ text-decoration: none; }
-  .c-footer__ra *{ text-decoration: none; } /* garante que <em> não puxe decoração */
 
   .c-footer__copy {
     opacity: 0.9;
@@ -65,19 +44,19 @@
     color: var(--color-text-muted, #334155);
   }
 
-  /* bloco direito */
+  /* --- Bloco Direito (Ícones Sociais e Selo) --- */
   .c-footer__right {
     display: flex;
     align-items: center;
-    gap: var(--space-lg, clamp(12px, 1.8vw, 20px));
+    gap: var(--space-lg, 24px);
   }
 
-  /* Social list */
+  /* --- Lista de Ícones Sociais --- */
   .c-social {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: var(--space-md, clamp(10px, 1vw, 14px));
+    gap: var(--space-md, 16px);
     margin: 0;
     padding: 0;
   }
@@ -85,151 +64,117 @@
   .c-social__link {
     display: grid;
     place-items: center;
-    width: 44px;                 /* alvo mínimo recomendado */
-    height: 44px;                /* alvo mínimo recomendado */
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    color: #fff;                 /* define currentColor */
-    box-shadow: var(--shadow-sm, 0 1px 2px rgba(2,6,23,.12));
-    transition: transform var(--transition-base, .2s ease),
-                box-shadow var(--transition-base, .2s ease),
-                filter var(--transition-base, .2s ease);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+    transition: 
+      transform var(--transition-base, .2s ease),
+      box-shadow var(--transition-base, .2s ease);
   }
-  .c-social__link:hover,
-  .c-social__link:focus-visible {
+
+  .c-social__link:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
-    filter: saturate(1.2);
-  }
-  .c-social__link .c-icon { width: 22px; height: 22px; }
-
-  /* Força ícones sociais brancos mesmo com fill/stroke no SVG */
-  .c-social__link .c-icon{ color:#fff; }
-  .c-social__link .c-icon path,
-  .c-social__link .c-icon circle,
-  .c-social__link .c-icon rect,
-  .c-social__link .c-icon polygon,
-  .c-social__link .c-icon line,
-  .c-social__link .c-icon polyline{
-    fill:#fff; stroke:#fff;
   }
 
-  /* Cores das redes com tokens e fallbacks */
+  .c-social__link .c-icon { 
+    width: 22px; 
+    height: 22px;
+  }
+  
+  .c-social__link .c-icon path {
+  fill: #fff;
+}
+
+  /* Cores das redes */
   .c-social__link--fb { background: var(--social-fb, #3b5998); }
   .c-social__link--li { background: var(--social-li, #0A66C2); }
-  .c-social__link--yt { background: var(--social-yt, #ff0000); }
-  .c-social__link--sp { background: var(--social-sp, #1DB954); }
   .c-social__link--ig { background: radial-gradient(120% 120% at 30% 110%, #feda75, #d62976 45%, #962fbf 70%, #4f5bd5 95%); }
 
-  /* Selo RA com melhor contraste */
+  /* --- Selo Reclame AQUI (Estilo circular unificado) --- */
   .c-footer__ra {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs, .5rem);
-    padding: var(--space-xs, .35rem) var(--space-sm, .6rem);
-    border: 1px solid var(--color-success-500, #22c55e);
-    border-radius: var(--radius-md, 8px);
-    background: color-mix(in srgb, var(--color-success-500, #22c55e) 12%, var(--color-surface, #ffffff));
-    color: var(--color-success-700, #166534);           /* texto mais escuro para AA */
-    transition: transform var(--transition-base, .2s ease), box-shadow var(--transition-base, .2s ease);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: 
+      transform var(--transition-base, .2s ease),
+      box-shadow var(--transition-base, .2s ease);
+    position: relative;
   }
-  .c-footer__ra:hover,
-  .c-footer__ra:focus-visible {
+
+  .c-footer__ra:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-md, 0 6px 18px rgba(0,0,0,.12));
+    box-shadow: var(--shadow-lg);
   }
 
-  .c-ra__ico { width: 30px; height: 30px; flex-shrink: 0; }
-  .c-ra__fill { fill: currentColor; }
-  .c-ra__label {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-    color: var(--color-text, #0f172a);
-  }
-  .c-ra__label strong {
-    font-size: 0.8rem;
-    font-weight: var(--font-weight-bold, 700);
-  }
-  .c-ra__label em {
-    font-style: normal;
-    font-size: 0.7rem;
-    opacity: 0.9;
-    color: var(--color-text-muted, #475569);
+  .c-footer__ra .c-ra__img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: url("/assets/webp/ra.webp");
+    background-repeat: no-repeat;
+    background-size: var(--ra-zoom, 150%);
+    background-position: var(--ra-pos, 52% 52%);
   }
 
-  /* Foco visível */
-  .c-footer a:focus-visible,
-  .c-social__link:focus-visible,
-  .c-footer__ra:focus-visible {
+  .c-footer__ra .c-ra__img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(200, 229, 29, .35);
+    pointer-events: none;
+  }
+
+  /* Esconde elementos não usados do selo */
+  .c-footer__ra .c-ra__label,
+  .c-footer__ra .c-ra__ico {
+    display: none;
+  }
+
+  /* --- Acessibilidade --- */
+  .c-footer a:focus-visible {
     outline: 2px solid var(--color-focus, #0ea5a4);
     outline-offset: 3px;
+    border-radius: 50%; /* Garante que o outline seja circular */
   }
 
   @media (prefers-reduced-motion: reduce) {
     .c-social__link,
-    .c-footer__ra { transition: none; }
+    .c-footer__ra { 
+      transition: none; 
+    }
+    .c-social__link:hover,
+    .c-footer__ra:hover {
+      transform: none;
+    }
   }
 
-  /* Responsivo */
+  /* --- Layout Responsivo --- */
   @media (max-width: 800px) {
     .c-footer__inner {
       flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-lg, 20px);
+      align-items: center; /* Centraliza os blocos */
+      gap: var(--space-xl, 32px);
     }
+
+    .c-footer__legal {
+      text-align: center; /* Centraliza o texto legal */
+    }
+
     .c-footer__right {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-top: var(--space-md, 16px);
+      /* A centralização dos ícones já é feita por .c-social e .c-footer__ra */
+      margin-top: 0; 
     }
-    .c-social { gap: var(--space-sm, 12px); }
-    .c-footer__ra { padding: var(--space-xs, .35rem) var(--space-sm, .6rem); }
+    
+    .c-social { 
+      gap: var(--space-md, 16px); 
+    }
   }
-}
-
-/* RA como ícone circular, sem texto */
-.c-footer__ra{
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  box-shadow: var(--shadow-sm, 0 1px 2px rgba(2,6,23,.12));
-  text-decoration: none;
-}
-.c-footer__ra:hover,
-.c-footer__ra:focus-visible{
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-}
-
-/* esconde label e qualquer SVG antigo */
-.c-footer__ra .c-ra__label{ display:none; }
-.c-footer__ra .c-ra__ico{ display:none; }
-
-/* usa o ra.webp recortado dentro do círculo */
-.c-footer__ra .c-ra__img{
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-image: url("/assets/webp/ra.webp");
-  background-repeat: no-repeat;
-  background-size: var(--ra-zoom, 150%);      /* ajuste fino se preciso */
-  background-position: var(--ra-pos, 52% 52%);/* ajuste fino se preciso */
-}
-
-/* camada/ring sutil no círculo RA (#C8E51D) */
-.c-footer__ra .c-ra__img{ position: relative; }
-.c-footer__ra .c-ra__img::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  box-shadow: 0 0 0 2px rgba(200,229,29,.35); /* ring suave */
-  pointer-events:none;
 }
