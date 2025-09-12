@@ -48,49 +48,45 @@ function initServiceWorker() {
   if (document.documentElement.dataset.swInit === '1') return;
   document.documentElement.dataset.swInit = '1';
 
-  const showUpdateToast = (registration) => {
-    const toast = document.querySelector('[data-js="update-toast"]');
-    if (!toast) return;
-    toast.hidden = false;
-    toast.classList.add('is-visible');
-    toast.querySelector('[data-js="update-cta"]')?.addEventListener('click', () => {
-      registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
-    }, { once: true });
-  };
+  const SWV = 'v31';                   // mesma versão do sw.js
+  const SW_URL = `/sw.js?v=${SWV}`;    // cache-busting
 
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
-      registration.update();
+      const reg = await navigator.serviceWorker.register(SW_URL, { scope: '/' });
+      reg.update();
 
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') registration.update();
+      // ativa imediatamente se houver SW em espera
+      if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+
+      // quando chegar um novo SW, ativa assim que instalar
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        nw?.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+            reg.waiting?.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
       });
 
+      // recarrega quando o controlador troca
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        location.reload();
+      });
+
+      // checa atualizações em retornos de aba/BCache
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update();
+      });
       window.addEventListener('pageshow', (e) => {
         if (e.persisted) navigator.serviceWorker.getRegistration()?.then(r => r?.update());
-      });
-
-      if (registration.waiting && navigator.serviceWorker.controller) showUpdateToast(registration);
-
-      registration.addEventListener('updatefound', () => {
-        const nw = registration.installing;
-        nw?.addEventListener('statechange', () => {
-          if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateToast(registration);
-        });
       });
     } catch (err) {
       console.error('SW registration failed:', err);
     }
   }, { once: true });
-
-  let refreshing = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (refreshing) return;
-    refreshing = true;
-    window.location.reload();
-  });
 }
+
 
 /* ===== Ripple nos pills ===== */
 async function initNavPillEffect() {
