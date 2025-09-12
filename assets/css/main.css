@@ -1,254 +1,34 @@
-/* 1. Settings (Variáveis CSS, tokens de design) */
-:root{
-  --color-primary:#0F4C81;
-  --color-secondary:#0EA5A4;
-  --color-accent:#F59E0B;
+/* ========================================================================
+   PRISMA TALENTOS | STYLESHEET MAESTRO (ITCSS + Layers)
+   ======================================================================== */
 
-  --color-bg:#F8FAFC;
-  --color-surface:#FFFFFF;
-  --color-text:#0F172A;
-  --color-text-muted:#64748B;
-  --color-border:#E2E8F0;
+/* ordem global única */
+@layer tokens, generic, elements, objects, components, utilities;
 
-  --font-family-base:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  --font-weight-regular:400;
-  --font-weight-medium:600;
-  --font-weight-bold:700;
+/* base */
+@import url('./base/_settings.css');  
+@import url('./base/_generic.css');   /* forçar camada */
+@import url('./base/_elements.css');
 
-  --space-xs:.5rem;
-  --space-sm:.75rem;
-  --space-md:1rem;
-  --space-lg:3rem;
+/* objects */
+@import url('./objects/_o-container.css');
 
-  --header-height:65px;
-  --radius-md:10px;
+/* components */
+@import url('./components/_c-header.css');
+@import url('./components/_c-brand.css');
+@import url('./components/_c-nav.css');
+@import url('./components/_c-button.css');
+@import url('./components/_c-hero.css');
+@import url('./components/_c-band.css');
+@import url('./components/_c-pain.css');
+@import url('./components/_c-card.css');
+@import url('./components/_c-form.css');
+@import url('./components/_c-field.css');
+@import url('./components/_c-contact.css');
+@import url('./components/_c-whatsapp.css');
+@import url('./components/_c-toast.css');
+@import url('./components/_c-footer.css');
 
-  --transition-base:.2s ease-in-out;
-  --shadow-lg:0 10px 30px rgba(2,6,23,.10);
-  --overlay:rgba(15,23,42,.45);
-}
-
-/* 3. Generic (Reset, box-sizing) */
-*,*::before,*::after{box-sizing:border-box}
-
-html{scroll-padding-top:calc(var(--header-height) + 1rem);scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-
-body{
-  margin:0;
-  font-family:var(--font-family-base);
-  line-height:1.6;
-  background-color:var(--color-bg);
-  color:var(--color-text);
-}
-
-/* Foco visível */
-:focus-visible{outline:2px solid var(--color-secondary);outline-offset:2px}
-
-/* Bloqueio scroll quando menu mobile está aberto */
-.has-nav-open{overflow:hidden;touch-action:none;overscroll-behavior:contain}
-
-/* 4. Elements */
-h1,h2,h3{margin:0;line-height:1.2;font-weight:var(--font-weight-bold)}
-a{color:var(--color-primary);text-decoration:none;transition:color var(--transition-base)}
-a:hover,a:focus-visible{color:var(--color-secondary);text-decoration:underline}
-
-/* 5. Objects */
-.o-container{max-width:1120px;margin-inline:auto;padding-inline:var(--space-md)}
-
-/* 6. Components */
-/* Header */
-.c-header{
-  position:sticky;top:0;
-  background-color:var(--color-surface);
-  border-bottom:1px solid var(--color-border);
-  height:var(--header-height);
-  z-index:100;
-}
-.c-header .o-container{
-  display:flex;justify-content:space-between;align-items:center;height:100%;
-  /* header mais colado à esquerda e com safe-area */
-  max-width:none;
-  padding-inline:max(clamp(12px,4vw,32px), env(safe-area-inset-left));
-  padding-right:max(clamp(12px,4vw,32px), env(safe-area-inset-right));
-}
-
-/* Marca do header (maior + à esquerda) */
-.c-brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;margin-right:auto}
-.c-brand__logo{width:56px;height:auto;display:block}
-@media (min-width:64em){.c-brand__logo{width:64px}}
-.c-brand__wordmark{
-  font-weight:800;letter-spacing:.04em;color:var(--color-text);
-  white-space:nowrap;font-size:clamp(1rem,1.1vw,1.15rem)
-}
-.c-brand__wordmark strong{font-weight:900}
-
-/* Ícones SVG herdam a cor do texto */
-.c-icon{fill:currentColor}
-
-/* Navegação (desktop por padrão) */
-.c-nav{position:static;inset:auto;background:transparent;backdrop-filter:none;z-index:1000}
-.c-nav__list{display:flex;align-items:center;gap:var(--space-md);list-style:none;margin:0;padding:0}
-.c-nav__link{display:inline-block;padding:.25rem .5rem;border-radius:.375rem}
-.c-nav__link:hover,.c-nav__link:focus-visible{background:rgba(15,76,129,.08);text-decoration:none}
-
-/* Botão Hamburguer */
-.c-nav__toggle{display:none}
-
-/* Mobile / Tablet */
-@media (max-width:768px){
-  .c-nav__toggle{
-    display:inline-grid;place-items:center;
-    padding:var(--space-xs) var(--space-sm);
-    border:1px solid var(--color-border);border-radius:var(--radius-md);
-    background:var(--color-surface);cursor:pointer;
-    transition:background var(--transition-base),border-color var(--transition-base)
-  }
-  .c-nav__toggle:hover,.c-nav__toggle:focus-visible{background:#fff;border-color:#cbd5e1}
-
-  .c-nav{
-    position:fixed;inset:0;display:none;background:var(--overlay);
-    -webkit-backdrop-filter:saturate(120%) blur(2px);backdrop-filter:saturate(120%) blur(2px)
-  }
-  .c-nav__list{
-    position:absolute;top:0;right:0;height:100%;width:min(85vw,360px);
-    background:var(--color-surface);box-shadow:var(--shadow-lg);
-    padding:1.25rem;display:flex;flex-direction:column;align-items:stretch;gap:.25rem;
-    transform:translateX(100%);transition:transform var(--transition-base)
-  }
-  .c-nav__link{padding:.875rem .75rem;border-radius:.5rem;font-weight:var(--font-weight-medium)}
-  .c-nav.is-open{display:block}
-  .c-nav.is-open .c-nav__list{transform:translateX(0)}
-}
-
-/* 7. Utilities */
-.u-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.u-skip{position:absolute;top:-9999px;left:-9999px}
-.u-skip:focus-visible{position:fixed;top:1rem;left:1rem;background:var(--color-text);color:var(--color-surface);padding:.5rem 1rem;z-index:9999;border-radius:.5rem}
-
-/* 8. ===== HERO (fundo escuro, gradientes) ===== */
-.c-hero {
-  position: relative;
-  background:
-    radial-gradient(900px 600px at 80% 0%, rgba(14,165,164,.18) 0%, transparent 60%),
-    radial-gradient(700px 500px at 20% 10%, rgba(15,76,129,.35) 0%, transparent 55%),
-    linear-gradient(180deg,#071427 0%,#050B18 100%);
-  color:#fff;
-  padding:clamp(3rem,5vw,6rem) 0;
-  min-height: clamp(480px, 60vh, 680px);
-   display: grid;
-  align-items: center;
-  overflow:clip;
-  /* ↓ A MÁGICA ACONTECE AQUI ↓ */
-  overflow-x: clip; 
-}
-
-/* Wrapper de BG para ancorar os pseudos */
-.c-hero__bg{position:absolute;inset:0;pointer-events:none}
-.c-hero__bg::before,.c-hero__bg::after{
-  content:"";position:absolute;inset:-20% -10% auto -10%;
-  background:radial-gradient(60% 60% at 50% 50%, rgba(255,255,255,.04), transparent 70%);
-  filter:blur(10px);pointer-events:none
-}
-.c-hero__bg::after{inset:auto -20% -30% -20%}
-
-.c-hero__inner{max-width:1120px;margin-inline:auto;padding-inline:var(--space-md)}
-
-/* NÃO repetir marca no hero */
-.c-hero__brand{display:none}
-
-.c-hero__kicker{
-  color:#91A4C6;font-weight:600;letter-spacing:.04em;
-  margin:.25rem 0 .75rem;text-transform:uppercase
-}
-.c-hero__title{
-  font-size:clamp(2rem,2.4vw + 1rem,3rem);
-  line-height:1.15;margin:0 0 1rem
-}
-.c-hero__lead{color:#C7D4EA;max-width:60ch;margin:0 0 1.5rem}
-.c-hero__actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem}
-
-/* Badges */
-.c-hero__badges{display:flex;gap:1rem;flex-wrap:wrap;padding:0;margin:0;list-style:none;color:#AFC2E6}
-.c-hero__badges .dot{display:inline-block;width:.5rem;height:.5rem;margin-right:.5rem;border-radius:999px;background:var(--color-secondary);box-shadow:0 0 0 .15rem rgba(14,165,164,.2)}
-
-/* ===== HERO Split (texto + foto à direita) ===== */
-.c-hero.c-hero--split{position:relative}
-
-/* Ajuste a reserva de espaço para o texto */
-.c-hero--split .c-hero__inner {
-  position: static;
-  /* Deixe um espaço um pouco menor que a largura da imagem */
-  padding-right: clamp(280px, 40vw, 480px); 
-  /* Mantém o texto um pouco afastado da borda esquerda */
-  padding-left: clamp(24px, 6vw, 80px);
-}
-
-.c-hero__copy{position:relative;z-index:2}
-
-/* DEPOIS (versão com controle direto) */
-.c-hero__media {
-  position: absolute;
-  /* 1. Empurra a imagem para fora da tela à direita */
-  right: clamp(-60px, -5vw, -30px); 
-  bottom: 0;
-  top: 0;
-  /* 2. Define uma largura explícita e fluida para a imagem */
-  width: clamp(300px, 45vw, 580px);
-  z-index: 1;
-  pointer-events: none;
-  user-select: none;
-}
-
-.c-hero__media img {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  /* --- ALTERAÇÃO AQUI --- */
-  /* Ajuste a posição horizontal para mostrar mais do corpo */
-  object-position: center bottom; /* Ou "left bottom" se quiser que ele venha mais para a esquerda */
-}
-
-/* Mobile: mídia volta ao fluxo e mais discreta */
-@media (max-width:64em){
-  .c-hero--split .c-hero__inner{padding-right:0}
-  .c-hero__media{position:static;height:auto;width:min(420px,80%);margin:0 auto;opacity:.5}
-}
-
-/* 10. Botões */
-.c-btn{
-  --btn-bg:var(--color-primary);--btn-fg:#fff;
-  display:inline-flex;align-items:center;justify-content:center;
-  gap:.5rem;padding:.75rem 1rem;border-radius:.6rem;
-  border:1px solid transparent;font-weight:600;text-decoration:none;
-  transition:transform var(--transition-base),background var(--transition-base),border-color var(--transition-base)
-}
-.c-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.c-btn--primary{background:var(--btn-bg);color:var(--btn-fg)}
-.c-btn--primary:hover{transform:translateY(-1px);background:#0d3e6a}
-.c-btn--ghost{background:transparent;color:#DCE7FF;border-color:#2B3B5C}
-.c-btn--ghost:hover{background:rgba(255,255,255,.06);transform:translateY(-1px)}
-
-/* 11. Cards “dores” */
-.c-pains{background:var(--color-bg);padding:clamp(2.5rem,4vw,4rem) 0}
-.c-pains__title{text-align:center;font-size:clamp(1.4rem,2.2vw + .5rem,2rem);margin:0 0 1.5rem}
-.c-pains__grid{display:grid;gap:1rem;grid-template-columns:repeat(12,1fr)}
-.c-card{
-  grid-column:span 12;background:var(--color-surface);border:1px solid var(--color-border);
-  border-radius:.8rem;padding:1rem;box-shadow:0 6px 18px rgba(2,8,20,.06)
-}
-.c-card__title{font-size:1.05rem;margin:0 0 .35rem}
-.c-card__text{margin:0;color:var(--color-text-muted)}
-@media (min-width:48em){.c-card{grid-column:span 4}}
-
-/* 12. Entrada animada com IntersectionObserver */
-[data-animate]{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
-[data-animate].is-in,[data-animate].is-inview{opacity:1;transform:translateY(0)}
-@media (prefers-reduced-motion:reduce){[data-animate]{opacity:1;transform:none;transition:none}}
-
-/* 13. Fallback sem JS */
-
-html:not(.js) [data-animate]{opacity:1;transform:none}
-
-
-
+/* utilities */
+@import url('./utilities/_u-helpers.css');
+@import url('./utilities/_u-sr-only.css');
