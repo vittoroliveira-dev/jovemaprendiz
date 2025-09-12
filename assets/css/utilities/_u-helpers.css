@@ -1,0 +1,62 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/UTILITIES/U HELPER
+   ======================================================================== */
+@layer utilities {
+  /* Visually hidden, acessível */
+  .u-sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Skip link: oculto, aparece no foco */
+  .u-skip {
+    position: absolute;
+    top: -9999px; left: -9999px;
+    clip: auto;
+    overflow: visible;
+  }
+  .u-skip:focus,
+  .u-skip:focus-visible {
+    position: fixed;
+    top: max(var(--space-md, 1rem), env(safe-area-inset-top));
+    left: max(var(--space-md, 1rem), env(safe-area-inset-left));
+    background: var(--color-text);
+    color: var(--color-surface);
+    padding: var(--space-sm, .5rem) var(--space-md, 1rem);
+    z-index: 9999;
+    border-radius: var(--radius-md, .5rem);
+    text-decoration: none;
+    box-shadow: var(--shadow-md, 0 6px 20px rgba(0,0,0,.15));
+  }
+
+  /* Body lock quando nav aberto */
+  .has-nav-open {
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+
+  /* Entrada animada ----------------------------------------------- */
+  /* Visível por padrão (evita flash sem JS/CSS) */
+  [data-animate]{
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--transition-base, .6s ease),
+      transform var(--transition-base, .6s ease);
+  }
+  /* Só oculta quando JS está ativo (.js no <html>) */
+  .js [data-animate].will-animate{ opacity:0; transform:translateY(var(--space-md,12px)); }
+  .js [data-animate].is-in,
+  .js [data-animate].is-inview{ opacity: 1; transform: none; }
+
+  /* Acessibilidade */
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-animate]{ opacity: 1; transform: none; transition: none; }
+  }
+}
