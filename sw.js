@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v32'; 
+const VERSION = 'v33'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
@@ -133,13 +133,29 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   const r = event.request, u = new URL(r.url);
   if (r.method !== 'GET' || u.origin !== self.location.origin) return;
-  if (u.pathname === '/sw.js' || u.pathname.endsWith('.webmanifest')) return; // não cachear
+
+  // não interceptar o próprio SW nem manifest
+  if (u.pathname === '/sw.js' || u.pathname.endsWith('.webmanifest')) return;
+
+  // HTML: network-first
   if (r.mode === 'navigate' || r.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(networkFirst(r, event)); return;
+    event.respondWith(networkFirst(r, event));
+    return;
   }
-  if (['style','script','image','font'].includes(r.destination)) {
-    event.respondWith(staleWhileRevalidate(r, event)); return;
+
+  // Imagens: cache-first (evita 2ª ida à rede)
+  if (r.destination === 'image') {
+    event.respondWith(cacheFirst(r));
+    return;
   }
+
+  // CSS/JS/Fontes: stale-while-revalidate
+  if (['style', 'script', 'font'].includes(r.destination)) {
+    event.respondWith(staleWhileRevalidate(r, event));
+    return;
+  }
+
+  // Demais: cache-first padrão
   event.respondWith(cacheFirst(r));
 });
 
