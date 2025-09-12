@@ -132,21 +132,16 @@ self.addEventListener('message', (event) => {
 
 // Evento 'fetch': intercepta requisições de rede e serve recursos do cache ou da rede.
 self.addEventListener('fetch', (event) => {
-  const request = event.request;
-  const url = new URL(request.url);
-
-  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
-
-  // não cachear o próprio SW nem o manifest
-  if (url.pathname === '/sw.js' || url.pathname === '/manifest.webmanifest') return;
-
-  if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(networkFirst(request, event)); return;
+  const r = event.request, u = new URL(r.url);
+  if (r.method !== 'GET' || u.origin !== self.location.origin) return;
+  if (u.pathname === '/sw.js' || u.pathname.endsWith('.webmanifest')) return; // não cachear
+  if (r.mode === 'navigate' || r.headers.get('accept')?.includes('text/html')) {
+    event.respondWith(networkFirst(r, event)); return;
   }
-  if (['style','script','image','font'].includes(request.destination)) {
-    event.respondWith(staleWhileRevalidate(request, event)); return;
+  if (['style','script','image','font'].includes(r.destination)) {
+    event.respondWith(staleWhileRevalidate(r, event)); return;
   }
-  event.respondWith(cacheFirst(request));
+  event.respondWith(cacheFirst(r));
 });
 
 // --- Estratégias de Caching ---
@@ -257,4 +252,5 @@ async function notifyClients(type) {
   for (const client of clientsList) {
     client.postMessage({ type });
   }
+
 }
