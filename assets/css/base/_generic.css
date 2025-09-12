@@ -1,0 +1,78 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/BASE/GENERIC (merge)
+   ======================================================================== */
+@layer generic {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:target { scroll-margin-top: calc(var(--header-height) + var(--space-sm)); }
+::selection { background: color-mix(in oklab, var(--color-primary) 25%, transparent); color: var(--color-surface); }
+
+/* Base */
+html {
+  scroll-padding-top: calc(var(--header-height) + var(--space-md));
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Acessibilidade */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Fallback para navegadores sem :focus-visible */
+@supports not selector(:focus-visible){
+  :focus { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+}
+
+/* Acessibilidade em alto contraste (Windows) */
+@media (forced-colors: active){
+  :focus-visible{ outline: 2px solid CanvasText; }
+  a{ outline-color: LinkText; }
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* Mídia */
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms!important;
+      animation-iteration-count:1!important;
+      transition-duration:.01ms!important;
+    }
+  }
+}
