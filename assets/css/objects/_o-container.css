@@ -1,0 +1,19 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/OBJECTS/CONTAINER
+   ======================================================================== */
+@layer objects {
+  .o-container {
+    max-width: 1280px; /* Melhoria: Aumentado o max-width para telas maiores, comum em designs modernos */
+    margin-inline: auto;
+    padding-inline: var(--space-lg); /* Melhoria: Usando --space-lg para um padding lateral mais generoso */
+  }
+
+  /* Melhoria: Ajuste do padding para telas menores, garantindo que o conteúdo não fique muito colado nas bordas */
+  @media (max-width: 768px) {
+    .o-container {
+      padding-inline: var(--space-md);
+    }
+  }
+}
+
+
