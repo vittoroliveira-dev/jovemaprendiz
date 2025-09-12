@@ -1,3 +1,5 @@
+# PRISMA TALENTOS — robots.txt
 User-agent: *
 Allow: /
+
 Sitemap: https://prismatalentos.com.br/sitemap.xml
