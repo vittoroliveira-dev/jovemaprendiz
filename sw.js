@@ -21,7 +21,7 @@ const PRECACHE_URLS = [
   '/assets/css/base/_elements.css', 
   '/assets/css/base/_generic.css', 
   '/assets/css/base/_settings.css' 
-  '/assets/css/objects/_o-container.css',
+  '/assets/css/objects/_o-container.css' 
   '/assets/css/utilities/_u-helpers.css', 
   '/assets/css/utilities/_u-sr-only.css',   
   '/assets/css/components/_c-band.css',
@@ -268,3 +268,4 @@ async function notifyClients(type) {
   }
 
 }
+
