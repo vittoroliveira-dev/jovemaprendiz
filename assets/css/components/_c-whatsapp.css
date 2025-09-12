@@ -57,39 +57,56 @@
     inset-inline-end: auto;
   }
 
-  /* ocultar em telas muito pequenas (opcional) */
+   /* --- ESTILOS PARA DESKTOP (> 768px) --- */
+  .c-btn-whatsapp {
+    /* Posicionamento superior direito */
+    inset-block-start: calc(var(--header-height) - (var(--hero-notch-size) / 2));
+    inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
+    
+    /* Tamanho baseado em variáveis do tema */
+    width: var(--hero-notch-size);
+    height: var(--hero-notch-size);
+  }
+
+  .c-btn-whatsapp .c-icon {
+    width: calc(var(--hero-notch-size) / 2);
+    height: calc(var(--hero-notch-size) / 2);
+    fill: currentColor;
+  }
+
+  .c-btn-whatsapp:hover {
+    background-color: var(--color-wa-hover, #128C7E);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* --- ESTILOS PARA MOBILE (<= 768px) --- */
   @media (max-width: 768px) {
-    .c-btn-whatsapp { display: none; }
-  }
-
-  /* reduzir movimento */
-  @media (prefers-reduced-motion: reduce) {
-    .c-btn-whatsapp { transition: none; transform: none; }
-    .c-btn-whatsapp:hover,
-    .c-btn-whatsapp:focus-visible,
-    .c-btn-whatsapp:active { transform: none; box-shadow: var(--shadow-md); }
-  }
-
-  /* alvo maior em toque */
-  @media (pointer: coarse) {
     .c-btn-whatsapp {
-      width: calc(var(--hero-notch-size) * 1.125);
-      height: calc(var(--hero-notch-size) * 1.125);
+      /* Posicionamento inferior direito */
+      inset-block-start: auto; /* Reseta o posicionamento do topo */
+      inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
+      inset-block-end: max(var(--space-lg), env(safe-area-inset-bottom));
+
+      /* Tamanho fixo para mobile */
+      width: 56px;
+      height: 56px;
     }
+
     .c-btn-whatsapp .c-icon {
-      width: calc(var(--hero-notch-size) * 0.6);
-      height: calc(var(--hero-notch-size) * 0.6);
+      width: 60%;
+      height: 60%;
     }
   }
 
-  /* high-contrast / forced colors */
-  @media (forced-colors: active) {
-    .c-btn-whatsapp {
-      border: 2px solid CanvasText;
-      forced-color-adjust: auto;
-    }
+  /* ... (outras regras de acessibilidade e print) ... */
+
+  @media (prefers-reduced-motion: reduce) {
+    .c-btn-whatsapp { transition: none; }
+    .c-btn-whatsapp:hover { transform: none; }
   }
 
-  /* não imprimir */
-  @media print { .c-btn-whatsapp { display: none; } }
+  @media print { 
+    .c-btn-whatsapp { display: none; } 
+  }
 }

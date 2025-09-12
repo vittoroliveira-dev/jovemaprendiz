@@ -142,7 +142,7 @@
   }
 
   /* Mobile/Tablet (<64em): mídia no fluxo, centralizada */
-  @media (max-width: 63.999em){
+  @media (max-width: 64em) {
 	  
  /* 1. Ajusta o container principal do hero */
   .c-hero {
@@ -152,6 +152,24 @@
     align-items: flex-start;
     /* Remove padding inferior para a imagem "colar" */
     padding-bottom: 0;
+	padding-inline: 2rem; /* Zera ou diminui o padding lateral. Ajuste o valor como preferir. */
+  }
+  
+  .c-hero__badges {
+    /* 1. Esta é a linha mais importante: força a lista a ser exibida. */
+    display: inline-grid; 
+    
+    /* 2. Mantém o texto dentro dos itens alinhado à esquerda para boa legibilidade. */
+    text-align: left; 
+    
+    /* O 'text-align: center' do elemento pai (.c-hero__inner) irá centralizar este bloco. */
+    
+    /* Estilos base que já estavam no seu código original */
+    grid-auto-flow: row;
+    gap: .5rem;
+    padding: 0;
+    list-style: none;
+    margin-top: 1.5rem; /* Adiciona um espaço acima da lista */
   }
 
   /* 2. Altera a estrutura interna para uma única coluna */
