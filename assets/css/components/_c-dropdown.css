@@ -1,0 +1,190 @@
+@layer components {
+  /* ========================================================================
+     Componente: Dropdown de Navegação
+     ======================================================================== */
+
+  /* --- Painel Principal (Desktop) --- */
+  .c-nav__dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 1001;
+
+    min-width: 280px;
+    padding: 1.5rem;
+    background: var(--color-dropdown-bg);
+    /* CORREÇÃO: Unificada a declaração da borda usando a variável. */
+    border: 1px solid var(--color-dropdown-border);
+    border-radius: .5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+
+    /* Animação e estado inicial (fechado) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0s 0.2s;
+  }
+
+  /* Seta/Caret do painel */
+  .c-nav__dropdown::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: var(--color-dropdown-bg);
+  }
+
+  /* Garante que o atributo [hidden] sempre esconda o elemento */
+  .c-nav__dropdown[hidden] {
+    display: none;
+  }
+
+  /* --- Lógica de Abertura Unificada --- */
+  /* CORREÇÃO: Esta é a ÚNICA regra que define o estado "aberto".
+     Ela se aplica quando o dropdown NÃO está com o atributo [hidden]. */
+  .c-nav__dropdown:not([hidden]) {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto; /* Permite cliques quando visível */
+    transition-delay: 0s;
+  }
+
+  /* CORREÇÃO: Fallback simplificado para quando o JS falha.
+     Apenas força a exibição para sobrescrever o `display: none` do [hidden]. */
+  .no-js .c-nav__item--has-dropdown:hover > .c-nav__dropdown,
+.no-js .c-nav__item--has-dropdown:focus-within > .c-nav__dropdown{
+  display:block;
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(0);
+  pointer-events:auto;
+  transition-delay:0s;
+}
+
+  /* --- Conteúdo Interno do Dropdown --- */
+  .c-dropdown__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .c-dropdown__title {
+    display: block;
+    margin-bottom: .5rem; /* Menor espaço entre o título e o primeiro link */
+	padding-top: .75rem;  /* Espaço acima do título para separá-lo do grupo anterior */
+    font-size: .8rem;    /* Levemente maior para destaque */
+    font-weight: 700;    /* Mais negrito */
+    text-transform: uppercase;
+	letter-spacing: .05em; /* Um pouco de espaçamento entre letras */
+    color: var(--color-primary, #0F4C81); /* Cor primária para destaque, combinando com o logo */
+  }
+
+  .c-dropdown__list {
+    display: grid;
+    gap: .75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .c-dropdown__link {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .25rem;
+    color: var(--color-text-inverted);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+  }
+
+  .c-dropdown__link:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* --- Acessibilidade e Interações --- */
+  @media (prefers-reduced-motion: reduce) {
+    .c-nav__dropdown, .c-dropdown__link { transition: none; }
+  }
+
+  /* CORREÇÃO: A regra de hover agora está APENAS aqui dentro para evitar "hover preso" no mobile. */
+  @media (hover: hover) {
+    .c-dropdown__link:hover {
+      background: rgba(255, 255, 255, .1);
+      color: var(--color-secondary);
+    }
+  }
+
+  /* ========================================================================
+     Estilos Mobile (Até 768px)
+     ======================================================================== */
+  @media (max-width: 768px) {
+    /* CORREÇÃO: Apenas muda a APARÊNCIA do dropdown. A lógica de abrir/fechar já é global. */
+    .c-nav__item--has-dropdown .c-nav__dropdown {
+      position: static;
+      min-width: 0;
+      padding: .25rem 0 .5rem 1.5rem; 
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+	  opacity: 1;
+	  visibility: visible;
+      transform: none;
+    }
+    
+ /* CORREÇÃO: Removido '.c-dropdown__title' desta regra para que ele volte a ser exibido */
+  .c-nav__dropdown::before {
+    display: none;
+  }
+  
+   /* NOVO: Estilos para o título no mobile para garantir boa aparência */
+  .c-dropdown__title {
+    display: block; /* Garante que seja visível */
+    margin-bottom: .75rem; /* Espaço entre o título e sua lista de links */
+    font-size: .75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-text-muted, #64748b);
+  }
+
+    .c-dropdown__grid {
+      grid-template-columns: 1fr;
+      gap: .5rem; /* Menor espaçamento entre as seções */
+    }
+	
+	 /* NOVO: Adiciona um espaçamento ANTES do segundo grupo de links (e dos próximos) */
+  .c-dropdown__grid > nav + nav {
+    margin-top: 0;
+  }
+
+    .c-dropdown__list {
+      gap: 0; /* Remove o espaçamento entre os links */
+    }
+    
+    .c-dropdown__link {
+      display: block;
+      width: 100%;
+      padding: .5rem 1rem; /* Ajuste no padding para ficar mais compacto */
+      line-height: 1.4;
+	  font-weight: 500;
+      color: var(--color-text-body, #334155); /* Cor mais escura para melhor leitura */
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+	  text-align: left; /* Garante alinhamento à esquerda */
+    }
+	 .c-dropdown__link:hover,
+  .c-dropdown__link:focus-visible {
+    background: rgba(15, 76, 129, .08);
+    color: var(--color-primary, #0F4C81);
+  }
+  }
+}
