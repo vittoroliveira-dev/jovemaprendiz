@@ -1,0 +1,139 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/COMPONENTS/C TOAST (final)
+   ======================================================================== */
+@layer components {
+  .c-toast {
+    position: fixed;
+
+    /* Safe-area + variáveis */
+    inset-block-end: max(var(--space-lg), env(safe-area-inset-bottom));
+    inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
+	pointer-events:auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+	will-change: transform, opacity;
+    background: var(--color-text);
+    color: var(--color-surface);
+
+    /* Fallback de borda + override moderno */
+    border: 1px solid rgba(255, 255, 255, .08);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 8%, transparent);
+
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1100;
+
+    /* entrada animada */
+    opacity: 0;
+    transform: translateY(var(--space-sm));
+    transition: opacity var(--transition-base), transform var(--transition-base);
+
+    /* Evita layout shift exagerado e melhora performance */
+    max-width: 560px;
+    width: max(260px, 32ch);
+    contain: layout paint style;
+  }
+
+  .c-toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .c-toast__message {
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base, 1rem);
+  }
+
+  .c-toast__actions {
+    display: inline-flex;
+    gap: var(--space-xs);
+  }
+  
+  .c-toast:focus-within{ 
+  box-shadow: var(--shadow-lg), 0 0 0 2px color-mix(in srgb, var(--color-surface) 30%, transparent); 
+  }
+  
+.c-toast-stack{
+  position: fixed;
+  inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
+  inset-block-end: calc(max(var(--space-lg), env(safe-area-inset-bottom)) + var(--floating-ui-offset, 0px));
+  display: grid;
+  gap: var(--space-sm);
+  z-index: 1100;
+  pointer-events: none;
+}
+
+  .c-toast-stack > .c-toast { 
+  pointer-events: auto; 
+  }
+  
+  .c-toast--success{ 
+  background: var(--color-success); 
+  color: var(--color-surface); 
+  }
+  
+	.c-toast--error  { 
+	background: var(--color-error);   
+	color: var(--color-surface); 
+	}
+
+	.c-toast--info   { 
+	background: var(--color-text);    
+	color: var(--color-surface); 
+	}
+	
+	.c-toast[hidden] { 
+	display: none !important; 
+	}
+	
+	.c-toast__close {
+  inline-size: 2.25rem; block-size: 2.25rem;
+  display: grid; place-items: center;
+  border: 0; background: transparent; color: inherit; cursor: pointer;
+}
+.c-toast__close:focus-visible { outline: 2px solid var(--color-surface); outline-offset: 2px; }
+
+
+
+  .c-toast[data-autohide]::after{
+  content:""; display:block; grid-column:1 / -1; inline-size:100%; block-size:3px;
+  background: color-mix(in srgb, var(--color-surface) 30%, transparent);
+  transform-origin:left; transform:scaleX(1);
+  animation: toast-progress var(--toast-duration, 5s) linear forwards;
+}
+@keyframes toast-progress{ to{ transform:scaleX(0); } }
+@media (prefers-reduced-motion: reduce){ .c-toast[data-autohide]::after{ animation:none; } }
+
+
+
+  /* Telas pequenas: ocupa largura segura */
+  @media (max-width: 600px) {
+    .c-toast {
+      inset-inline: var(--space-md);
+      inset-block-end: var(--space-md);
+      width: auto;
+      padding: var(--space-xs) var(--space-sm);
+      gap: var(--space-sm);
+    }
+  }
+
+  /* Redução de movimento */
+  @media (prefers-reduced-motion: reduce) {
+    .c-toast { transition: none; transform: none; }
+    .c-toast.is-visible { opacity: 1; }
+  }
+
+  /* Alto contraste / forced colors */
+  @media (forced-colors: active) {
+    .c-toast { border: 1px solid CanvasText; forced-color-adjust: auto; }
+  }
+
+  /* Não exibir na impressão */
+  @media print {
+    .c-toast { display: none; }
+  }
+}

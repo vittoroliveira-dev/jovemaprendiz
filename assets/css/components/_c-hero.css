@@ -1,0 +1,171 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/COMPONENTS/C HERO (final)
+   ======================================================================== */
+@layer components {
+  .c-hero{
+    position: relative;
+    z-index: 0; /* header (1000) sempre acima */
+    min-height: clamp(440px, 58svh, 640px);
+    padding-inline: max(var(--space-lg), env(safe-area-inset-left)) max(var(--space-lg), env(safe-area-inset-right));
+    padding-block: clamp(32px, 6vh, 80px);
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background:
+      radial-gradient(900px 600px at 80% 0%, rgba(14,165,164,.18) 0%, transparent 60%),
+      radial-gradient(700px 500px at 20% 10%, rgba(15,76,129,.35) 0%, transparent 55%),
+      linear-gradient(180deg,#071427 0%,#050B18 100%);
+    overflow-x: clip;
+    overflow-clip-margin: 0;
+    isolation: isolate;
+    contain: layout paint;
+  }
+
+  /* cobre a emenda (evita hairline) */
+  .c-hero::before{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height:2px;
+    background: var(--hero-notch-color);
+    z-index:2;
+  }
+
+  /* Notch */
+  .c-hero::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom: calc(-0.5 * var(--hero-notch-size) - 1px);
+    width: var(--hero-notch-size);
+    height: var(--hero-notch-size);
+    transform: translateX(-50%);
+    background: var(--hero-notch-color);
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    pointer-events:none;
+    clip-path: polygon(-2px 49.5%, calc(100% + 2px) 49.5%, 50% 100%);
+  }
+  @supports not (clip-path: polygon(0 0, 100% 0, 100% 100%)){
+    .c-hero::after{
+      width:0; height:0; transform: translateX(-50%);
+      border-left: calc(var(--hero-notch-size)/2) solid transparent;
+      border-right: calc(var(--hero-notch-size)/2) solid transparent;
+      border-top: calc(var(--hero-notch-size)/2) solid var(--hero-notch-color);
+    }
+  }
+
+  /* BG glow */
+  .c-hero__bg { position:absolute; inset:0; pointer-events:none; contain:paint; }
+  .c-hero__bg::before{
+    content:""; position:absolute; inset:-20% -10% auto -10%;
+    background: radial-gradient(60% 60% at 50% 50%, rgba(255,255,255,.04), transparent 70%);
+    filter: blur(10px);
+  }
+  .c-hero__bg::after{
+    content:""; position:absolute; inset:auto -20% -30% -20%;
+    background: radial-gradient(60% 60% at 50% 50%, rgba(255,255,255,.04), transparent 70%);
+    filter: blur(10px);
+  }
+
+  /* Split padding (preferir :has; fallback abaixo) */
+  @supports selector(:has(*)){
+    .c-hero--split.c-hero:has(.c-hero__media){ padding-inline-end: clamp(300px, 40vw, 520px); }
+  }
+  @supports not selector(:has(*)){
+    .c-hero--split .c-hero__inner{ padding-right: clamp(300px, 40vw, 520px); }
+  }
+
+  /* Texto/conteúdo */
+  .c-hero__inner{ align-items: center; }
+  .c-hero__copy{ display:flex; flex-direction:column; gap: clamp(12px, 1.6vw, 18px); }
+  .c-hero__copy > *{ margin:0; }
+  .c-hero__kicker{ color:#91A4C6; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+  .c-hero__title{ text-wrap: balance; max-width: 28ch; }
+  @supports not (text-wrap: balance){ .c-hero__title{ text-wrap: pretty; } }
+  .c-hero__lead{ color:#C7D4EA; max-width:60ch; }
+
+  /* Ações */
+  .c-hero__actions{ display:flex; flex-wrap:wrap; gap: var(--space-md); justify-content:flex-start; }
+
+  /* Badges */
+  .c-hero__badges{ display:grid; grid-auto-flow:row; gap:.5rem; padding:0; list-style:none; }
+  .c-hero__badges .dot{
+    display:inline-block; width:.5rem; height:.5rem; margin-right:.5rem; border-radius:999px;
+    background: var(--color-secondary); box-shadow: 0 0 0 .15rem rgba(14,165,164,.2);
+  }
+
+  /* Compacto */
+  .c-hero--compact{
+    min-height: clamp(380px, 52vh, 560px);
+    padding-block: clamp(24px, 5vh, 64px);
+  }
+
+  /* Seção marcada com data-hero não cria espaço sob o header */
+  [data-hero]{
+    margin-top:0 !important;
+    padding-top:0 !important;
+    border-top:0 !important;
+  }
+
+  /* Acessibilidade */
+  @media (prefers-contrast: more){
+    .c-hero{ text-shadow: 0 1px 0 rgba(0,0,0,.4); }
+    .c-hero__kicker{ color:#E6EEFF; }
+  }
+  @media (pointer: coarse){
+    .c-hero__actions{ gap: var(--space-lg); }
+    .c-hero__actions .c-btn{ min-height:44px; padding:.75rem 1rem; }
+  }
+  @media (forced-colors: active){
+    .c-hero{ background: CanvasText !important; color: Canvas !important; }
+    .c-hero::after, .c-hero::before{ border: 1px solid Canvas; box-shadow: none; }
+  }
+
+  /* ========= Layout da mídia ========= */
+
+  /* Desktop (≥64em): mídia absoluta à direita, ancorada embaixo */
+  @media (min-width: 64em){
+    .c-hero--split .c-hero__inner{ display:block; text-align:initial; }
+    .c-hero__actions{ justify-content:flex-start; }
+
+    .c-hero__media{
+      position:absolute; top:0; bottom:0; right:-6vw;
+      width: clamp(340px, 45vw, 780px);
+      display:flex; align-items:flex-end; justify-content:center;
+      opacity:1; pointer-events:none; user-select:none; z-index:1;
+    }
+    .c-hero__media img{
+      height:100%; width:auto; max-width:none; display:block;
+      object-fit:contain; object-position:center bottom;
+    }
+  }
+
+  /* Mobile/Tablet (<64em): mídia no fluxo, centralizada */
+  @media (max-width: 63.999em){
+    .c-hero--split .c-hero__inner{
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+      padding-right: clamp(24px, 6vw, 80px);
+    }
+    .c-hero__actions{ justify-content:center; }
+
+    .c-hero__media{
+      position:static; order:2;
+      width:min(420px, 85%); margin-top:2.5rem; opacity:.4;
+      pointer-events:none; user-select:none; z-index:1;
+    }
+    .c-hero__media img{
+      width:100%; height:auto; display:block;
+      object-fit:contain; object-position:center bottom;
+    }
+  }
+
+  /* Marca PRISMA */
+  .c-hero__title--prisma-pr, .c-hero__title--prisma-is, .c-hero__title--prisma-ma{ font-weight:900; }
+  .c-hero__title--prisma-pr{ color: var(--color-prisma-pr); }
+  .c-hero__title--prisma-is{ color: var(--color-prisma-is); }
+  .c-hero__title--prisma-ma{ color: var(--color-prisma-ma); }
+
+  /* Opcional: só se existir .o-hero em algum template */
+  /* .o-hero{ position: relative; z-index: 0; } */
+}

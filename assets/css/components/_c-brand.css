@@ -1,0 +1,39 @@
+@layer components{
+  .c-brand{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    gap: var(--space-sm);
+    min-height:44px;                           /* hit target */
+    -webkit-tap-highlight-color: rgba(0,0,0,.12);
+  }
+  .c-brand:hover,
+  .c-brand:focus-visible{ text-decoration:none; }
+
+  .c-brand__logo{
+    width: clamp(72px, 12vw, 120px);
+    height: clamp(72px, 12vw, 120px);
+    display:block;                              /* remove gap de baseline */
+    flex-shrink:0;                              /* evita encolher no flex */
+  }
+
+  .c-brand__wordmark{
+    font-weight: var(--font-weight-bold);
+    letter-spacing:.02em;
+    color: var(--color-primary);
+    white-space:nowrap;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+  }
+  .c-brand__wordmark strong{ font-weight: var(--font-weight-bold); }
+  .c-brand__prisma-color{ color: var(--color-primary); }
+
+  .c-brand:focus-visible{
+    outline:2px solid var(--color-focus, var(--color-secondary));
+    outline-offset:2px;
+  }
+
+  /* Alto contraste */
+  @media (forced-colors: active){
+    .c-brand:focus-visible{ outline-color: Highlight; }
+  }
+}
