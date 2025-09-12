@@ -1,85 +1,130 @@
 // /assets/js/app.js
 
+import './modules/header-over-hero.js';        // controla html.over-hero e .is-scrolled
 import { initNav } from './modules/nav.js';
+import { initContactForm } from './modules/contact.js';
 
-document.documentElement.classList.add('js');
+const root = document.documentElement;
+root.classList.remove('no-js');
+root.classList.add('js');
 
-// Anima entrada dos elementos com [data-animate]
-function initInView() {
+/* ===== In-view animations ===== */
+function initInViewAnimations() {
   const els = document.querySelectorAll('[data-animate]');
   if (!els.length) return;
 
-
-// Respeita "reduzir animações" com fallback seguro
-const reduceMotion = !!(typeof window.matchMedia === 'function'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-  if (reduceMotion || !('IntersectionObserver' in window)) {
+  const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !('IntersectionObserver' in window)) {
     els.forEach(el => el.classList.add('is-in'));
     return;
   }
 
-  // Fallback se não houver IntersectionObserver
-  if (!('IntersectionObserver' in window)) {
-    els.forEach(el => el.classList.add('is-in')); // <- padronizado
-    return;
-  }
-
-  const io = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-in'); // <- padronizado
-        obs.unobserve(entry.target);
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
       }
-    });
+    }
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
 
   els.forEach(el => io.observe(el));
+
+  // encerra o observer ao sair/navegar (bfcache-friendly)
+  const disconnectIO = () => io.disconnect();
+  window.addEventListener('pagehide', disconnectIO, { once: true });
+  window.addEventListener('beforeunload', disconnectIO, { once: true });
 }
 
-// Atualiza o ano do rodapé
+/* ===== Footer year ===== */
 function setCurrentYear() {
-  const yearSpan = document.querySelector('[data-js="year"]');
-  if (yearSpan) yearSpan.textContent = String(new Date().getFullYear());
+  const y = document.querySelector('[data-js="year"]');
+  if (y) y.textContent = String(new Date().getFullYear());
 }
 
-// PWA — registra o Service Worker e força verificação de updates
-function registerSW() {
+/* ===== Service Worker ===== */
+function initServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
+  if (document.documentElement.dataset.swInit === '1') return;
+  document.documentElement.dataset.swInit = '1';
 
-  // Recarrega uma única vez quando o novo SW assumir o controle
-  let didRefresh = false;
+  const showUpdateToast = (registration) => {
+    const toast = document.querySelector('[data-js="update-toast"]');
+    if (!toast) return;
+    toast.hidden = false;
+    toast.classList.add('is-visible');
+    toast.querySelector('[data-js="update-cta"]')?.addEventListener('click', () => {
+      registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
+    }, { once: true });
+  };
+
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      registration.update();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') registration.update();
+      });
+
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted) navigator.serviceWorker.getRegistration()?.then(r => r?.update());
+      });
+
+      if (registration.waiting && navigator.serviceWorker.controller) showUpdateToast(registration);
+
+      registration.addEventListener('updatefound', () => {
+        const nw = registration.installing;
+        nw?.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateToast(registration);
+        });
+      });
+    } catch (err) {
+      console.error('SW registration failed:', err);
+    }
+  }, { once: true });
+
+  let refreshing = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (didRefresh) return;
-    didRefresh = true;
+    if (refreshing) return;
+    refreshing = true;
     window.location.reload();
   });
-
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js', { scope: '/' })
-      .then(reg => {
-        if (typeof reg.update === 'function') reg.update(); // check de update imediato
-        reg.addEventListener?.('updatefound', () => {
-          const installing = reg.installing;
-          // Quando o SW novo ativar, o controllerchange acima fará o refresh
-          installing?.addEventListener('statechange', () => {});
-        });
-      })
-      .catch(err => console.error('Service Worker registration failed:', err));
-  });
 }
 
-// Bootstrap
+/* ===== Ripple nos pills ===== */
+async function initNavPillEffect() {
+  const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !document.querySelector('.c-nav__link--pill')) return;
+  try {
+    const mod = await import('./modules/click-anim.js');
+    if (typeof mod.initClickAnim === 'function') mod.initClickAnim('.c-nav__link--pill');
+  } catch {}
+}
+
+/* ===== Main boot ===== */
 function main() {
   initNav();
-  initInView();
-  setCurrentYear();
-  registerSW();
+  initInViewAnimations?.();
+  setCurrentYear?.();
+  initServiceWorker?.();
+  initNavPillEffect?.();
+
+  const form = document.getElementById('contact-form');
+  if (form && form.dataset.jsInit !== '1') {
+    form.dataset.jsInit = '1';
+    initContactForm();
+  }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', main);
-} else {
-  main();
+/* ===== Single-run guard ===== */
+const isProd = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.PROD;
+
+if (!isProd || !document.documentElement.dataset.appInit) {
+  if (isProd) document.documentElement.dataset.appInit = '1';
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', main, { once: true });
+  } else {
+    main();
+  }
 }
