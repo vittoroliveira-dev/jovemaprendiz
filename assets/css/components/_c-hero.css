@@ -143,22 +143,70 @@
 
   /* Mobile/Tablet (<64em): mídia no fluxo, centralizada */
   @media (max-width: 63.999em){
-    .c-hero--split .c-hero__inner{
-      display:flex; flex-direction:column; align-items:center; text-align:center;
-      padding-right: clamp(24px, 6vw, 80px);
-    }
-    .c-hero__actions{ justify-content:center; }
-
-    .c-hero__media{
-      position:static; order:2;
-      width:min(420px, 85%); margin-top:2.5rem; opacity:.4;
-      pointer-events:none; user-select:none; z-index:1;
-    }
-    .c-hero__media img{
-      width:100%; height:auto; display:block;
-      object-fit:contain; object-position:center bottom;
-    }
+	  
+ /* 1. Ajusta o container principal do hero */
+  .c-hero {
+    /* Garante altura suficiente para o conteúdo e a imagem */
+    min-height: min-content; 
+    /* Remove o alinhamento central vertical para permitir que a imagem vá para a base */
+    align-items: flex-start;
+    /* Remove padding inferior para a imagem "colar" */
+    padding-bottom: 0;
   }
+
+  /* 2. Altera a estrutura interna para uma única coluna */
+  .c-hero--split .c-hero__inner {
+    display: grid;
+    /* Cria duas linhas: uma para o texto e uma para a imagem.
+       A imagem (1fr) ocupará todo o espaço restante. */
+    grid-template-rows: auto 1fr;
+    gap: 2.5rem; /* Espaçamento entre texto e imagem */
+    
+    /* Centraliza o conteúdo horizontalmente */
+    justify-items: center;
+    text-align: center;
+    
+    width: 100%;
+    /* Remove o padding que não é mais necessário */
+    padding-right: 0; 
+  }
+
+  /* 3. Garante que os botões fiquem centralizados */
+  .c-hero__actions {
+	  margin-top: 1rem;
+    justify-content: center;
+  }
+
+  /* 4. Posiciona a imagem corretamente */
+  .c-hero__media {
+    order: 2; /* Garante que a imagem venha depois do texto */
+    width: min(420px, 85%);
+    
+    /* A CHAVE: Alinha o container da imagem ao final da sua célula da grade */
+    align-self: end;
+  }
+  
+  /* 5. Garante que a imagem dentro do container se ajuste */
+  .c-hero__media img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+  
+  @media (prefers-reduced-motion: reduce) {
+  /* Desativa transições em elementos que as possuem */
+  .c-hero__bg::before,
+  .c-hero__bg::after {
+    transition: none;
+    filter: none; /* O blur também pode ser considerado um tipo de movimento */
+  }
+   /* Se houver outros elementos com transição, adicione-os aqui */
+  [data-animate] {
+    transition: none;
+    animation: none;
+  }
+}
 
   /* Marca PRISMA */
   .c-hero__title--prisma-pr, .c-hero__title--prisma-is, .c-hero__title--prisma-ma{ font-weight:900; }
