@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v29'; 
+const VERSION = 'v30'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
@@ -20,8 +20,8 @@ const PRECACHE_URLS = [
   '/assets/css/main.css',
   '/assets/css/base/_elements.css', 
   '/assets/css/base/_generic.css', 
-  '/assets/css/base/_settings.css', 
-  '/assets/css/objects/_o-container.css', 
+  '/assets/css/base/_settings.css',
+  '/assets/css/objects/_o-container.css',
   '/assets/css/utilities/_u-helpers.css', 
   '/assets/css/utilities/_u-sr-only.css',   
   '/assets/css/components/_c-band.css',
@@ -135,26 +135,17 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
- // Ignora requisições que não são GET ou de origem diferente (cross-origin).
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
+  // não cachear o próprio SW nem o manifest
+  if (url.pathname === '/sw.js' || url.pathname === '/manifest.webmanifest') return;
 
-  // Estratégia para requisições de navegação (HTML):
-  // Network First - tenta a rede primeiro, fallback para cache.
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(networkFirst(request, event));
-    return;
+    event.respondWith(networkFirst(request, event)); return;
   }
-
-  // Estratégia para recursos estáticos (CSS/JS/IMG/FONT):
-  // Stale While Revalidate - serve do cache enquanto revalida na rede.
-    if (['style','script','image','font'].includes(request.destination)) {
-    event.respondWith(staleWhileRevalidate(request, event));
-    return;
+  if (['style','script','image','font'].includes(request.destination)) {
+    event.respondWith(staleWhileRevalidate(request, event)); return;
   }
-
-  // Estratégia padrão para outros recursos:
-  // Cache First - tenta o cache primeiro, fallback para rede.
   event.respondWith(cacheFirst(request));
 });
 
@@ -266,7 +257,4 @@ async function notifyClients(type) {
   for (const client of clientsList) {
     client.postMessage({ type });
   }
-
 }
-
-
