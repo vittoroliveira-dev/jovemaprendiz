@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v27'; 
+const VERSION = 'v28'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
@@ -266,4 +266,5 @@ async function notifyClients(type) {
   for (const client of clientsList) {
     client.postMessage({ type });
   }
+
 }
