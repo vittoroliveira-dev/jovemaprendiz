@@ -48,18 +48,31 @@ function initServiceWorker() {
   if (document.documentElement.dataset.swInit === '1') return;
   document.documentElement.dataset.swInit = '1';
 
-  const SWV = 'v31';                   // mesma versão do sw.js
+  const SWV = 'v32';                   // igual ao sw.js
   const SW_URL = `/sw.js?v=${SWV}`;    // cache-busting
+  const UPDATE_EVERY = 12 * 60 * 60 * 1000; // 12h
 
   window.addEventListener('load', async () => {
     try {
       const reg = await navigator.serviceWorker.register(SW_URL, { scope: '/' });
       reg.update();
 
+      // verificação periódica
+      let timerId = setInterval(() => reg.update(), UPDATE_EVERY);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          clearInterval(timerId);
+        } else {
+          reg.update();
+          timerId = setInterval(() => reg.update(), UPDATE_EVERY);
+        }
+      });
+      window.addEventListener('pagehide', () => clearInterval(timerId), { once: true });
+
       // ativa imediatamente se houver SW em espera
       if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
 
-      // quando chegar um novo SW, ativa assim que instalar
+      // ativa assim que um novo SW instalar
       reg.addEventListener('updatefound', () => {
         const nw = reg.installing;
         nw?.addEventListener('statechange', () => {
@@ -70,11 +83,9 @@ function initServiceWorker() {
       });
 
       // recarrega quando o controlador troca
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        location.reload();
-      });
+      navigator.serviceWorker.addEventListener('controllerchange', () => location.reload());
 
-      // checa atualizações em retornos de aba/BCache
+      // checa updates em retornos de aba/BCache
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') reg.update();
       });
@@ -86,7 +97,6 @@ function initServiceWorker() {
     }
   }, { once: true });
 }
-
 
 /* ===== Ripple nos pills ===== */
 async function initNavPillEffect() {
