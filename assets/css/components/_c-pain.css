@@ -1,0 +1,106 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/COMPONENTS/C PAIN (final)
+   ======================================================================== */
+@layer components {
+  .c-pain { /* container da seção */ }
+
+  .c-pain__grid{
+    display: grid;
+    gap: clamp(16px, 2vw, var(--space-lg));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: stretch;
+  }
+
+  .c-pain-card{
+    display: flex;
+    flex-direction: column;
+	content-visibility: auto;
+	contain-intrinsic-size: 300px;
+	overflow: hidden;
+    height: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      border-color var(--transition-base);
+  }
+
+  .c-pain-card:hover{
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+
+  .c-pain-card:focus-within{
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  }
+
+  .c-pain-card__title{
+    margin: 0 0 var(--space-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    font-size: 1.25rem;
+  }
+
+  .c-pain-card__text{
+    margin: 0;
+    flex: 1 1 auto;
+    color: var(--color-text-muted);
+    text-wrap: pretty;
+    text-align: justify;
+    text-align-last: justify;
+    text-justify: inter-word;
+    hyphens: auto;           /* requer <html lang="pt-BR"> */
+    -webkit-hyphens: auto;   /* Safari/iOS */
+    -ms-hyphens: auto;       /* IE/Edge Legacy */
+    word-break: normal;
+    overflow-wrap: break-word;
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+  }
+
+  /* clamp opcional */
+  @supports (-webkit-line-clamp: 1) or (line-clamp: 1){
+    .c-pain--clamp .c-pain-card__text{
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+  
+  @supports (content-visibility: auto) {
+  .c-pain-card{
+    content-visibility: auto;
+    contain-intrinsic-size: 300px;
+  }
+}
+
+
+@media (pointer: coarse){
+  .c-pain-card{ transform: none; }          /* menos “salto” no mobile */
+  .c-pain-card:hover{ transform: none; }
+  .c-pain-card{ padding: calc(var(--space-xl) * .9); }
+}
+
+@media (forced-colors: active){
+  .c-pain-card{ border: 1px solid CanvasText; box-shadow: none; }
+}
+
+@media print{
+  .c-pain-card{ box-shadow: none; border-color: #000; }
+}
+
+  /* acessibilidade: reduz movimento */
+  @media (prefers-reduced-motion: reduce){
+    .c-pain-card{ transition: none; transform: none; box-shadow: var(--shadow-md); }
+  }
+}
+

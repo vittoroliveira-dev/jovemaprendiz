@@ -1,0 +1,211 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/COMPONENTS/C CONTACT — FUSÃO
+   Critérios: A11y (foco, 44px), responsivo 1→2 col, reduced-motion, contraste links.
+   ======================================================================== */
+@layer components {
+  .c-contact {
+    position: relative;
+    overflow: hidden;
+	scroll-margin-top: var(--header-height, 72px);
+    padding: var(--space-xxl, 72px) 0;
+    background: var(--color-bg); /* fallback básico */
+    background: linear-gradient(135deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-primary) 3%, var(--color-bg)) 60%);
+}
+@supports (color: oklch(50% 0 0)){
+  .c-contact{
+    background: linear-gradient(135deg, var(--color-bg) 0%, color-mix(in oklab, var(--color-primary) 3%, var(--color-bg)) 60%);
+  }
+}
+
+  .c-contact__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    align-items: center;
+    text-align: center;
+  }
+  @media (min-width: 960px) {
+    .c-contact__container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  .c-contact__title {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    line-height: 1.2;
+    margin: 0 0 var(--space-md);
+  }
+  .c-contact__title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    margin-top: var(--space-xs);
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+  }
+
+  .c-contact__subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    margin: 0 auto var(--space-xl);
+  }
+  @media (min-width: 960px) {
+    .c-contact__subtitle { margin-left: 0; margin-right: 0; }
+  }
+
+  .c-contact__content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .c-contact__content-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .c-contact__form-wrapper { order: 1; }
+  @media (min-width: 768px) { .c-contact__form-wrapper { order: 0; } }
+
+  .c-contact__info {
+    order: 2;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .c-contact__info { order: 0; text-align: left; }
+  }
+
+  .c-contact__mini-title {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-md);
+  }
+
+  .c-contact__list { list-style: none; padding: 0; margin: 0 0 var(--space-lg); }
+  .c-contact__list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    justify-content: center;
+    min-height: 44px;                   /* hit target */
+  }
+  @media (min-width: 768px) { .c-contact__list li { justify-content: flex-start; } }
+
+  .c-contact__icon { width: 24px; height: 24px; color: var(--color-secondary); flex-shrink: 0; }
+
+  .c-contact__link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-base, .2s ease);
+    outline: none;
+  }
+  .c-contact__link:hover,
+  .c-contact__link:focus-visible {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .c-contact__horario {
+    margin-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+  }
+  .c-contact__horario-title {
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--space-xs);
+  }
+  .c-contact__horario-text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .c-contact__figure {
+    order: 0;
+    margin: 0 auto;
+    max-width: 300px;
+  }
+  @media (min-width: 768px) {
+    .c-contact__figure { max-width: 100%; }
+  }
+  .c-contact__photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid var(--color-surface);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Decorações suaves */
+  .c-contact__decoration {
+    position: absolute;
+    opacity: 0.08;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+  }
+  .c-contact__decoration--1 { top: 10%; left: 5%; width: 100px; height: 100px; background-color: var(--color-accent); border-radius: 50%; }
+  .c-contact__decoration--2 { bottom: 15%; right: 10%; width: 150px; height: 150px; background-color: var(--color-secondary); border-radius: 50%; animation-delay: 2s; }
+
+  @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
+
+ @media (prefers-reduced-motion: reduce) {
+    .c-contact * { transition-duration: 0s; animation-duration: 0s; }
+  }
+}
+
+/* Performance: só aplica onde há suporte */
+@supports (content-visibility: auto){
+  .c-contact{
+    content-visibility: auto;
+    contain-intrinsic-size: 600px;
+  }
+}
+
+/* Melhor quebra de títulos */
+.c-contact__title,
+.c-contact__subtitle{ text-wrap: balance; }
+
+/* Centraliza o grid em telas largas */
+.c-contact__content-grid{ max-width: 1000px; margin-inline: auto; }
+
+/* Links longos não quebram layout */
+.c-contact__link{ overflow-wrap: anywhere; }
+.c-contact__link:active{ opacity:.85; } /* feedback toque */
+
+/* Alto contraste (Windows) */
+@media (forced-colors: active){
+  .c-contact{ background: Canvas; }
+  .c-contact__info{ box-shadow:none; border:1px solid CanvasText; }
+  .c-contact__title::after{ background: CanvasText; }
+}
+
+/* Preferência por mais contraste */
+@media (prefers-contrast: more){
+  .c-contact__link{ text-decoration: underline; }
+  .c-contact__info{ box-shadow:none; border:1px solid currentColor; }
+}
+
+/* UX mobile */
+.c-contact a{ -webkit-tap-highlight-color: rgba(0,0,0,.12); }

@@ -1,0 +1,155 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/COMPONENTS/C BUTTON — FUSÃO
+   ======================================================================== */
+@layer components {
+  /* Base */
+  .c-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap: var(--space-xs, .5rem);
+    min-height:44px;                      /* hit target */
+    padding: var(--space-md, .75rem) var(--space-lg, 1.25rem);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md, .6rem);
+    font-family: var(--font-family-base, inherit);
+    font-weight: var(--font-weight-medium, 600);
+    font-size: var(--font-size-base, 1rem);
+    text-decoration:none;
+    cursor:pointer;
+    color: var(--color-text-on-btn, #fff);
+    transition:
+      transform var(--transition-base, .2s ease),
+      background-color var(--transition-base, .2s ease),
+      border-color var(--transition-base, .2s ease),
+      box-shadow var(--transition-base, .2s ease);
+    white-space: nowrap;
+  }
+
+
+  /* Hover/active globais (apenas em devices com hover) */
+  @media (hover:hover){
+    .c-btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  }
+  .c-btn:active{ transform: translateY(0); box-shadow:none; }
+
+  /* Ícones internos */
+  .c-btn .c-icon{ inline-size:1em; block-size:1em; }
+  .c-btn .c-icon:first-child{ margin-inline-end: var(--space-xs, .5rem); }
+  .c-btn .c-icon:last-child{ margin-inline-start: var(--space-xs, .5rem); }
+  .c-btn .c-icon:only-child{ margin:0; }
+
+  /* Variantes */
+  .c-btn--primary{
+    /* sólido por padrão para contraste e estabilidade */
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color:#fff;
+  }
+  @media (hover:hover){
+    .c-btn--primary:hover{ background-color: var(--color-link-hover); border-color: var(--color-link-hover); }
+  }
+  .c-btn--primary:active{ background-color: var(--color-link-hover); }
+
+  .c-btn--ghost{
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-border);
+  }
+  @media (hover:hover){
+    .c-btn--ghost:hover{ background-color: color-mix(in srgb, var(--color-primary) 6%, transparent); border-color: var(--color-primary); }
+  }
+
+  /* Ghost para fundos escuros */
+  .c-btn--ghost--on-dark{
+    color: var(--color-ghost-fg-dark);
+    border-color: var(--color-ghost-border);
+  }
+  @media (hover:hover){
+    .c-btn--ghost--on-dark:hover{
+      background-color: rgba(255,255,255,.06);
+      border-color: var(--color-ghost-fg-dark);
+    }
+  }
+
+  .c-btn--cta{
+    background-color: var(--color-success);
+    color:#fff;
+    font-weight:700;
+    padding-inline: 1.25rem;
+    border:none;
+  }
+  @media (hover:hover){
+    .c-btn--cta:hover{ background-color: var(--color-success-hover); }
+  }
+  .c-btn--cta .c-icon--arrow-cta{ transition: transform var(--transition-base, .2s ease); }
+  @media (hover:hover){
+    .c-btn--cta:hover .c-icon--arrow-cta{ transform: translateX(4px); }
+  }
+
+  .c-btn--toast{ padding: .5rem .75rem; box-shadow:none; }
+
+  /* Estados desabilitado */
+  .c-btn:disabled,
+  .c-btn[aria-disabled="true"]{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:none;
+  }
+
+/* Contexto escuro: anel de foco branco (ex.: hero) */
+.c-btn:focus-visible{
+  outline: 2px solid var(--color-focus, var(--color-secondary));
+  outline-offset: 2px;
+}
+
+/* Interativo “full click” (opcional) */
+.c-btn--block{ display:inline-flex; inline-size:100%; }
+
+/* Acessibilidade e sistemas */
+@media (prefers-reduced-motion: reduce){
+  .c-btn{ transition:none !important; }
+}
+@media (forced-colors: active){
+  .c-btn{ border-color: ButtonText; }
+}
+
+/* Print */
+@media print{
+  .c-btn{ box-shadow:none !important; background:transparent !important; }
+}
+
+/* Tamanhos */
+.c-btn--sm{ min-height:40px; padding:.5rem .875rem; font-size:.9375rem; }
+.c-btn--lg{ min-height:48px; padding:1rem 1.5rem; font-size:1.0625rem; }
+
+/* Ícone-only acessível (use texto sr-only no HTML) */
+.c-btn--icon{
+  inline-size:44px; block-size:44px; padding:0;
+  border-radius:50%; justify-content:center;
+}
+.c-btn--icon .c-icon{ margin:0; font-size:1.125rem; }
+
+/* Estado loading acessível */
+.c-btn[aria-busy="true"], .c-btn.is-loading{
+  pointer-events:none; opacity:.75;
+}
+.c-btn[aria-busy="true"]::after, .c-btn.is-loading::after{
+  content:""; width:1em; height:1em; margin-inline-start:.5rem; border-radius:50%;
+  border:2px solid currentColor; border-right-color:transparent; display:inline-block;
+  animation:cbtn-spin .6s linear infinite;
+}
+@keyframes cbtn-spin{ to{ transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce){
+  .c-btn[aria-busy="true"]::after, .c-btn.is-loading::after{ animation:none; }
+}
+
+/* Contraste alto melhora borda do ghost */
+@media (prefers-contrast: more){
+  .c-btn--ghost, .c-btn--ghost--on-dark{ border-width:2px; }
+}
+
+/* UX toque */
+.c-btn{ -webkit-tap-highlight-color: rgba(0,0,0,.12); }
+}

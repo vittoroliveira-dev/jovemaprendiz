@@ -1,0 +1,95 @@
+/* ========================================================================
+   PRISMA TALENTOS | CSS/COMPONENTS/C WHATSAPP (final)
+   ======================================================================== */
+@layer components {
+  .c-btn-whatsapp {
+    position: fixed;
+    /* posicionamento lógico + safe-area */
+    inset-block-start: calc(var(--header-height) - (var(--hero-notch-size) / 2));
+    inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
+    z-index: 1001;
+    outline: none;
+
+    /* visual */
+    display: grid;
+    place-items: center;
+    width: var(--hero-notch-size);
+    height: var(--hero-notch-size);
+    border-radius: 50%;
+    background-color: var(--color-wa);
+    color: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+
+    /* interação */
+    transition:
+      transform var(--transition-base),
+      background-color var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .c-btn-whatsapp:hover {
+    background-color: var(--color-wa-hover);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+  }
+  .c-btn-whatsapp:focus-visible {
+    outline: 2px solid var(--color-surface);
+    outline-offset: 2px;
+  }
+
+  .c-btn-whatsapp:active {
+    transform: translateY(1px) scale(1);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .c-btn-whatsapp .c-icon {
+    width: calc(var(--hero-notch-size) / 2);
+    height: calc(var(--hero-notch-size) / 2);
+    /* garante ícone branco via currentColor */
+    fill: currentColor;
+  }
+
+  /* variante lado esquerdo */
+  .c-btn-whatsapp--left {
+    inset-inline-start: max(var(--space-lg), env(safe-area-inset-left));
+    inset-inline-end: auto;
+  }
+
+  /* ocultar em telas muito pequenas (opcional) */
+  @media (max-width: 768px) {
+    .c-btn-whatsapp { display: none; }
+  }
+
+  /* reduzir movimento */
+  @media (prefers-reduced-motion: reduce) {
+    .c-btn-whatsapp { transition: none; transform: none; }
+    .c-btn-whatsapp:hover,
+    .c-btn-whatsapp:focus-visible,
+    .c-btn-whatsapp:active { transform: none; box-shadow: var(--shadow-md); }
+  }
+
+  /* alvo maior em toque */
+  @media (pointer: coarse) {
+    .c-btn-whatsapp {
+      width: calc(var(--hero-notch-size) * 1.125);
+      height: calc(var(--hero-notch-size) * 1.125);
+    }
+    .c-btn-whatsapp .c-icon {
+      width: calc(var(--hero-notch-size) * 0.6);
+      height: calc(var(--hero-notch-size) * 0.6);
+    }
+  }
+
+  /* high-contrast / forced colors */
+  @media (forced-colors: active) {
+    .c-btn-whatsapp {
+      border: 2px solid CanvasText;
+      forced-color-adjust: auto;
+    }
+  }
+
+  /* não imprimir */
+  @media print { .c-btn-whatsapp { display: none; } }
+}
