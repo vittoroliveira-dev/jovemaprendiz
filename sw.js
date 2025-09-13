@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v35'; 
+const VERSION = 'v37'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
@@ -38,16 +38,18 @@ const PRECACHE_URLS = [
   '/assets/css/components/_c-pain.css',
   '/assets/css/components/_c-toast.css',
   '/assets/css/components/_c-whatsapp.css',
-  
-
+  '/assets/css/components/_c-header-contato.css',
+ 
  // JS (ESM)
   '/assets/js/app.js',
   '/assets/js/modules/click-anim.js',
   '/assets/js/modules/contact.js', 
   '/assets/js/modules/header-over-hero.js',
   '/assets/js/modules/nav.js',
+  '/assets/js/modules/pwa-init.js',
+  '/assets/js/modules/contato-header.js',
+  '/assets/js/modules/fab-avoid-footer.js',
   
-
  // Ícones / PWA (ajuste para os que EXISTEM no projeto)
   '/assets/img/apple-touch-icon.png', 
   '/assets/img/android-chrome-192x192.png',
@@ -69,10 +71,17 @@ const PRECACHE_URLS = [
 
   // Hero (ajuste se necessário)
   '/assets/webp/hero-contato.webp',
+  '/assets/webp/hero-contato-800.webp',
+  '/assets/webp/hero-contato-1200.webp',
+  '/assets/webp/hero-contato-1600.webp',
+  '/assets/webp/hero-person.webp',
   '/assets/webp/hero-person-800.webp',
   '/assets/webp/hero-person-1200.webp',
   '/assets/webp/hero-person-1600.webp',
   '/assets/img/hero-contato.png',
+  '/assets/img/hero-contato-800.png',
+  '/assets/img/hero-contato-1200.png',
+  '/assets/img/hero-contato-1600.png',
   '/assets/img/hero-person-800.png',
   '/assets/img/hero-person-1200.png',
   '/assets/img/hero-person-1600.png',
