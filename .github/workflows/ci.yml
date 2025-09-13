@@ -8,18 +8,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04  # force 22.04 p/ isolar variáveis de rede
+    runs-on: ubuntu-22.04
     env:
       NODE_OPTIONS: --dns-result-order=ipv4first
       NPM_CONFIG_AUDIT: "false"
       NPM_CONFIG_FUND: "false"
       NPM_CONFIG_PROGRESS: "false"
-      # endurece rede
-      NPM_CONFIG_NETWORK_CONCURRENCY: "1"
+      NPM_CONFIG_STRICT_SSL: "true"
       NPM_CONFIG_FETCH_RETRIES: "5"
       NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: "20000"
       NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: "120000"
       NPM_CONFIG_NETWORK_TIMEOUT: "300000"
+      NPM_CONFIG_NETWORK_CONCURRENCY: "1"
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
+          cache: "npm"             # cache em ~/.npm (padrão)
 
       - name: Pin npm 10.8.2
         run: |
@@ -42,11 +42,9 @@ jobs:
           set -euxo pipefail
           npm config set registry https://registry.npmjs.org/
           npm config set prefer-online true
-          npm config set strict-ssl true
-          npm config set cache /tmp/empty-npm-cache
-          npm cache clean --force
+          npm config get cache    # deve mostrar /home/runner/.npm
 
-      - name: Smoke test NPM CDN (diagnóstico rápido)
+      - name: Smoke test NPM CDN (diagnóstico)
         run: |
           set -euxo pipefail
           URL=https://registry.npmjs.org/slash/-/slash-3.0.0.tgz
@@ -54,13 +52,10 @@ jobs:
           curl --ipv4 -fsSL --retry 5 --retry-all-errors "$URL" -o /tmp/slash.tgz
           tar -tzf /tmp/slash.tgz >/dev/null
 
-      - name: Instalar dependências (com fallback serial)
+      - name: Instalar dependências (serial e explícito)
         run: |
           set -euxo pipefail
-          npm ci --prefer-online || (
-            echo ">>> Retry serial com --network-concurrency=1 e --loglevel=verbose"
-            npm ci --prefer-online --network-concurrency=1 --loglevel=verbose
-          )
+          npm ci --prefer-online --network-concurrency=1 --loglevel=warn
 
       - name: Lint
         run: npm run lint --if-present
@@ -68,7 +63,6 @@ jobs:
       - name: Build
         run: npm run build --if-present
 
-      # Coleta de logs quando der ruim
       - name: Upload npm logs (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
@@ -76,6 +70,5 @@ jobs:
           name: npm-logs
           path: |
             /home/runner/.npm/_logs/*
-            /tmp/empty-npm-cache/_logs/*
             npm-debug.log
           if-no-files-found: ignore
