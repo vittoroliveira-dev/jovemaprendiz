@@ -10,12 +10,7 @@
         "@id":"https://prismatalentos.com.br/#org",
         "name":"PRISMA TALENTOS",
         "url":"https://prismatalentos.com.br/",
-        "logo":{"@type":"ImageObject","url":"https://prismatalentos.com.br/assets/img/android-chrome-512x512.png"},
-        "sameAs":[
-          "https://www.facebook.com/prismatalentos",
-          "https://www.instagram.com/prismatalentos",
-          "https://www.linkedin.com/company/prismatalentos"
-        ]
+        "logo":{"@type":"ImageObject","url":"https://prismatalentos.com.br/assets/img/android-chrome-512x512.png"}
       },
       {
         "@type":"WebSite",
@@ -25,13 +20,24 @@
         "publisher":{"@id":"https://prismatalentos.com.br/#org"}
       },
       {
-        "@type":"ContactPage",
-        "@id":"https://prismatalentos.com.br/contato.html#webpage",
-        "url":"https://prismatalentos.com.br/contato.html",
-        "name":"Contato",
-        "inLanguage":"pt-BR",
-        "isPartOf":{"@id":"https://prismatalentos.com.br/#website"},
-        "about":{"@id":"https://prismatalentos.com.br/#org"}
+        "@type":"BreadcrumbList",
+        "@id":"https://prismatalentos.com.br/servicos.html#breadcrumbs",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Início","item":"https://prismatalentos.com.br/"},
+          {"@type":"ListItem","position":2,"name":"Serviços"}
+        ]
+      },
+      {
+        "@type":"Service",
+        "name":"Recrutamento e Seleção",
+        "areaServed":"BR",
+        "provider":{"@id":"https://prismatalentos.com.br/#org"}
+      },
+      {
+        "@type":"Service",
+        "name":"Profissionais sob demanda",
+        "areaServed":"BR",
+        "provider":{"@id":"https://prismatalentos.com.br/#org"}
       }
     ]
   }
@@ -39,27 +45,33 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>PRISMA TALENTOS — Contato</title>
-  <meta name="description" content="Seu RH sem gargalos: triagem, entrevistas, people operations, mapeamento de riscos e muito mais com a PRISMA Talentos.">
+  <title>PRISMA TALENTOS — Serviços</title>
+  <meta name="description" content="Conheça os serviços de recrutamento e profissionais sob demanda da PRISMA Talentos.">
   <meta name="theme-color" content="#0F4C81">
   <meta name="color-scheme" content="light">
-  
+  <link rel="canonical" href="https://prismatalentos.com.br/servicos.html">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+
   <script>document.documentElement.classList.replace('no-js','js');</script>
 
-  <link rel="canonical" href="https://prismatalentos.com.br/contato.html">
-  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="preload" as="image" href="/assets/webp/hero-contato-1200.webp" type="image/webp" imagesrcset="/assets/webp/hero-contato-800.webp 800w, /assets/webp/hero-contato-1200.webp 1200w, /assets/webp/hero-contato-1600.webp 1600w" imagesizes="(min-width:960px) 160px, 300px">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="modulepreload" href="/assets/js/app.js">
 
   <meta property="og:locale" content="pt_BR">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="PRISMA TALENTOS">
-  <meta property="og:title" content="PRISMA TALENTOS — Contato">
-  <meta property="og:url" content="https://prismatalentos.com.br/contato.html">
+  <meta property="og:title" content="PRISMA TALENTOS — Serviços">
+  <meta property="og:description" content="Conheça os serviços de recrutamento e profissionais sob demanda da PRISMA Talentos.">
+  <meta property="og:url" content="https://prismatalentos.com.br/servicos.html">
   <meta property="og:image" content="https://prismatalentos.com.br/assets/img/og-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
-  
+
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PRISMA TALENTOS — Serviços">
+  <meta name="twitter:description" content="Conheça os serviços de recrutamento e profissionais sob demanda da PRISMA Talentos.">
   <meta name="twitter:image" content="https://prismatalentos.com.br/assets/img/og-cover.png">
   <meta name="twitter:image:alt" content="PRISMA TALENTOS — marca e proposta de valor">
 
@@ -73,28 +85,20 @@
   <link rel="icon" href="/assets/img/favicon-32x32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="/assets/img/favicon-16x16.png" sizes="16x16" type="image/png">
   <link rel="alternate icon" href="/assets/img/favicon.ico">
-
-  <link rel="preload" as="image"
-        href="/assets/webp/hero-contato-1200.webp"
-        imagesrcset="/assets/webp/hero-contato-800.webp 800w, /assets/webp/hero-contato-1200.webp 1200w, /assets/webp/hero-contato-1600.webp 1600w"
-        imagesizes="(min-width: 960px) 160px, 300px">
-  <link rel="stylesheet" href="/assets/css/main.css">
-  <link rel="modulepreload" href="/assets/js/app.js">
 </head>
 
 <body class="page-interna">
-
   <a class="u-skip" href="#conteudo-principal">Pular para o conteúdo principal</a>
 
-  <header class="c-header">
+  <header class="c-header" role="banner">
     <div class="o-container">
       <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
         <img class="c-brand__logo" src="/assets/svg/logo.svg" alt="PRISMA TALENTOS" width="120" height="120" decoding="async">
       </a>
       <div class="c-header__right">
- <nav id="primary-navigation" class="c-nav" aria-label="Navegação primária" data-js="nav">
+        <nav id="primary-navigation" class="c-nav" aria-label="Navegação primária" data-js="nav">
           <ul class="c-nav__list">
-            <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/servicos.html">Serviços</a></li>
+            <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/servicos.html" aria-current="page">Serviços</a></li>
             <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/sobre.html">Sobre</a></li>
             <li class="c-nav__item c-nav__item--has-dropdown">
               <button class="c-nav__link c-nav__link--pill" id="programas-menu-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="programas-menu">
@@ -112,7 +116,7 @@
                 </div>
               </div>
             </li>
-            <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/contato.html" aria-current="page">Contato</a></li>
+            <li class="c-nav__item"><a class="c-nav__link c-nav__link--pill" href="/contato.html">Contato</a></li>
           </ul>
         </nav>
         <div class="c-header__actions">
@@ -129,91 +133,75 @@
   </header>
 
   <main id="conteudo-principal">
-  
-    <section class="c-contact" aria-labelledby="ctt-title">
-      <div class="o-container c-contact__container">
-        <h1 id="ctt-title" class="c-contact__title">Fale conosco</h1>
-        
-        <div class="c-contact__content-grid">
-          
-          <figure class="c-contact__figure" aria-hidden="true">
-            <img class="c-contact__photo"
-                 src="/assets/webp/hero-contato-1200.webp" 
-                 srcset="/assets/webp/hero-contato-800.webp 800w, /assets/webp/hero-contato-1200.webp 1200w, /assets/webp/hero-contato-1600.webp 1600w"
-                 sizes="(min-width: 960px) 160px, 300px"
-                 alt="Pessoa representando o contato"
-                 fetchpriority="high"
-                 width="300" height="300">
-          </figure>
+    <nav class="c-breadcrumbs" aria-label="Breadcrumb">
+      <ol class="c-breadcrumbs__list">
+        <li class="c-breadcrumbs__item"><a class="c-breadcrumbs__link" href="/">Início</a></li>
+        <li class="c-breadcrumbs__item" aria-current="page">Serviços</li>
+      </ol>
+    </nav>
 
-          <form id="contact-form" class="c-form" action="https://formspree.io/f/xandvlgp" method="post" novalidate>
-            <input type="text" name="_gotcha" class="u-visually-hidden" autocomplete="off" tabindex="-1" aria-hidden="true">
-            <div class="c-field">
-              <label class="c-field__label" for="nome">Nome Completo</label>
-              <input class="c-field__input" id="nome" name="nome" type="text" required aria-required="true" autocomplete="name" autocapitalize="words" placeholder="Seu nome completo">
-            </div>
-            <div class="c-field">
-              <label class="c-field__label" for="email">E-mail</label>
-              <input class="c-field__input" id="email" name="email" type="email" required aria-required="true" autocomplete="email" inputmode="email" spellcheck="false" placeholder="seu@email.com">
-            </div>
-            <div class="c-field">
-              <label class="c-field__label" for="empresa">Empresa</label>
-              <input class="c-field__input" id="empresa" name="empresa" type="text" autocomplete="organization" placeholder="Nome da sua empresa">
-            </div>
-            <div class="c-field">
-              <label class="c-field__label" for="mensagem">Mensagem</label>
-              <textarea class="c-field__input" id="mensagem" name="message" rows="6" required aria-required="true" enterkeyhint="send" placeholder="Como podemos ajudar você?"></textarea>
-            </div>
-            <div class="c-form__actions">
-              <button class="c-btn c-btn--primary" type="submit" data-js="submit">Enviar Mensagem</button>
-              <p id="form-status" class="c-form__status" data-js="status" role="status" aria-live="polite" aria-atomic="true"></p>
-            </div>
-          </form>
+    <section class="c-hero c-hero--split" aria-labelledby="servicos-title">
+      <div class="c-hero__bg" aria-hidden="true"></div>
+      <div class="o-container c-hero__inner">
+        <div class="c-hero__copy">
+          <h1 id="servicos-title" class="c-hero__title">Serviços</h1>
+          <p class="c-hero__lead">Soluções sob medida para escalar o seu RH.</p>
+        </div>
+        <picture class="c-hero__media">
+          <source type="image/webp" srcset="/assets/webp/hero-contato-800.webp 800w, /assets/webp/hero-contato-1200.webp 1200w, /assets/webp/hero-contato-1600.webp 1600w" sizes="(max-width: 64em) 50vw, 40vw">
+          <img src="/assets/img/hero-contato-1200.png" alt="" width="800" height="1000" loading="eager" fetchpriority="high" decoding="async">
+        </picture>
+      </div>
+    </section>
 
-<aside class="c-contact__info c-card" aria-label="Contato direto">
-  <h2 class="c-contact__mini-title">Contato direto</h2>
+    <section class="c-band" aria-labelledby="grid-title">
+      <div class="o-container">
+        <h2 id="grid-title" class="c-band__title">Nossos Serviços</h2>
+        <div class="c-card__grid">
+          <article id="rs" class="c-card"><h3 class="c-card__title">Recrutamento &amp; Seleção</h3><p class="c-card__text">Processos completos de busca, triagem e entrevistas.</p></article>
+          <article id="outsourcing" class="c-card"><h3 class="c-card__title">Profissionais sob demanda</h3><p class="c-card__text">Talentos alocados conforme necessidade do projeto.</p></article>
+        </div>
+      </div>
+    </section>
 
-  <ul class="c-contact__list">
-    <!-- WhatsApp -->
-    <li>
-      <span class="c-contact__chip c-contact__chip--wa" aria-hidden="true">
-        <svg class="c-contact__icon" viewBox="0 0 24 24" focusable="false">
-          <use href="/assets/svg/sprite.svg#whatsapp"></use>
-        </svg>
-      </span>
-      <a class="c-contact__link c-contact__link--wa"
-         href="https://wa.me/5511913107557" target="_blank" rel="noopener"
-         aria-label="Falar no WhatsApp: +55 (11) 91310-7557">+55 (11) 91310-7557</a>
-    </li>
+    <section class="c-band" aria-labelledby="como-title">
+      <div class="o-container">
+        <h2 id="como-title" class="c-band__title">Como Trabalhamos</h2>
+        <ol>
+          <li>Entendimento da necessidade</li>
+          <li>Busca e triagem de candidatos</li>
+          <li>Entrevistas e apresentação</li>
+          <li>Acompanhamento pós-contratação</li>
+        </ol>
+      </div>
+    </section>
 
-    <!-- E-mail -->
-    <li>
-      <span class="c-contact__chip c-contact__chip--mail" aria-hidden="true">
-        <svg class="c-contact__icon" viewBox="0 0 24 24" focusable="false">
-          <path d="M2 6a2 2 0 012-2h16a2 2 0 012 2v.3l-10 6.2L2 6.3V6zm0 3.1l9.4 5.8a1 1 0 001.2 0L22 9.1V18a2 2 0 01-2 2H4a2 2 0 01-2-2V9.1z"/>
-        </svg>
-      </span>
-      <a class="c-contact__link" href="mailto:contato@prismatalentos.com.br">
-        contato@prismatalentos.com.br
-      </a>
-    </li>
- </ul>
-  </aside>
+    <section class="c-band" aria-labelledby="faq-title">
+      <div class="o-container">
+        <h2 id="faq-title" class="c-band__title">Perguntas Frequentes</h2>
+        <details>
+          <summary>Qual o prazo médio para fechamento de uma vaga?</summary>
+          <p>Em média, 15 dias entre abertura e contratação, dependendo do perfil.</p>
+        </details>
+        <details>
+          <summary>Posso contratar apenas parte do processo?</summary>
+          <p>Sim, nossos serviços são modulares e se adaptam à sua necessidade.</p>
+        </details>
+      </div>
+    </section>
 
-  <div class="c-contact__horario">
-    <h3 class="c-contact__horario-title">Horário de Atendimento</h3>
-    <p class="c-contact__horario-text">Segunda a Sexta<br><strong>08:00 às 18:00</strong></p>
-  </div>
-      
-	  </div>
-    </div>
-  </section>
-</main>
+    <section class="c-band" aria-labelledby="cta-serv-title">
+      <div class="o-container">
+        <h2 id="cta-serv-title" class="c-band__title">Pronto para iniciar?</h2>
+        <p class="c-band__lead">Fale com a PRISMA Talentos e encontre a melhor solução.</p>
+        <a class="c-btn c-btn--primary" href="/contato.html">Solicitar contato</a>
+      </div>
+    </section>
+  </main>
 
-<footer class="c-footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
+  <footer class="c-footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
     <link itemprop="url" href="https://prismatalentos.com.br/">
     <meta itemprop="logo" content="https://prismatalentos.com.br/assets/img/android-chrome-512x512.png">
-
     <div class="o-container c-footer__inner">
       <div class="c-footer__legal">
         <p class="c-footer__brand">
@@ -221,7 +209,6 @@
 </p>
         <p class="c-footer__copy">© <span data-js="year">2025</span>. Todos os direitos reservados.</p>
       </div>
-
       <div class="c-footer__right">
         <nav class="c-footer__social" aria-label="Redes sociais">
           <ul class="c-social">
@@ -251,10 +238,7 @@
             </li>
             <li>
               <a class="c-footer__ra" href="https://www.reclameaqui.com.br/empresa/SUA-EMPRESA/" target="_blank" rel="noopener noreferrer" aria-label="Reclame AQUI — veja nossa reputação">
-               
-			   <!-- trocar este bloco dentro de .c-footer__ra -->
-<!-- dentro de <a class="c-footer__ra"> -->
-<span class="c-ra__img" aria-hidden="true"></span>
+                <span class="c-ra__img" aria-hidden="true"></span>
                 <span class="c-ra__label"><strong>Pesquise nossa reputação</strong><em>ReclameAQUI</em></span>
               </a>
             </li>
@@ -271,8 +255,6 @@
     </div>
   </div>
 
-<script type="module" src="/assets/js/app.js"></script>
-<script type="module" src="/assets/js/modules/fab-avoid-footer.js"></script>
-<script type="module" src="/assets/js/modules/contato-header.js"></script>
+  <script type="module" src="/assets/js/app.js"></script>
 </body>
 </html>
