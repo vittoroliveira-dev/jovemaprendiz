@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" class="no-js">
+<html lang="pt-BR" class="no-js page--contato">
 <head>
   <script type="application/ld+json">
   {
@@ -170,45 +170,48 @@
             </div>
           </form>
 
-<aside class="c-contact__info c-card" aria-label="Contato direto">
-  <h2 class="c-contact__mini-title">Contato direto</h2>
+<aside class="c-contact__info c-card" aria-labelledby="contato-direto-title">
+  <h2 id="contato-direto-title" class="c-contact__mini-title">Contato direto</h2>
 
   <ul class="c-contact__list">
     <!-- WhatsApp -->
     <li>
       <span class="c-contact__chip c-contact__chip--wa" aria-hidden="true">
-        <svg class="c-contact__icon" viewBox="0 0 24 24" focusable="false">
+        <svg class="c-contact__icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
           <use href="/assets/svg/sprite.svg#whatsapp"></use>
         </svg>
       </span>
       <a class="c-contact__link c-contact__link--wa"
-         href="https://wa.me/5511913107557" target="_blank" rel="noopener"
-         aria-label="Falar no WhatsApp: +55 (11) 91310-7557">+55 (11) 91310-7557</a>
+         href="https://wa.me/5511913107557"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Falar no WhatsApp: +55 (11) 91310-7557">
+        +55 (11) 91310-7557
+      </a>
     </li>
 
     <!-- E-mail -->
     <li>
       <span class="c-contact__chip c-contact__chip--mail" aria-hidden="true">
-        <svg class="c-contact__icon" viewBox="0 0 24 24" focusable="false">
+        <svg class="c-contact__icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
           <path d="M2 6a2 2 0 012-2h16a2 2 0 012 2v.3l-10 6.2L2 6.3V6zm0 3.1l9.4 5.8a1 1 0 001.2 0L22 9.1V18a2 2 0 01-2 2H4a2 2 0 01-2-2V9.1z"/>
         </svg>
       </span>
-      <a class="c-contact__link" href="mailto:contato@prismatalentos.com.br">
+      <a class="c-contact__link"
+         href="mailto:contato@prismatalentos.com.br"
+         aria-label="Enviar e-mail para contato@prismatalentos.com.br">
         contato@prismatalentos.com.br
       </a>
     </li>
- </ul>
-  </aside>
+  </ul>
+</aside>
 
-  <div class="c-contact__horario">
-    <h3 class="c-contact__horario-title">Horário de Atendimento</h3>
-    <p class="c-contact__horario-text">Segunda a Sexta<br><strong>08:00 às 18:00</strong></p>
-  </div>
-      
-	  </div>
-    </div>
-  </section>
-</main>
+<div class="c-contact__horario" aria-labelledby="horario-title">
+  <h3 id="horario-title" class="c-contact__horario-title">Horário de Atendimento</h3>
+  <p class="c-contact__horario-text">
+    Segunda a Sexta<br><strong>08:00 às 18:00</strong>
+  </p>
+</div>
 
 <footer class="c-footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
     <link itemprop="url" href="https://prismatalentos.com.br/">
