@@ -1,7 +1,9 @@
 /* /assets/css/components/_c-header.css */
 @layer components {
   .c-header{
-    position: sticky; top: 0;
+    position: sticky; 
+	top: 0;
+	min-height:64px
     height: var(--header-height);
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
@@ -83,3 +85,4 @@
   }
   .c-brand{ transition: opacity .2s ease, visibility .2s ease; }
 }
+

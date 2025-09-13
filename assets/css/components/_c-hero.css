@@ -212,18 +212,27 @@
   }
 }
   
-  @media (prefers-reduced-motion: reduce) {
-  /* Desativa transições em elementos que as possuem */
+@media (prefers-reduced-motion: reduce){
+  /* nada de blur/transform no fundo */
+  .c-hero__bg,
   .c-hero__bg::before,
-  .c-hero__bg::after {
-    transition: none;
-    filter: none; /* O blur também pode ser considerado um tipo de movimento */
+  .c-hero__bg::after{
+    transition:none;
+    animation:none;
+    transform:none;
+    filter:none;
   }
-   /* Se houver outros elementos com transição, adicione-os aqui */
-  [data-animate] {
-    transition: none;
-    animation: none;
+
+  /* blocos com data-animate aparecem estáticos */
+  [data-animate]{
+    transition:none;
+    animation:none;
+    opacity:1;
+    transform:none;
   }
+
+  /* desativa smooth scroll */
+  html{scroll-behavior:auto}
 }
 
   /* Marca PRISMA */
@@ -235,3 +244,4 @@
   /* Opcional: só se existir .o-hero em algum template */
   /* .o-hero{ position: relative; z-index: 0; } */
 }
+
