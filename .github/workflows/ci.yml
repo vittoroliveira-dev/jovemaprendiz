@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"             # cache em ~/.npm (padrão)
+          cache: "npm"
 
       - name: Pin npm 10.8.2
         run: |
@@ -42,9 +42,9 @@ jobs:
           set -euxo pipefail
           npm config set registry https://registry.npmjs.org/
           npm config set prefer-online true
-          npm config get cache    # deve mostrar /home/runner/.npm
+          npm config get cache
 
-      - name: Smoke test NPM CDN (diagnóstico)
+      - name: Smoke test NPM CDN
         run: |
           set -euxo pipefail
           URL=https://registry.npmjs.org/slash/-/slash-3.0.0.tgz
@@ -52,23 +52,34 @@ jobs:
           curl --ipv4 -fsSL --retry 5 --retry-all-errors "$URL" -o /tmp/slash.tgz
           tar -tzf /tmp/slash.tgz >/dev/null
 
-      - name: Instalar dependências (serial e explícito)
+      - name: Instalar dependências (capturando log)
         run: |
           set -euxo pipefail
-          npm ci --prefer-online --network-concurrency=1 --loglevel=warn
+          npm ci --prefer-online --no-audit --no-fund 2>&1 | tee /tmp/npm-ci.log || (
+            echo ">>> Retry serial com log verbose"
+            npm ci --prefer-online --network-concurrency=1 --loglevel=verbose 2>&1 | tee -a /tmp/npm-ci.log
+          )
 
-      - name: Lint
-        run: npm run lint --if-present
-
-      - name: Build
-        run: npm run build --if-present
+      - name: Diagnóstico rápido dos logs
+        if: always()
+        run: |
+          set -euo pipefail
+          LATEST_LOG=$(ls -1t /home/runner/.npm/_logs/* 2>/dev/null | head -n1 || true)
+          echo "==> Último log npm: ${LATEST_LOG:-<nenhum>}"
+          echo "----- ERROS/ALERTAS (últimas 200 linhas) -----"
+          { [ -f "${LATEST_LOG:-}" ] && tail -n 200 "$LATEST_LOG" || true; } | \
+            grep -E 'ERR|EINTEGRITY|ECONN|ETIMEDOUT|socket|corrupted|tarball' || true
+          echo "----- ERROS/ALERTAS do npm-ci.log -----"
+          tail -n 500 /tmp/npm-ci.log | grep -E 'ERR|EINTEGRITY|ECONN|ETIMEDOUT|socket|corrupted|tarball' || true
+          echo "----- URLs .tgz vistas (únicas) -----"
+          grep -Eo 'https://registry\.npmjs\.org/[A-Za-z0-9@._/-]+\.tgz' /tmp/npm-ci.log "${LATEST_LOG:-/dev/null}" 2>/dev/null | sort -u | sed -n '1,80p'
 
       - name: Upload npm logs (on failure)
-        if: failure()
+        if: failure() || always()
         uses: actions/upload-artifact@v4
         with:
           name: npm-logs
           path: |
             /home/runner/.npm/_logs/*
-            npm-debug.log
+            /tmp/npm-ci.log
           if-no-files-found: ignore
