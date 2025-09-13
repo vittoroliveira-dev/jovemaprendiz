@@ -109,7 +109,9 @@ async function initNavPillEffect() {
   try {
     const mod = await import('./modules/click-anim.js');
     if (typeof mod.initClickAnim === 'function') mod.initClickAnim('.c-nav__link--pill');
-  } catch {}
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /* ===== Main boot ===== */
