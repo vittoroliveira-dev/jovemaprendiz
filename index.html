@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="no-js">
   <head>
+  <link rel="preload" as="image" fetchpriority="high"
+  href="/assets/webp/hero-person-1200.webp"
+  imagesrcset="/assets/webp/hero-person-800.webp 800w, /assets/webp/hero-person-1200.webp 1200w, /assets/webp/hero-person-1600.webp 1600w"
+  imagesizes="(max-width: 64em) 50vw, 40vw">
+<style>
+:root{scrollbar-gutter:stable}
+html{line-height:1.5}
+body{margin:0}
+.o-container{max-width:1200px;margin-inline:auto;padding-inline:16px}
+.c-header{min-height:64px}
+.c-brand__logo{width:120px;height:120px;display:block}
+.c-hero__media img{aspect-ratio:4/5;height:auto;display:block}
+.c-ra__img{display:block;inline-size:96px;block-size:24px}
+img,svg{vertical-align:middle}
+</style>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -53,7 +68,6 @@
       document.documentElement.classList.replace("no-js", "js");
     </script>
     <!-- CSS crítico -->
-    <link rel="stylesheet" href="/assets/css/main-lite.css?v=1" />
     <!-- CSS completo adiado -->
     <link
       rel="preload"
@@ -127,11 +141,6 @@
       type="image/png"
     />
     <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon" />
-    <!-- LCP: imagem do herói (com preload) -->
-<link rel="preload" as="image"
-  href="/assets/webp/hero-person-1200.webp"
-  imagesrcset="/assets/webp/hero-person-800.webp 800w, /assets/webp/hero-person-1200.webp 1200w, /assets/webp/hero-person-1600.webp 1600w"
-  imagesizes="(max-width: 64em) 50vw, 40vw">
   </head>
   <body>
     <a class="u-skip" href="#conteudo-principal"
@@ -294,7 +303,7 @@
               </li>
             </ul>
           </div>
-		  <picture class="c-hero__media" data-animate>
+<picture class="c-hero__media">
   <source type="image/webp"
           srcset="/assets/webp/hero-person-800.webp 800w, /assets/webp/hero-person-1200.webp 1200w, /assets/webp/hero-person-1600.webp 1600w"
           sizes="(max-width: 64em) 50vw, 40vw">
