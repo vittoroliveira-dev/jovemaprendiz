@@ -4,199 +4,114 @@
      ======================================================================== */
 
   /* --- Estrutura Geral --- */
-  .c-nav {
-    position: static;
-    z-index: 1000;
-    margin-right: auto;
+  .c-nav{ position:static; z-index:1000; margin-right:auto; }
+  .c-nav__list{
+    display:flex; align-items:center; gap:var(--space-lg);
+    flex-wrap:wrap; list-style:none; margin:0; padding:0;
   }
+  .c-nav__item--has-dropdown{ position:relative; }
 
-  .c-nav__list {
-    display: flex;
-    align-items: center;
-    gap: var(--space-lg);
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  /* --- Links de Navegação (padrão pill azul) --- */
+  .c-nav__link{
+    display:inline-flex; align-items:center; gap:.35rem;
+    padding:.5rem 1rem;
+    border-radius: var(--radius-pill, 999px);
+    color:#0F4C81;
+    text-decoration:none; background:transparent;
+    border:1px solid color-mix(in srgb, #0F4C81 35%, var(--color-border));
+    font-weight:600; white-space:nowrap;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
   }
-
-  .c-nav__item--has-dropdown {
-    position: relative;
-  }
-
-  /* --- Links de Navegação (Base) --- */
-  .c-nav__link {
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem;
-    padding: .5rem .75rem;
-    border-radius: .6rem;
-    color: inherit;
-    white-space: nowrap;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
-  }
-
-/* CORREÇÃO: Aplica a borda via box-shadow a TODOS os links no desktop */
   .c-nav__link--pill,
-  button.c-nav__link {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    border: 0;
-    font: inherit;
-    cursor: pointer;
-    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .06);
+  button.c-nav__link{
+    -webkit-appearance:none; appearance:none; font:inherit; cursor:pointer;
+    padding:.5rem 1rem;
+    color:#0F4C81; background:transparent;
+    border:1px solid color-mix(in srgb, #0F4C81 35%, var(--color-border));
+    border-radius: var(--radius-pill, 999px);
+    box-shadow:none;
   }
 
-  /* --- Estilos de Interação (Hover e Focus) --- */
-  @media (hover: hover) {
+  @media (hover:hover){
     .c-nav__item--has-dropdown > .c-nav__link:hover,
-    .c-nav__link--pill:hover {
-      background: rgba(15, 76, 129, .08);
-      box-shadow: inset 0 0 0 1px rgba(15, 76, 129, .18);
+    .c-nav__link--pill:hover{
+      background: color-mix(in srgb, #0F4C81 10%, transparent);
     }
   }
 
   .c-nav__link:focus-visible,
-  button.c-nav__link:focus-visible {
-    outline: 2px solid var(--color-focus, #0EA5A4);
-    outline-offset: 2px;
-    background: rgba(14, 165, 164, .10);
-    box-shadow: inset 0 0 0 1px rgba(14, 165, 164, .25);
+  button.c-nav__link:focus-visible{
+    outline:2px solid color-mix(in srgb, #0F4C81 45%, transparent);
+    outline-offset:2px;
+    background: color-mix(in srgb, #0F4C81 10%, transparent);
   }
-  
-  .c-nav__link--pill:active {
-    transform: translateY(1px) scale(.98);
-  }
-  
+
+  .c-nav__link--pill:active{ transform: translateY(1px) scale(.98); }
+
   /* --- Ícones --- */
-  .c-icon--dropdown-arrow {
-    opacity: .7;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
+  .c-icon--dropdown-arrow{ opacity:.7; transition: transform .2s ease, opacity .2s ease; }
+  .c-nav__link[aria-expanded="true"] .c-icon--dropdown-arrow{ transform:rotate(180deg); opacity:1; }
 
-  /* CORREÇÃO 1: Rotação da seta agora usa o estado ARIA, não uma classe. */
-  .c-nav__link[aria-expanded="true"] .c-icon--dropdown-arrow {
-    transform: rotate(180deg);
-    opacity: 1;
-  }
-
-  /* --- Botão (Toggle) e Ícone "Hambúrguer" --- */
-  .c-nav__toggle {
-    display: none; /* Oculto por padrão */
-    place-items: center;
-    position: relative; /* Contexto para o ícone */
-    inline-size: 44px;
-    block-size: 44px;
-    border-radius: 8px;
-    background: var(--color-surface);
-    color: var(--color-primary);
-    border: 1px solid var(--color-border);
-    cursor: pointer;
+  /* --- Toggle Mobile --- */
+  .c-nav__toggle{
+    display:none; place-items:center; position:relative;
+    inline-size:44px; block-size:44px; border-radius:8px;
+    background:var(--color-surface); color:var(--color-primary);
+    border:1px solid var(--color-border); cursor:pointer;
     transition: background .2s ease, box-shadow .2s ease;
   }
+  .c-nav__toggle:focus-visible{ outline:2px solid var(--color-focus); outline-offset:2px; }
 
-  .c-nav__toggle:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+  .c-nav__lines, .c-nav__lines::before, .c-nav__lines::after{
+    content:""; display:block; position:absolute;
+    inline-size:20px; block-size:2px; background:currentColor; border-radius:2px;
+    transition: transform .3s ease, top .3s ease;
   }
-  
-  .c-nav__lines,
-  .c-nav__lines::before,
-  .c-nav__lines::after {
-    content: '';
-    display: block;
-    position: absolute;
-    inline-size: 20px;
-    block-size: 2px;
-    background: currentColor;
-    border-radius: 2px;
-    transition: transform 0.3s ease, top 0.3s ease;
-  }
-  
-  .c-nav__lines {
-    /* Esta barra é a âncora central e fica invisível */
-    background: transparent;
-  }
+  .c-nav__lines{ background:transparent; }
+  .c-nav__lines::before{ top:-6px; }
+  .c-nav__lines::after{ top:6px; }
+  body.has-nav-open .c-nav__lines::before{ transform:rotate(45deg); top:0; }
+  body.has-nav-open .c-nav__lines::after{ transform:rotate(-45deg); top:0; }
 
-  .c-nav__lines::before { top: -6px; }
-  .c-nav__lines::after { top: 6px; }
+  /* --- Fallback sem JS --- */
+  .no-js .c-nav{ display:block; position:static; height:auto; box-shadow:none; }
+  .no-js .c-nav__toggle{ display:none; }
 
-  /* CORREÇÃO 2: Animação do ícone para "X" usa a classe do <body>. */
-  body.has-nav-open .c-nav__lines::before {
-    transform: rotate(45deg);
-    top: 0;
-  }
-
-  body.has-nav-open .c-nav__lines::after {
-    transform: rotate(-45deg);
-    top: 0;
-  }
-  
-  /* --- Fallback para quando o JavaScript está desabilitado --- */
-  .no-js .c-nav {
-    display: block;
-    position: static;
-    height: auto;
-    box-shadow: none;
-  }
-  
-  .no-js .c-nav__toggle {
-    display: none;
+  /* ===== Index: sobre o hero (classe do script) ===== */
+  html.over-hero .c-header .c-nav__link,
+  html.over-hero .c-header .c-nav__link--pill,
+  html.over-hero .c-header button.c-nav__link{
+    color:#fff !important;                /* fonte branca */
+    border-color:transparent !important;  /* sem borda */
+    box-shadow:none !important; background:transparent !important;
   }
 
   /* ========================================================================
-     Estilos Mobile (Até 48em / 768px)
+     Mobile (até 48em / 768px)
      ======================================================================== */
-  /* CORREÇÃO 3: Breakpoint ajustado para 48em (768px). */
-  @media (max-width: 48em) {
-    .c-nav__toggle {
-      display: grid;
+  @media (max-width:48em){
+    .c-nav__toggle{ display:grid; }
+    .c-nav{
+      display:none; position:fixed; top:var(--header-height,64px); inset-inline:0;
+      height:calc(100dvh - var(--header-height,64px));
+      overflow-y:auto; background:var(--color-surface,#fff);
+      box-shadow:0 10px 30px rgba(0,0,0,.15);
     }
+    .c-nav.is-open{ display:block; }
 
-    .c-nav {
-      display: none;
-      position: fixed;
-      top: var(--header-height, 64px);
-      inset-inline: 0;
-      height: calc(100dvh - var(--header-height, 64px));
-      overflow-y: auto;
-      background: var(--color-surface, #fff);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
-    }
+    .c-nav__list{ flex-direction:column; align-items:stretch; gap:var(--space-sm,.5rem); padding:1rem; }
 
-    .c-nav.is-open {
-      display: block;
-    }
-
-    .c-nav__list {
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--space-sm, .5rem);
-      padding: 1rem;
-    }
-
-    .c-nav__link {
-      display: flex;
-	  align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      white-space: normal;
-	  padding: .8rem 1rem;
-	  border-radius: .6rem;
-      border: 1px solid rgba(15, 23, 42, .08);
+    .c-nav__link{
+      display:flex; align-items:center; justify-content:space-between; width:100%;
+      white-space:normal; padding:.8rem 1rem;
+      border:1px solid color-mix(in srgb, #0F4C81 35%, var(--color-border));
+      border-radius: var(--radius-pill, 999px);
       background-color: var(--color-surface-raised, #fff);
-      font-weight: 500;
+      font-weight:500;
     }
-	
-	/* Garante que no mobile, o botão não tenha o box-shadow extra */
-    button.c-nav__link {
-    /* Remove a sombra extra do desktop */
-    box-shadow: none;
-    /* Garante que a borda seja aplicada, sobrescrevendo a regra global */
-    border: 1px solid rgba(15, 23, 42, .08);
-  }
+    button.c-nav__link{
+      box-shadow:none;
+      border:1px solid color-mix(in srgb, #0F4C81 35%, var(--color-border));
+    }
   }
 }

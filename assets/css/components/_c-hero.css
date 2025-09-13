@@ -80,7 +80,7 @@
   .c-hero__inner{ align-items: center; }
   .c-hero__copy{ display:flex; flex-direction:column; gap: clamp(12px, 1.6vw, 18px); }
   .c-hero__copy > *{ margin:0; }
-  .c-hero__kicker{ color:#91A4C6; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+  .c-hero__kicker{ color:#fcbe2c; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
   .c-hero__title{ text-wrap: balance; max-width: 28ch; }
   @supports not (text-wrap: balance){ .c-hero__title{ text-wrap: pretty; } }
   .c-hero__lead{ color:#C7D4EA; max-width:60ch; }

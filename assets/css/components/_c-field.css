@@ -1,20 +1,22 @@
 @layer components {
-  /* Wrapper */
-  .c-field{ display:grid; gap:var(--space-xs); margin-bottom:var(--space-md); }
+  /* ========================================================================
+     Componente: Campo de Formulário (Field)
+     ======================================================================== */
 
-  /* Label */
-  .c-field__label{
-    font-weight: var(--font-weight-medium,600);
+  /* --- Estrutura e Estilos Base --- */
+  .c-field {
+    display: grid;
+    gap: var(--space-xs, 0.25rem);
+    margin-bottom: var(--space-md);
+  }
+
+  .c-field__label {
+    font-weight: var(--font-weight-medium, 600);
     color: var(--color-text);
     font-size: .9rem;
-    margin-bottom: var(--space-xs);
   }
-/* 1) Valid: só quando requerido e válido pelo usuário */
-.c-field__input:required:is(:user-valid, :valid){
-  border-color: var(--color-success, #16a34a);
-}
-  /* Input base */
-  .c-field__input{
+
+  .c-field__input {
     box-sizing: border-box;
     font: inherit;
     min-inline-size: 0;
@@ -30,145 +32,93 @@
     transition: box-shadow var(--transition-base), border-color var(--transition-base);
   }
 
-  /* Placeholder legível */
-  .c-field__input::placeholder{
+  .c-field__input::placeholder {
     color: color-mix(in srgb, var(--color-text) 55%, transparent);
     opacity: .9;
   }
 
-  /* Foco acessível */
-  .c-field__input:focus{
+  /* --- Estados (Foco, Validação, etc.) --- */
+  .c-field__input:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
     outline: 0;
   }
-  .c-field__input:focus-visible{
+
+  .c-field__input:focus-visible {
+    /* Esta regra é um fallback, a do .c-form é mais específica */
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
-
-  /* Validação */
-  .c-field__input:is(:user-invalid, :invalid:not(:placeholder-shown)){
+  
+  .c-field__input:required:is(:user-valid, :valid) {
+    border-color: var(--color-success, #16a34a);
+  }
+  
+  .c-field__input:is(:user-invalid, :invalid:not(:placeholder-shown)) {
     border-color: var(--color-error, #b91c1c);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error, #b91c1c) 15%, transparent);
   }
 
-  /* Textarea */
-  textarea.c-field__input{ resize: vertical; min-height: 7.5rem; }
+  /* Mensagens de ajuda/erro */
+  .c-field__hint,
+  .c-field__error {
+    font-size: .85rem;
+    color: var(--color-text-muted);
+  }
+  .c-field__error {
+    color: var(--color-error, #b91c1c);
+  }
 
-  /* Select com seta */
-  select.c-field__input{
+  /* --- Tipos Específicos de Input --- */
+  textarea.c-field__input {
+    resize: vertical;
+    min-height: 7.5rem;
+  }
+
+  select.c-field__input {
     appearance: none;
     padding-right: calc(var(--space-md) + 1.25em);
     background: no-repeat right var(--space-md) center / 1em;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
   }
 
-  /* Autofill */
-  .c-field__input:-webkit-autofill{
-    -webkit-text-fill-color: var(--color-text);
-    box-shadow: 0 0 0 1000px var(--color-bg, var(--color-surface)) inset;
-    border-color: var(--color-border);
+  input[type="number"].c-field__input { -moz-appearance: textfield; }
+  input[type="number"].c-field__input::-webkit-outer-spin-button,
+  input[type="number"].c-field__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* --- Acessibilidade e Preferências do Usuário --- */
+  @media (prefers-color-scheme: dark) {
+    .c-field__input:-webkit-autofill {
+      box-shadow: 0 0 0 1000px #111827 inset;
+      -webkit-text-fill-color: #e5e7eb;
+    }
   }
 
-  /* Disabled / readonly */
-  .c-field__input[disabled],
-  .c-field__input[aria-disabled="true"]{
-    cursor: not-allowed;
-    opacity: .7;
-    color: var(--color-text-muted);
-    box-shadow: none;
-    background: color-mix(in srgb, var(--color-bg,#fff) 90%, #000 10%);
-  }
-  .c-field__input[readonly]{
-    background: color-mix(in srgb, var(--color-bg,#fff) 96%, #000 4%);
+  /* iOS: evita zoom ao focar */
+  @media (max-width: 480px) {
+    .c-field__input {
+      font-size: 16px;
+    }
   }
 
-  /* Checkbox / radio */
-  input[type="checkbox"].c-field__input,
-  input[type="radio"].c-field__input{
-    inline-size: auto;
-    block-size: auto;
-    min-height: auto;
-    padding: 0;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    accent-color: var(--color-primary);
+  /*
+   * ========================================================================
+   * AJUSTES ESPECÍFICOS PARA O CONTEXTO DA PÁGINA DE CONTATO (DESKTOP)
+   * ========================================================================
+  */
+  @media (min-width: 960px) {
+    /* Seletores mais específicos para garantir que só se apliquem na página de contato */
+    .c-contact .c-field__label {
+      margin-bottom: .3rem;
+      font-size: .95rem;
+    }
+    .c-contact .c-field__input {
+      padding-block: .5rem;
+    }
+    .c-contact textarea.c-field__input {
+      min-height: 6rem;
+    }
   }
-
-  /* Mensagens */
-  .c-field__hint{ color: var(--color-text-muted); font-size: .85rem; }
-  .c-field__error{ color: var(--color-error, #b91c1c); font-size: .85rem; }
-
-  /* Grupo inválido destaca rótulo e input */
-  .c-field[aria-invalid="true"] .c-field__label,
-  .c-field:has(.c-field__input:invalid:not(:placeholder-shown)) .c-field__label{
-    color: var(--color-error, #b91c1c);
-  }
-  .c-field[aria-invalid="true"] .c-field__input,
-  .c-field:has(.c-field__input:invalid:not(:placeholder-shown)) .c-field__input{
-    border-color: var(--color-error, #b91c1c);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error, #b91c1c) 15%, transparent);
-  }
-}
-
-/* Alto contraste (Windows) */
-@media (forced-colors: active){
-  .c-field__input{ box-shadow: none !important; }
-  .c-field__input:focus-visible{ outline: 2px solid CanvasText; }
-  select.c-field__input{ background-image: none; }
-}
-
-/* 2) Use a versão com guarda de suporte */
-@supports selector(:has(+ *)){
-  .c-field__label:has(+ .c-field__input:focus-visible){
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-}
-
-/* Fallback do sublinhado do rótulo — aplique só quando :has não existe */
-@supports not selector(:has(+ *)){
-  .c-field:focus-within .c-field__label{
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-}
-
-/* Fallback amplo para navegadores sem :has */
-.c-field:focus-within .c-field__label{ text-decoration: underline; text-underline-offset: 2px; }
-
-/* 2) Fallback de background sem color-mix — substitua o bloco atual por este */
-@supports not (background: color-mix(in srgb, #000 10%, #fff)){
-  .c-field__input[disabled],
-  .c-field__input[aria-disabled="true"]{ background: var(--color-bg, #fff); }
-  .c-field__input[readonly]{ background: var(--color-bg, #fff); }
-}
-
-/* Number: remove spinners */
-input[type="number"].c-field__input{
-  -moz-appearance: textfield;
-}
-input[type="number"].c-field__input::-webkit-outer-spin-button,
-input[type="number"].c-field__input::-webkit-inner-spin-button{
-  -webkit-appearance: none; margin:0;
-}
-
-/* Search: botão clear maior para toque */
-input[type="search"].c-field__input::-webkit-search-cancel-button{
-  -webkit-appearance:none; width:18px; height:18px;
-}
-
-/* Autofill em dark */
-@media (prefers-color-scheme: dark){
-  .c-field__input:-webkit-autofill{
-    box-shadow: 0 0 0 1000px #111827 inset;
-    -webkit-text-fill-color: #e5e7eb;
-  }
-}
-
-/* 3) iOS: evita zoom ao focar */
-@media (max-width: 480px){
-  .c-field__input{ font-size: 16px; }
 }

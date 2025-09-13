@@ -82,16 +82,26 @@
 
   /* --- ESTILOS PARA MOBILE (<= 768px) --- */
   @media (max-width: 768px) {
-    .c-btn-whatsapp {
-      /* Posicionamento inferior direito */
-      inset-block-start: auto; /* Reseta o posicionamento do topo */
-      inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
-      inset-block-end: max(var(--space-lg), env(safe-area-inset-bottom));
+.c-btn-whatsapp{
+    position: fixed;          /* garante sobreposição controlada */
+    inset-block-start: auto;  /* zera topo */
+    inset-inline-end: max(var(--space-lg), env(safe-area-inset-right));
+    inset-block-end:  max(var(--space-lg), env(safe-area-inset-bottom));
+    width: var(--fab-size);
+    height: var(--fab-size);
+    z-index: 2000;
+  }
 
-      /* Tamanho fixo para mobile */
-      width: 56px;
-      height: 56px;
-    }
+  /* Reserva espaço no footer para o FAB não cobrir os ícones */
+  .c-footer__social,
+  .c-footer__right,
+  .c-footer{
+    padding-bottom: calc(var(--fab-size) + var(--fab-gap)*2);
+  }
+  
+  @media (max-width:768px){
+  body.fab-avoid-footer .c-btn-whatsapp{ transform: translateY(-72px); }
+}
 
     .c-btn-whatsapp .c-icon {
       width: 60%;
