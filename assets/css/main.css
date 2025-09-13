@@ -29,6 +29,7 @@
 @import url('./components/_c-toast.css');
 @import url('./components/_c-footer.css');
 @import url('./components/_c-dropdown.css');
+@import url('./components/_c-header-contato.css');
 
 /* utilities */
 @import url('./utilities/_u-helpers.css');
