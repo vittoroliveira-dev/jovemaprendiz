@@ -3,7 +3,7 @@
 import './modules/header-over-hero.js';        // controla html.over-hero e .is-scrolled
 import './modules/pwa-init.js';
 import './modules/contato-header.js';
-import './modules/fab-avoid-footer.js';
+import { initFabAvoidFooter } from './modules/fab-avoid-footer.js';
 import { initNav } from './modules/nav.js';
 import { initContactForm } from './modules/contact.js';
 
@@ -51,7 +51,7 @@ function initServiceWorker() {
   if (document.documentElement.dataset.swInit === '1') return;
   document.documentElement.dataset.swInit = '1';
 
-  const SWV = 'v37';                   // igual ao sw.js
+  const SWV = 'v38';                   // igual ao sw.js
   const SW_URL = `/sw.js?v=${SWV}`;    // cache-busting
   const UPDATE_EVERY = 12 * 60 * 60 * 1000; // 12h
 
@@ -62,14 +62,15 @@ function initServiceWorker() {
 
       // verificação periódica
       let timerId = setInterval(() => reg.update(), UPDATE_EVERY);
-      document.addEventListener('visibilitychange', () => {
+      const onVisibility = () => {
         if (document.visibilityState === 'hidden') {
           clearInterval(timerId);
         } else {
           reg.update();
           timerId = setInterval(() => reg.update(), UPDATE_EVERY);
         }
-      });
+      };
+      document.addEventListener('visibilitychange', onVisibility);
       window.addEventListener('pagehide', () => clearInterval(timerId), { once: true });
 
       // ativa imediatamente se houver SW em espera
@@ -118,6 +119,7 @@ function main() {
   setCurrentYear?.();
   initServiceWorker?.();
   initNavPillEffect?.();
+  initFabAvoidFooter?.();
 
   const form = document.getElementById('contact-form');
   if (form && form.dataset.jsInit !== '1') {
@@ -125,6 +127,12 @@ function main() {
     initContactForm();
   }
 }
+
+// Garantia: remove padding inline se for a página de contato
+  if (document.documentElement.classList.contains('page--contato')) {
+    const f = document.querySelector('.c-footer__inner') || document.querySelector('.c-footer');
+    if (f) f.style.removeProperty('padding-bottom');
+  }
 
 /* ===== Single-run guard ===== */
 const isProd = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.PROD;
