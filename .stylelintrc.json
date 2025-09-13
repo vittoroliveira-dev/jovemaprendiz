@@ -1,0 +1,14 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "at-rule-no-unknown": [true, { "ignoreAtRules": ["layer"] }],
+    "selector-class-pattern": [
+      "^(?:o|c|u|is|has|js|qa)-(?:[a-z0-9]+(?:-[a-z0-9]+)*)?(?:__(?:[a-z0-9]+(?:-[a-z0-9]+)*))?(?:--(?:[a-z0-9]+(?:-[a-z0-9]+)*))?$",
+      { "resolveNestedSelectors": true, "severity": "warning", "message": "Use BEM/ITCSS prefix (o|c|u|is|has|js|qa) + kebab-case." }
+    ],
+    "selector-max-id": 0,
+    "color-named": "never",
+    "property-no-vendor-prefix": true,
+    "value-no-vendor-prefix": true
+  }
+}
