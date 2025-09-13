@@ -29,7 +29,10 @@
   }
 
   /* Tipografia dos links do nav dentro do header */
-  .c-header .c-nav__link{ font: inherit; font-weight:600; color: var(--color-text); text-shadow:none; }
+  .c-header .c-nav__link{ 
+  font: inherit; 
+  font-weight:600; 
+  text-shadow:none; }
   .c-header .c-nav__link--pill,
   .c-header .c-nav__link[aria-haspopup="menu"]{ font-weight:700; }
 
@@ -52,7 +55,6 @@
     border-bottom-color: transparent !important;
     box-shadow: none !important;
   }
-  html.over-hero .c-header .c-nav__link{ color:#fff !important; }
 
   html:not(.over-hero) .c-header.is-scrolled .c-nav__link:hover,
   html:not(.over-hero) .c-header.is-scrolled .c-nav__link:focus-visible{

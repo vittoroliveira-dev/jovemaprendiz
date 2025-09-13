@@ -83,7 +83,7 @@
     font-weight: 700;    /* Mais negrito */
     text-transform: uppercase;
 	letter-spacing: .05em; /* Um pouco de espaçamento entre letras */
-    color: var(--color-primary, #0F4C81); /* Cor primária para destaque, combinando com o logo */
+    color: #985aae;
   }
 
   .c-dropdown__list {

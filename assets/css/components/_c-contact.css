@@ -1,211 +1,194 @@
-/* ========================================================================
-   PRISMA TALENTOS | CSS/COMPONENTS/C CONTACT — FUSÃO
-   Critérios: A11y (foco, 44px), responsivo 1→2 col, reduced-motion, contraste links.
-   ======================================================================== */
 @layer components {
-  .c-contact {
-    position: relative;
-    overflow: hidden;
-	scroll-margin-top: var(--header-height, 72px);
-    padding: var(--space-xxl, 72px) 0;
-    background: var(--color-bg); /* fallback básico */
-    background: linear-gradient(135deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-primary) 3%, var(--color-bg)) 60%);
-}
-@supports (color: oklch(50% 0 0)){
-  .c-contact{
-    background: linear-gradient(135deg, var(--color-bg) 0%, color-mix(in oklab, var(--color-primary) 3%, var(--color-bg)) 60%);
-  }
-}
+  /* ========================================================================
+     Componente: Seção de Contato (Contact) — consolidado
+     ======================================================================== */
 
-  .c-contact__container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-    align-items: center;
-    text-align: center;
+  .c-contact{
+    position: relative;
+    overflow: visible;
+    scroll-margin-top: var(--header-height, 72px);
+    padding-block: clamp(16px, 3vh, 32px);
+    background: linear-gradient(135deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-primary) 3%, var(--color-bg)));
+    margin-block: 0;
+    min-block-size: auto;
   }
-  @media (min-width: 960px) {
-    .c-contact__container {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-      text-align: left;
+  @supports (color: oklch(50% 0 0)){
+    .c-contact{
+      background: linear-gradient(135deg, var(--color-bg) 0%, color-mix(in oklab, var(--color-primary) 3%, var(--color-bg)));
+    }
+  }
+  @supports (content-visibility:auto){
+    .c-contact{
+      content-visibility: visible;
+      contain-intrinsic-size: auto;
     }
   }
 
-  .c-contact__title {
+  /* evita margem colapsada logo após o header */
+  .c-header + .c-contact{ margin-top: 0 !important; }
+  .c-contact > *:first-child{ margin-top: 0; }
+  .c-contact__container{ padding-top: 0; margin-top: 0; }
+
+  /* --- Título --- */
+  .c-contact__title{
     font-size: clamp(2.25rem, 5vw, 3rem);
     font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
+    color: #143258;
     line-height: 1.2;
-    margin: 0 0 var(--space-md);
-  }
-  .c-contact__title::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 4px;
-    margin-top: var(--space-xs);
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
-  }
-
-  .c-contact__subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.125rem);
-    color: var(--color-text-muted);
-    max-width: 60ch;
     margin: 0 auto var(--space-xl);
+    text-align: center;
+    text-wrap: balance;
   }
-  @media (min-width: 960px) {
-    .c-contact__subtitle { margin-left: 0; margin-right: 0; }
+  .c-contact__title::after{
+    content:"";
+    display:block;
+    width:80px; height:4px;
+    margin: var(--space-sm) auto 0;
+    border-radius:2px;
   }
 
-  .c-contact__content-grid {
+  /* --- Grade --- */
+  .c-contact__content-grid{
     display: grid;
+    gap: var(--space-xl, 2rem);
+    max-width: 1100px;
+    margin-inline: auto;
     grid-template-columns: 1fr;
-    gap: var(--space-xl);
-    width: 100%;
-  }
-  @media (min-width: 768px) {
-    .c-contact__content-grid {
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
-    }
+    grid-template-areas:
+      "image"
+      "form"
+      "info";
+    align-content: start;
   }
 
-  .c-contact__form-wrapper { order: 1; }
-  @media (min-width: 768px) { .c-contact__form-wrapper { order: 0; } }
+  /* --- Avatar (única definição) --- */
+  .c-contact__figure{
+    --avatar-size: clamp(180px, 22vw, 260px);
 
-  .c-contact__info {
-    order: 2;
+    grid-area: image;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    margin: 0 auto;
+    display: block;
+
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 6px solid var(--color-surface);
+
+    /* sombra suave sem “halo” no topo */
+    box-shadow: 0 12px 24px rgba(0,0,0,.10);
+    filter: none;
+    position: relative;
+    z-index: 1;
+  }
+  .c-contact__figure::before,
+  .c-contact__figure::after{ content: none !important; }
+
+  .c-contact__photo{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    /* ajuste fino via CSS custom props, se quiser:
+       .c-contact__photo{ --photo-x:48%; --photo-y:56%; --photo-zoom:1.02; } */
+    object-position: var(--photo-x, 50%) var(--photo-y, 20%);
+    transform: scale(var(--photo-zoom, 1));
+    border:0; outline:0; box-shadow:none !important;
+  }
+
+  /* --- Card de info --- */
+  .c-contact__info{
+    grid-area: info;
+    position: relative;
     background: var(--color-surface);
     border-radius: var(--radius-lg);
-    padding: var(--space-xl);
+    padding: var(--space-md);
     box-shadow: var(--shadow-md);
-    text-align: center;
-  }
-  @media (min-width: 768px) {
-    .c-contact__info { order: 0; text-align: left; }
+    text-align: left;
+    border: 1px solid color-mix(in srgb, var(--color-text) 6%, transparent);
   }
 
-  .c-contact__mini-title {
+  /* Ícones em “chip” */
+  .c-contact__chip{
+    inline-size: 40px; block-size: 40px;
+    border-radius: 999px;
+    display: grid; place-items: center;
+    margin-right: var(--space-sm);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-text) 10%, transparent);
+    background: var(--color-surface);
+    flex-shrink: 0;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .c-contact__chip--wa{ color: var(--color-wa); background: color-mix(in srgb, var(--color-wa) 12%, #fff); }
+  .c-contact__chip--mail{ color: var(--color-primary); background: color-mix(in srgb, var(--color-primary) 10%, #fff); }
+
+  .c-contact__mini-title,
+  .c-contact__horario-title{
     font-size: 1.125rem;
     font-weight: var(--font-weight-bold);
     color: var(--color-primary);
     margin: 0 0 var(--space-md);
   }
-
-  .c-contact__list { list-style: none; padding: 0; margin: 0 0 var(--space-lg); }
-  .c-contact__list li {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-sm);
-    justify-content: center;
-    min-height: 44px;                   /* hit target */
+  .c-contact__list{ list-style:none; padding:0; margin:0 0 var(--space-lg); }
+  .c-contact__list li{
+    display:flex; align-items:center; gap:var(--space-sm);
+    margin-bottom:var(--space-sm); min-height:44px;
   }
-  @media (min-width: 768px) { .c-contact__list li { justify-content: flex-start; } }
+  .c-contact__list li:hover .c-contact__chip{
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, currentColor 35%, transparent);
+    transform: translateY(-1px);
+  }
 
-  .c-contact__icon { width: 24px; height: 24px; color: var(--color-secondary); flex-shrink: 0; }
+  .c-contact__icon{ inline-size:22px; block-size:22px; color:var(--color-secondary); flex-shrink:0; }
 
-  .c-contact__link {
-    color: var(--color-text);
-    text-decoration: none;
-    font-weight: var(--font-weight-medium);
-    transition: color var(--transition-base, .2s ease);
-    outline: none;
+  .c-contact__link{
+    color:var(--color-text); text-decoration:none;
+    font-weight:var(--font-weight-medium);
+    transition: color var(--transition-base,.2s ease);
+    overflow-wrap:anywhere;
   }
   .c-contact__link:hover,
-  .c-contact__link:focus-visible {
-    color: var(--color-primary);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+  .c-contact__link:focus-visible{
+    color:var(--color-primary);
+    text-decoration:underline; text-underline-offset:2px;
   }
+  .c-contact__link:active{ opacity:.85; }
 
-  .c-contact__horario {
-    margin-top: var(--space-lg);
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-md);
-  }
-  .c-contact__horario-title {
-    font-size: 1rem;
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text);
-    margin: 0 0 var(--space-xs);
-  }
-  .c-contact__horario-text {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    line-height: 1.5;
-    margin: 0;
-  }
+  .c-contact__horario{ margin-top:var(--space-lg); border-top:1px solid var(--color-border); padding-top:var(--space-md); }
+  .c-contact__horario-text{ font-size:.9rem; color:var(--color-text-muted); line-height:1.5; margin:0; }
 
-  .c-contact__figure {
-    order: 0;
-    margin: 0 auto;
-    max-width: 300px;
-  }
-  @media (min-width: 768px) {
-    .c-contact__figure { max-width: 100%; }
-  }
-  .c-contact__photo {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 6px solid var(--color-surface);
-    box-shadow: var(--shadow-lg);
-  }
 
-  /* Decorações suaves */
-  .c-contact__decoration {
-    position: absolute;
-    opacity: 0.08;
-    pointer-events: none;
-    animation: float 6s ease-in-out infinite;
-  }
-  .c-contact__decoration--1 { top: 10%; left: 5%; width: 100px; height: 100px; background-color: var(--color-accent); border-radius: 50%; }
-  .c-contact__decoration--2 { bottom: 15%; right: 10%; width: 150px; height: 150px; background-color: var(--color-secondary); border-radius: 50%; animation-delay: 2s; }
-
-  @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
-
- @media (prefers-reduced-motion: reduce) {
-    .c-contact * { transition-duration: 0s; animation-duration: 0s; }
+  /* --- Desktop --- */
+  @media (min-width:960px){
+    .c-contact{
+      overflow: visible;
+      overscroll-behavior: auto;
+      padding-block: clamp(16px, 3vh, 32px);
+      max-block-size: none;
+      min-block-size: auto;
+    }
+    .c-contact__title{
+      font-size: clamp(1.8rem, 3vw, 2.3rem);
+      margin: 0 auto var(--space-md);
+    }
+    .c-contact__content-grid{
+      max-width: min(980px, 92vw);
+      grid-template-columns: 23rem 1fr;
+      grid-template-areas:
+        "info  form"
+        "image form";
+      column-gap: var(--space-md);
+      row-gap: var(--space-sm);
+      align-items: start;
+      justify-content: center;
+      align-content: start;
+    }
+    /* apenas espaçamento do avatar; bloqueia qualquer borda-top antiga */
+    .c-contact__figure{
+      margin-top: var(--space-md);
+      border-top: none !important;
+    }
   }
 }
 
-/* Performance: só aplica onde há suporte */
-@supports (content-visibility: auto){
-  .c-contact{
-    content-visibility: auto;
-    contain-intrinsic-size: 600px;
-  }
-}
-
-/* Melhor quebra de títulos */
-.c-contact__title,
-.c-contact__subtitle{ text-wrap: balance; }
-
-/* Centraliza o grid em telas largas */
-.c-contact__content-grid{ max-width: 1000px; margin-inline: auto; }
-
-/* Links longos não quebram layout */
-.c-contact__link{ overflow-wrap: anywhere; }
-.c-contact__link:active{ opacity:.85; } /* feedback toque */
-
-/* Alto contraste (Windows) */
-@media (forced-colors: active){
-  .c-contact{ background: Canvas; }
-  .c-contact__info{ box-shadow:none; border:1px solid CanvasText; }
-  .c-contact__title::after{ background: CanvasText; }
-}
-
-/* Preferência por mais contraste */
-@media (prefers-contrast: more){
-  .c-contact__link{ text-decoration: underline; }
-  .c-contact__info{ box-shadow:none; border:1px solid currentColor; }
-}
-
-/* UX mobile */
-.c-contact a{ -webkit-tap-highlight-color: rgba(0,0,0,.12); }
