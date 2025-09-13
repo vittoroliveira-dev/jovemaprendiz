@@ -1,6 +1,4 @@
 // /assets/js/modules/contact.js
-
-// /assets/js/modules/contact.js
 export function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) {
