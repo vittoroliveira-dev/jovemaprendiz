@@ -1,85 +1,38 @@
-name: CI
-
+name: pages
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    env:
-      NODE_OPTIONS: --dns-result-order=ipv4first
-      NPM_CONFIG_AUDIT: "false"
-      NPM_CONFIG_FUND: "false"
-      NPM_CONFIG_PROGRESS: "false"
-      NPM_CONFIG_STRICT_SSL: "true"
-      NPM_CONFIG_FETCH_RETRIES: "5"
-      NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: "20000"
-      NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: "120000"
-      NPM_CONFIG_NETWORK_TIMEOUT: "300000"
-      NPM_CONFIG_NETWORK_CONCURRENCY: "1"
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Pin npm 10.8.2
-        run: |
-          set -euxo pipefail
-          npm --version
-          npm i -g npm@10.8.2
-          npm --version
-
-      - name: Configurar npm
-        run: |
-          set -euxo pipefail
-          npm config set registry https://registry.npmjs.org/
-          npm config set prefer-online true
-          npm config get cache
-
-      - name: Smoke test NPM CDN
-        run: |
-          set -euxo pipefail
-          URL=https://registry.npmjs.org/slash/-/slash-3.0.0.tgz
-          curl --ipv4 -I "$URL"
-          curl --ipv4 -fsSL --retry 5 --retry-all-errors "$URL" -o /tmp/slash.tgz
-          tar -tzf /tmp/slash.tgz >/dev/null
-
-      - name: Instalar dependências (capturando log)
-        run: |
-          set -euxo pipefail
-          npm ci --prefer-online --no-audit --no-fund 2>&1 | tee /tmp/npm-ci.log || (
-            echo ">>> Retry serial com log verbose"
-            npm ci --prefer-online --network-concurrency=1 --loglevel=verbose 2>&1 | tee -a /tmp/npm-ci.log
-          )
-
-      - name: Diagnóstico rápido dos logs
-        if: always()
-        run: |
-          set -euo pipefail
-          LATEST_LOG=$(ls -1t /home/runner/.npm/_logs/* 2>/dev/null | head -n1 || true)
-          echo "==> Último log npm: ${LATEST_LOG:-<nenhum>}"
-          echo "----- ERROS/ALERTAS (últimas 200 linhas) -----"
-          { [ -f "${LATEST_LOG:-}" ] && tail -n 200 "$LATEST_LOG" || true; } | \
-            grep -E 'ERR|EINTEGRITY|ECONN|ETIMEDOUT|socket|corrupted|tarball' || true
-          echo "----- ERROS/ALERTAS do npm-ci.log -----"
-          tail -n 500 /tmp/npm-ci.log | grep -E 'ERR|EINTEGRITY|ECONN|ETIMEDOUT|socket|corrupted|tarball' || true
-          echo "----- URLs .tgz vistas (únicas) -----"
-          grep -Eo 'https://registry\.npmjs\.org/[A-Za-z0-9@._/-]+\.tgz' /tmp/npm-ci.log "${LATEST_LOG:-/dev/null}" 2>/dev/null | sort -u | sed -n '1,80p'
-
-      - name: Upload npm logs (on failure)
-        if: failure() || always()
-        uses: actions/upload-artifact@v4
+          node-version: 22
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
         with:
-          name: npm-logs
-          path: |
-            /home/runner/.npm/_logs/*
-            /tmp/npm-ci.log
-          if-no-files-found: ignore
+          path: .   # use "dist" se você passar a gerar uma pasta de build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
