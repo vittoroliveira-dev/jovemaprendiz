@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v37'; 
+const VERSION = 'v38'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
