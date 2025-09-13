@@ -30,6 +30,7 @@
 @import url('./components/_c-footer.css');
 @import url('./components/_c-dropdown.css');
 @import url('./components/_c-header-contato.css');
+@import url('./components/_c-breadcrumbs.css');
 
 /* utilities */
 @import url('./utilities/_u-helpers.css');
