@@ -1,0 +1,34 @@
+{
+  "name": "jovemaprendiz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "lint:css": "stylelint \"assets/css/**/*.css\" --allow-empty-input",
+    "lint:js": "eslint \"assets/js/**/*.js\"",
+    "lint:html": "htmlhint index.html contato.html sobre.html servicos.html",
+    "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
+    "fix": "stylelint \"assets/css/**/*.css\" --fix && eslint \"assets/js/**/*.js\" --fix",
+    "predeploy": "npm run lint && npm run build",
+    "build": "echo 'building static site'",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "lint-staged": {
+    "*.css": "stylelint --fix",
+    "*.js": "eslint --fix",
+    "*.html": "htmlhint"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.5.0",
+    "eslint": "^9.5.0",
+    "htmlhint": "^1.1.4",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.5",
+    "stylelint": "^16.6.1",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}
