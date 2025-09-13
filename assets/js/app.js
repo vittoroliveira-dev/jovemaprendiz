@@ -1,6 +1,9 @@
 // /assets/js/app.js
 
 import './modules/header-over-hero.js';        // controla html.over-hero e .is-scrolled
+import './modules/pwa-init.js';
+import './modules/contato-header.js';
+import './modules/fab-avoid-footer.js';
 import { initNav } from './modules/nav.js';
 import { initContactForm } from './modules/contact.js';
 
@@ -48,7 +51,7 @@ function initServiceWorker() {
   if (document.documentElement.dataset.swInit === '1') return;
   document.documentElement.dataset.swInit = '1';
 
-  const SWV = 'v35';                   // igual ao sw.js
+  const SWV = 'v37';                   // igual ao sw.js
   const SW_URL = `/sw.js?v=${SWV}`;    // cache-busting
   const UPDATE_EVERY = 12 * 60 * 60 * 1000; // 12h
 
