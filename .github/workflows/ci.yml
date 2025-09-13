@@ -2,6 +2,9 @@ name: pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -9,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -20,16 +23,32 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
       - run: npm ci
+      - name: Sanitize HTML whitespace
+        run: |
+          python - <<'PY'
+import pathlib
+swap=['\u00a0','\u1680','\u180e','\u2000','\u2001','\u2002','\u2003','\u2004','\u2005','\u2006','\u2007','\u2008','\u2009','\u200a','\u202f','\u205f','\u3000']
+drop=['\ufeff','\u200b','\u200c','\u200d','\u200e','\u200f','\u2060']
+for p in pathlib.Path('.').rglob('*.html'):
+    s=p.read_text(encoding='utf-8',errors='ignore')
+    for ch in swap: s=s.replace(ch,' ')
+    for ch in drop: s=s.replace(ch,'')
+    s=s.replace('\t','  ').replace('\r\n','\n').replace('\r','\n')
+    p.write_text(s,encoding='utf-8')
+PY
       - run: npm run lint
       - run: npm run build
+      - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .   # use "dist" se você passar a gerar uma pasta de build
+          path: .  # troque para "dist" se gerar build
 
   deploy:
-    runs-on: ubuntu-latest
     needs: build
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
