@@ -164,6 +164,7 @@ window.addEventListener('pagehide', onPageHide, { once: true });
 window.addEventListener('beforeunload', onPageHide, { once: true });
 
 // cleanup (sem return no topo do módulo)
+// eslint-disable-next-line no-unused-vars
 const cleanup = () => {
   form.removeEventListener('submit', onSubmit);
   form.removeEventListener('invalid', onInvalid, true);
