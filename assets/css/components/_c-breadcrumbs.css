@@ -1,0 +1,28 @@
+/* path: assets/css/components/_c-breadcrumbs.css */
+@layer components {
+  .c-breadcrumbs {
+    font-size: .875rem;
+    margin-block: var(--space-sm);
+  }
+  .c-breadcrumbs__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem;
+    margin: 0;
+    padding: 0;
+  }
+  .c-breadcrumbs__item + .c-breadcrumbs__item::before {
+    content: "/";
+    margin-inline: .5rem;
+    color: var(--color-text-muted);
+  }
+  .c-breadcrumbs__link {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .c-breadcrumbs__link:hover,
+  .c-breadcrumbs__link:focus-visible {
+    text-decoration: underline;
+  }
+}
