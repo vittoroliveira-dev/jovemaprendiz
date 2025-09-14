@@ -2,8 +2,8 @@
 @layer components {
   .c-header{
     position: sticky; 
-	top: 0;
-	min-height:64px
+		top: 0;
+		min-height:64px
     height: var(--header-height);
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
