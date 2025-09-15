@@ -2,8 +2,8 @@
 <html lang="pt-BR" class="no-js">
 
 <head>
-  <link rel="preload" as="image" fetchpriority="high" href="/assets/hero-person-1200-D4VPzYps.webp"
-    imagesrcset="/assets/hero-person-800-BIP4sx7y.webp 800w, /assets/hero-person-1200-D4VPzYps.webp 1200w, /assets/hero-person-1600-DmB-L91G.webp 1600w"
+  <link rel="preload" as="image" fetchpriority="high" href="/assets/webp/hero-person-1200.webp"
+    imagesrcset="/assets/webp/hero-person-800.webp 800w, /assets/webp/hero-person-1200.webp 1200w, /assets/webp/hero-person-1600.webp 1600w"
     imagesizes="(max-width: 64em) 50vw, 40vw">
 
   <meta charset="utf-8">
@@ -68,8 +68,10 @@
 
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
-  <!-- CSS principal, adiado -->
-  <link rel="manifest" href="/assets/manifest-DbmR1RJU.webmanifest?v=6" />
+  <!-- CSS principal, adiado -->
+  <link rel="preload" as="style" href="/assets/css/main.css?v=6">
+  <link id="maincss" rel="stylesheet" href="/assets/css/main.css?v=6">
+  <link rel="manifest" href="/manifest.webmanifest?v=6" />
 
   <meta property="og:locale" content="pt_BR">
   <meta property="og:type" content="website">
@@ -92,13 +94,11 @@
   <meta name="apple-mobile-web-app-title" content="PRISMA">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <link rel="icon" href="/assets/logo-DHjInmh0.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/assets/apple-touch-icon-DVy3EA0j.png" sizes="180x180" />
-  <link rel="icon" href="/assets/favicon-32x32-DE10veMH.png" sizes="32x32" type="image/png" />
-  <link rel="icon" href="/assets/favicon-16x16-D_pJZZ9y.png" sizes="16x16" type="image/png" />
-  <link rel="icon" href="/assets/favicon-KWB9eNm0.ico" type="image/x-icon" />
-  <script type="module" crossorigin src="/assets/app-C2lrJYR2.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/app-CTykzMwP.css">
+  <link rel="icon" href="/assets/svg/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" sizes="180x180" />
+  <link rel="icon" href="/assets/img/favicon-32x32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="/assets/img/favicon-16x16.png" sizes="16x16" type="image/png" />
+  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon" />
 </head>
 
 <body class="page-interna">
@@ -107,7 +107,7 @@
   <header class="c-header" role="banner">
     <div class="o-container">
       <a href="/" class="c-brand" aria-label="PRISMA TALENTOS — Início">
-        <img class="c-brand__logo" src="/assets/logo-DHjInmh0.svg" alt="PRISMA TALENTOS" width="120" height="120"
+        <img class="c-brand__logo" src="/assets/svg/logo.svg" alt="PRISMA TALENTOS" width="120" height="120"
           decoding="async">
       </a>
       <div class="c-header__right">
@@ -145,7 +145,7 @@
           <a href="https://wa.me/5511913107557" class="c-btn-whatsapp" aria-label="Fale conosco pelo WhatsApp"
             target="_blank" rel="noopener noreferrer">
             <svg class="c-icon" aria-hidden="true">
-              <use href="/assets/sprite-BMjI7JPX.svg#whatsapp"></use>
+              <use href="/assets/svg/sprite.svg#whatsapp"></use>
             </svg>
           </a>
           <button class="c-nav__toggle" type="button" aria-controls="primary-navigation" aria-expanded="false"
@@ -175,9 +175,9 @@
         </div>
         <picture class="c-hero__media">
           <source type="image/webp"
-            srcset="/assets/hero-person-800-BIP4sx7y.webp 800w, /assets/hero-person-1200-D4VPzYps.webp 1200w, /assets/hero-person-1600-DmB-L91G.webp 1600w"
+            srcset="/assets/webp/hero-person-800.webp 800w, /assets/webp/hero-person-1200.webp 1200w, /assets/webp/hero-person-1600.webp 1600w"
             sizes="(max-width: 64em) 50vw, 40vw">
-          <img src="/assets/hero-person-1200-B0Bv1vSr.png" alt="" width="1200" height="1800" loading="eager"
+          <img src="/assets/img/hero-person-1200.png" alt="" width="1200" height="1800" loading="eager"
             fetchpriority="high" decoding="async" style="max-height:100vh; max-width:100%; height:auto; width:auto;">
         </picture>
       </div>
@@ -299,7 +299,8 @@
       <button type="button" class="c-btn c-btn--primary c-btn--toast" data-js="update-cta">Atualizar</button>
     </div>
   </div>
-
+
+  <script type="module" src="/assets/js/app.js"></script>
   <script defer>
     const el = document.querySelector('[data-js="year"]');
     if (el) el.textContent = new Intl.DateTimeFormat('pt-BR', { year: 'numeric' }).format(new Date());
