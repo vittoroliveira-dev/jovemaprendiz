@@ -51,7 +51,7 @@ function initServiceWorker() {
   if (document.documentElement.dataset.swInit === '1') return;
   document.documentElement.dataset.swInit = '1';
 
-  const SWV = 'v38';                   // igual ao sw.js
+  const SWV = 'v41';                   // igual ao sw.js
   const SW_URL = `/sw.js?v=${SWV}`;    // cache-busting
   const UPDATE_EVERY = 12 * 60 * 60 * 1000; // 12h
 
@@ -147,3 +147,4 @@ if (!isProd || !document.documentElement.dataset.appInit) {
     main();
   }
 }
+
