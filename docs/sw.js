@@ -3,7 +3,7 @@
    ======================================================================== */
 
 // Versão do Service Worker (incrementar para forçar atualização)
-const VERSION = 'v38'; 
+const VERSION = 'v40'; 
 
 // Nomes dos caches
 const STATIC_CACHE = `prisma-static-${VERSION}`;
@@ -11,45 +11,12 @@ const RUNTIME_CACHE = `prisma-runtime-${VERSION}`;
 
 // URLs a serem pré-cachetadas durante a instalação
 const PRECACHE_URLS = [
-  '/',
+  '/',                 // home
   '/index.html',
-  '/contato.html', 
+  '/contato.html',
+  '/servicos.html',
+  '/sobre.html',  
 
- // CSS
-  '/assets/css/main.css',
-  '/assets/css/base/_elements.css', 
-  '/assets/css/base/_generic.css', 
-  '/assets/css/base/_settings.css',
-  '/assets/css/objects/_o-container.css',
-  '/assets/css/utilities/_u-helpers.css', 
-  '/assets/css/utilities/_u-sr-only.css',   
-  '/assets/css/components/_c-band.css',
-  '/assets/css/components/_c-brand.css',
-  '/assets/css/components/_c-button.css',
-  '/assets/css/components/_c-card.css',
-  '/assets/css/components/_c-contact.css',
-  '/assets/css/components/_c-dropdown.css',
-  '/assets/css/components/_c-field.css',
-  '/assets/css/components/_c-footer.css',
-  '/assets/css/components/_c-form.css',
-  '/assets/css/components/_c-header.css',
-  '/assets/css/components/_c-hero.css',
-  '/assets/css/components/_c-nav.css',
-  '/assets/css/components/_c-pain.css',
-  '/assets/css/components/_c-toast.css',
-  '/assets/css/components/_c-whatsapp.css',
-  '/assets/css/components/_c-header-contato.css',
- 
- // JS (ESM)
-  '/assets/js/app.js',
-  '/assets/js/modules/click-anim.js',
-  '/assets/js/modules/contact.js', 
-  '/assets/js/modules/header-over-hero.js',
-  '/assets/js/modules/nav.js',
-  '/assets/js/modules/pwa-init.js',
-  '/assets/js/modules/contato-header.js',
-  '/assets/js/modules/fab-avoid-footer.js',
-  
  // Ícones / PWA (ajuste para os que EXISTEM no projeto)
   '/assets/img/apple-touch-icon.png', 
   '/assets/img/android-chrome-192x192.png',
@@ -96,10 +63,10 @@ async function safePrecache(urls){
   const cache = await caches.open(STATIC_CACHE);
   await Promise.allSettled(urls.map(async (u)=>{
     try{
-		 // Usa new Request com cache: 'reload' para garantir que a versão mais recente seja buscada
+// Usa new Request com cache: 'reload' para garantir que a versão mais recente seja buscada
       await cache.add(new Request(u, { cache: 'reload' }));
     } catch (error) {
-		 // Ignora erros como 404 ou recursos opacos que não podem ser cachetados
+// Ignora erros como 404 ou recursos opacos que não podem ser cachetados
       console.warn(`Falha ao pré-cachear ${u}:`, error);
     }
   }));
@@ -114,21 +81,21 @@ self.addEventListener('install', (event) => {
 // Evento 'activate': limpa caches antigos e ativa o Service Worker.
 self.addEventListener('activate', (event) => {
   event.waitUntil((async ()=>{
-	  // Habilita navigation preload se suportado (melhora o desempenho de navegação)
+ // Habilita navigation preload se suportado (melhora o desempenho de navegação)
     if (self.registration.navigationPreload) {
       try { await self.registration.navigationPreload.enable(); } catch (e) {}
     }
-	
-	// Limpa caches antigos
+
+// Limpa caches antigos
     const cacheKeys = await caches.keys();
     await Promise.all(
       cacheKeys
         .filter(k => k.startsWith('prisma-') && k !== STATIC_CACHE && k !== RUNTIME_CACHE)
         .map(k => caches.delete(k))
     );
-	// Assume o controle de clientes não controlados (útil após atualização)
+// Assume o controle de clientes não controlados (útil após atualização)
     await self.clients.claim();
-	// Notifica clientes que o SW está pronto (para UI de atualização)
+// Notifica clientes que o SW está pronto (para UI de atualização)
     await notifyClients('SW_READY');
   })());
 });
