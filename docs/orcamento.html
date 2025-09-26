@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prisma Talentos | Orçamento para Instagram</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --primary:#0f172a; --secondary:#64748b; --accent:#3b82f6; --success:#10b981; --surface:#f8fafc; --border:#e2e8f0; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:2rem 1rem}
+    .container{max-width:900px;margin:0 auto;background:#fff;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+    .header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:3rem 2rem;color:#fff;text-align:center;position:relative;overflow:hidden}
+    .header::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1) 1px,transparent 1px);background-size:20px 20px;animation:float 20s linear infinite}
+    @keyframes float{0%{transform:translate(0,0)}100%{transform:translate(-50%,-50%)}}
+    .form-section{padding:2rem}
+    .form-group{margin-bottom:1.5rem}
+    .form-label{display:block;font-size:.875rem;font-weight:500;color:var(--secondary);margin-bottom:.5rem}
+    .form-input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;transition:.2s;background:var(--surface)}
+    .form-input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.1);background:#fff}
+    .service-card{background:#fff;border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;margin-bottom:1rem;transition:.3s;cursor:pointer}
+    .service-card:hover{border-color:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px)}
+    .service-card.selected{border-color:var(--accent);background:linear-gradient(135deg,rgba(59,130,246,.05) 0%,rgba(103,126,234,.05) 100%)}
+    .checkbox-custom{width:1.25rem;height:1.25rem;accent-color:var(--accent);cursor:pointer}
+    .qty-input{width:80px;padding:.5rem;border:1px solid var(--border);border-radius:.375rem;text-align:center;font-size:.875rem}
+    .section-title{font-size:1.125rem;font-weight:600;color:var(--primary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--surface)}
+    .btn{padding:.75rem 1.5rem;border-radius:.5rem;font-weight:500;cursor:pointer;transition:.2s;border:none;display:inline-flex;align-items:center;gap:.5rem}
+    .btn-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 20px -10px rgba(103,126,234,.5)}
+    .btn-secondary{background:var(--surface);color:var(--secondary);border:1px solid var(--border)}
+    .summary-box{background:linear-gradient(135deg,rgba(103,126,234,.05) 0%,rgba(118,75,162,.05) 100%);border-radius:.75rem;padding:1.5rem;margin-top:2rem}
+    .summary-item{display:flex;justify-content:space-between;padding:.5rem 0;font-size:.875rem;color:var(--secondary)}
+    .summary-total{font-size:1.125rem;font-weight:600;color:var(--primary);padding-top:1rem;border-top:2px solid var(--border);margin-top:1rem}
+    .tag{display:inline-block;padding:.25rem .75rem;background:var(--surface);color:var(--secondary);border-radius:999px;font-size:.75rem;font-weight:500}
+    @media print{body{background:#fff;padding:0}.no-print{display:none !important}.container{box-shadow:none}.service-card{break-inside:avoid}}
+    .logo-instagram{width:48px;height:48px;margin:0 auto 1rem;position:relative;z-index:1}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Cabeçalho -->
+    <div class="header">
+      <svg class="logo-instagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="2" />
+        <circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" />
+        <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
+      </svg>
+      <h1 class="text-3xl font-bold mb-2">Prisma Talentos | Orçamento para Instagram</h1>
+      <p class="text-white/90">Marketing Digital para Instagram</p>
+      <div class="flex justify-center gap-3 mt-4">
+        <span class="tag bg-white/20 text-white">Estratégia</span>
+        <span class="tag bg-white/20 text-white">Conteúdo</span>
+        <span class="tag bg-white/20 text-white">Análise</span>
+      </div>
+    </div>
+
+    <!-- Dados do Cliente -->
+    <div class="form-section">
+      <h2 class="section-title">Dados do Solicitante</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="form-group">
+          <label for="cli-nome" class="form-label">Nome Completo / Empresa</label>
+          <input id="cli-nome" type="text" class="form-input" placeholder="Digite o nome completo ou razão social" />
+        </div>
+        <div class="form-group">
+          <label for="cli-doc" class="form-label">CNPJ / CPF</label>
+          <input id="cli-doc" type="text" class="form-input" placeholder="00.000.000/0000-00" />
+        </div>
+        <div class="form-group">
+          <label for="cli-email" class="form-label">E-mail</label>
+          <input id="cli-email" type="email" class="form-input" placeholder="contato@empresa.com.br" />
+        </div>
+        <div class="form-group">
+          <label for="cli-fone" class="form-label">Telefone</label>
+          <input id="cli-fone" type="tel" class="form-input" placeholder="(00) 00000-0000" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Serviços -->
+    <div class="form-section">
+      <h2 class="section-title">Serviços Disponíveis</h2>
+
+      <!-- 1. Diagnóstico -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">1</span>
+          Diagnóstico
+        </h3>
+        <div class="service-card">
+          <label class="flex items-start gap-3">
+            <input type="checkbox" class="checkbox-custom mt-1" data-service="diagnostico" />
+            <div class="flex-1">
+              <p class="font-medium">Auditoria Completa do Perfil</p>
+              <p class="text-sm text-gray-600 mt-1">Análise de bio, destaques, grid, formatos, legendas, CTAs, hashtags, frequência e métricas. Entrego relatório com prioridades e quick wins.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 2. Estratégia e Setup -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">2</span>
+          Estratégia
+        </h3>
+        <div class="space-y-2">
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="otimizacao" />
+              <div>
+                <p class="font-medium">Otimização de Perfil</p>
+                <p class="text-sm text-gray-600">Bio estratégica, foto de perfil, destaques organizados</p>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="pilares" />
+              <div>
+                <p class="font-medium">Definição de Pilares de Conteúdo</p>
+                <p class="text-sm text-gray-600">3 a 5 categorias estratégicas para o perfil</p>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="calendario" />
+              <div>
+                <p class="font-medium">Calendário Editorial (30 dias)</p>
+                <p class="text-sm text-gray-600">Planejamento detalhado do primeiro mês</p>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="templates" />
+              <div>
+                <p class="font-medium">Templates Visuais</p>
+                <p class="text-sm text-gray-600">Modelos personalizados para posts e stories</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Produção de Conteúdo -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">3</span>
+          Produção de Conteúdo
+        </h3>
+        <div class="space-y-2">
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="feed" data-qty="feed" />
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Posts para Feed</p>
+                    <p class="text-sm text-gray-600">Carrosséis e posts estáticos com design e copy</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Qtd/semana:</span>
+                    <input type="number" min="0" class="qty-input" id="qty-feed" value="0" />
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="reels" data-qty="reels" />
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Reels</p>
+                    <p class="text-sm text-gray-600">Roteiro, captação guiada, edição e legenda</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Qtd/semana:</span>
+                    <input type="number" min="0" class="qty-input" id="qty-reels" value="0" />
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="stories" data-qty="stories" />
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Stories</p>
+                    <p class="text-sm text-gray-600">Sequências diárias com CTAs estratégicos</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Qtd/semana:</span>
+                    <input type="number" min="0" class="qty-input" id="qty-stories" value="0" />
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="copy" />
+              <div>
+                <p class="font-medium">Copywriting e Acessibilidade</p>
+                <p class="text-sm text-gray-600">Legendas persuasivas com alt-text para inclusão</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Gestão e Engajamento -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">4</span>
+          Gestão e Engajamento
+        </h3>
+        <div class="space-y-2">
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="agendamento" />
+              <div>
+                <p class="font-medium">Agendamento de Publicações</p>
+                <p class="text-sm text-gray-600">Postagem nos melhores horários</p>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="moderacao" data-qty="moderacao" />
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Moderação de Comentários e DMs</p>
+                    <p class="text-sm text-gray-600">Resposta humanizada seguindo tom de voz</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">Horas/semana:</span>
+                    <input type="number" min="0" class="qty-input" id="qty-moderacao" value="0" />
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="engajamento" />
+              <div>
+                <p class="font-medium">Engajamento Ativo</p>
+                <p class="text-sm text-gray-600">Interação com perfis relevantes do nicho</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Análise e Otimização -->
+      <div class="mb-6">
+        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">5</span>
+          Análise e Otimização
+        </h3>
+        <div class="space-y-2">
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="relatorio" />
+              <div>
+                <p class="font-medium">Relatório Mensal de Performance</p>
+                <p class="text-sm text-gray-600">Métricas detalhadas e insights acionáveis</p>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="plano" />
+              <div>
+                <p class="font-medium">Planejamento Mensal</p>
+                <p class="text-sm text-gray-600">Estratégia e calendário do mês seguinte</p>
+              </div>
+            </label>
+          </div>
+          <div class="service-card">
+            <label class="flex items-start gap-3">
+              <input type="checkbox" class="checkbox-custom mt-1" data-service="testes" />
+              <div>
+                <p class="font-medium">Testes A/B</p>
+                <p class="text-sm text-gray-600">Experimentos para otimizar resultados</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumo -->
+      <div class="summary-box">
+        <h3 class="font-semibold mb-3">Resumo do Orçamento</h3>
+        <div id="summary-list" class="text-sm text-gray-600 mb-3">Selecione os serviços desejados acima</div>
+        <div class="summary-item summary-total">
+          <span>Total de serviços selecionados:</span>
+          <span id="total-count">0</span>
+        </div>
+      </div>
+
+      <!-- Observações -->
+      <div class="mt-6">
+        <label for="cli-obs" class="form-label">Observações ou Necessidades Específicas</label>
+        <textarea id="cli-obs" class="form-input" rows="4" placeholder="Descreva aqui qualquer detalhe adicional sobre seu projeto..."></textarea>
+      </div>
+
+      <!-- Ações -->
+      <div class="flex gap-3 justify-end mt-6 no-print">
+        <button type="button" class="btn btn-secondary" onclick="window.print()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/>
+          </svg>
+          Imprimir
+        </button>
+        <button type="button" class="btn btn-primary" onclick="generatePDF()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/>
+          </svg>
+          Baixar PDF
+        </button>
+        <!--forms -->
+
+        <!-- Novo: enviar por e-mail fixo -->
+        <button type="button" id="btn-email" class="btn btn-primary" title="Enviar para contato@prismatalentos.com.br">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/>
+          </svg>
+          Enviar por e-mail
+        </button>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="bg-gray-50 px-8 py-6 text-center text-sm text-gray-600">
+      <p>Este orçamento tem validade de 15 dias a partir da data de emissão.</p>
+      <p class="mt-2">Os valores serão informados mediante análise detalhada do escopo selecionado.</p>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ===== Config =====
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xandvlgp";
+  const MAIL_TO_LABEL = "contato@prismatalentos.com.br";
+
+  // ===== Util =====
+  const $ = (s, r=document)=>r.querySelector(s);
+  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+
+  const SERVICE_LABELS = {
+    diagnostico:'Auditoria Completa do Perfil',
+    otimizacao:'Otimização de Perfil',
+    pilares:'Definição de Pilares de Conteúdo',
+    calendario:'Calendário Editorial (30 dias)',
+    templates:'Templates Visuais',
+    feed:'Posts para Feed',
+    reels:'Reels',
+    stories:'Stories',
+    copy:'Copywriting e Acessibilidade',
+    agendamento:'Agendamento de Publicações',
+    moderacao:'Moderação de Comentários e DMs',
+    engajamento:'Engajamento Ativo',
+    relatorio:'Relatório Mensal de Performance',
+    plano:'Planejamento Mensal',
+    testes:'Testes A/B'
+  };
+
+  function collectSelected(){
+    const out=[];
+    $$('input[type="checkbox"][data-service]:checked').forEach(cb=>{
+      const key = cb.dataset.service;
+      const label = SERVICE_LABELS[key] || key;
+      let qty=0, unit='';
+      if(cb.dataset.qty){
+        const id = cb.dataset.qty.startsWith('qty-') ? cb.dataset.qty : `qty-${cb.dataset.qty}`;
+        const el = document.getElementById(id);
+        qty = el ? parseFloat(el.value || '0') : 0;
+        if(qty>0) unit = key==='moderacao' ? 'h/sem' : '/sem';
+      }
+      out.push({label, qty, unit});
+    });
+    return out;
+  }
+
+  function getCompactServices(max=12){
+    const items=collectSelected();
+    if(!items.length) return "Nenhum serviço selecionado";
+    const first = items.slice(0,max).map(it=>`${it.label}${it.qty>0?` (${it.qty}${it.unit})`:''}`);
+    return first.join(", ") + (items.length>max ? ` e mais ${items.length-max} serviços` : "");
+  }
+
+  function validate(){
+    const nome = $('#cli-nome')?.value?.trim();
+    const email = $('#cli-email')?.value?.trim();
+    const selected = collectSelected();
+    if(!nome){ alert('Preencha o Nome.'); return false; }
+    if(!email || !email.includes('@')){ alert('E-mail inválido.'); return false; }
+    if(selected.length===0){ alert('Selecione pelo menos um serviço.'); return false; }
+    return true;
+  }
+
+  async function submitViaFetch(payload){
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: { "Accept":"application/json", "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error("Formspree status "+res.status);
+    const data = await res.json().catch(()=> ({}));
+    if(data?.ok === false) throw new Error("Formspree ok=false");
+    return true;
+  }
+
+  // >>> CORRIGIDO: usa <textarea> para campos com quebras de linha
+  function submitViaHiddenForm(payload){
+    let form = document.getElementById('contact-form');
+    if(!form){
+      form = document.createElement('form');
+      form.id = 'contact-form';
+      form.action = FORMSPREE_ENDPOINT;
+      form.method = 'POST';
+      form.style.display = 'none';
+      document.body.appendChild(form);
+      // honeypot
+      const hpWrap = document.createElement('div');
+      hpWrap.style.display = 'none';
+      const hp = document.createElement('input');
+      hp.type = 'text'; hp.name = '_gotcha'; hp.id = 'hp';
+      hpWrap.appendChild(hp); form.appendChild(hpWrap);
+    }
+
+    // limpa anteriores (hidden e textareas)
+    $$('#contact-form input[type="hidden"], #contact-form textarea[name]').forEach(n=>n.remove());
+
+    const add = (name, value) => {
+      const input = document.createElement('input');
+      input.type = 'hidden'; input.name = name; input.value = value ?? '';
+      form.appendChild(input);
+    };
+    const addTextArea = (name, value) => {
+      const ta = document.createElement('textarea');
+      ta.name = name; ta.value = value ?? '';
+      ta.style.display = 'none';
+      form.appendChild(ta);
+    };
+
+    // campos simples
+    add('subject', payload.subject || 'Orçamento Instagram');
+    add('_subject', payload.subject || 'Orçamento Instagram');
+    add('nome', payload.nome || '');
+    add('documento', payload.documento || '');
+    add('email', payload.email || '');
+    add('telefone', payload.telefone || '');
+    add('servicos_compacto', payload.servicos_compacto || '');
+    add('origem', payload.origem || '');
+    add('timestamp', payload.timestamp || '');
+    add('_redirect', (window.location.href.split('#')[0] + '#enviado'));
+
+    // multiline
+    addTextArea('servicos_detalhado', payload.servicos_detalhado || '');
+    addTextArea('observacoes', payload.observacoes || '');
+
+    form.submit();
+  }
+
+  async function sendFormspree(){
+    if(!validate()) return;
+
+    const nome = $('#cli-nome')?.value?.trim() || '';
+    const doc  = $('#cli-doc')?.value?.trim() || '';
+    const mail = $('#cli-email')?.value?.trim() || '';
+    const fone = $('#cli-fone')?.value?.trim() || '';
+    const obs  = $('#cli-obs')?.value?.trim() || '';
+    const selected = collectSelected();
+
+    const linhasDetalhadas = selected.map(it => `- ${it.label}${it.qty>0?` (${it.qty}${it.unit})`:''}`).join('\n');
+
+    const payload = {
+      subject: `Orçamento Instagram - ${nome}`,
+      nome, documento: doc, email: mail, telefone: fone, observacoes: obs,
+      servicos_compacto: getCompactServices(12),
+      servicos_detalhado: linhasDetalhadas || '- (nenhum selecionado)',
+      origem: document.title || 'Prisma Talentos',
+      timestamp: new Date().toISOString()
+    };
+
+    const btn = $('#btn-email');
+    const old = btn ? btn.textContent : '';
+    if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+    try {
+      await submitViaFetch(payload);
+      alert('Enviado com sucesso para ' + MAIL_TO_LABEL + '.');
+    } catch (e) {
+      try {
+        submitViaHiddenForm(payload);
+        // Formspree redireciona; não mostrar alert aqui.
+      } catch (err) {
+        const texto = [
+          'Orçamento Instagram',
+          `Nome: ${payload.nome}`,
+          `Documento: ${payload.documento}`,
+          `E-mail: ${payload.email}`,
+          `Telefone: ${payload.telefone}`,
+          '',
+          'Serviços:',
+          payload.servicos_detalhado,
+          '',
+          'Observações:',
+          obs || '(sem observações)'
+        ].join('\n');
+        try{ await navigator.clipboard.writeText(texto); }catch{}
+        alert('Falha no envio automático. Dados copiados; cole em um e-mail para ' + MAIL_TO_LABEL + '.');
+      }
+    } finally {
+      if(btn){ btn.disabled = false; btn.textContent = old || 'Enviar por e-mail'; }
+    }
+  }
+
+  // Botão
+  $('#btn-email')?.addEventListener('click', e => { e.preventDefault(); sendFormspree(); });
+
+  // Exposição opcional
+  window.sendFormspree = sendFormspree;
+})();
+</script>
+
+</body>
+</html>
