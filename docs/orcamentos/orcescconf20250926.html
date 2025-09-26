@@ -53,7 +53,7 @@
             <div class="inline-block gradient-secondary px-6 py-3 rounded-2xl">
               <p class="text-sm text-[#063741] font-semibold">PROPOSTA</p>
               <p class="text-2xl font-extrabold text-[#063741]">Escritório Confiança</p>
-              <p class="text-sm text-[#063741]/80 mt-1">25 de setembro de 2025</p>
+              <p class="text-sm text-[#063741]/80 mt-1">26 de setembro de 2025</p>
             </div>
           </div>
         </header>
@@ -351,58 +351,6 @@
       <p>© 2025 Prisma Talentos - Todos os direitos reservados</p>
       <p class="mt-2">Validade desta proposta: 30 dias</p>
     </footer>
-<script>
-
-  const PASSWORD_HASH = "587ebfa1591bbe6cadfd6f70d3f6264a96274becf3425e5faaa05765ca278f54"; // 64 hex, minúsculo
-const TTL_SECONDS = 60 * 60 * 8;
-
-const prep = (s) => String(s).trim().normalize("NFC"); // <<< normaliza e tira espaços acidentais
-
-export default {
-  async fetch(req) {
-    const url = new URL(req.url);
-    const cookie = req.headers.get("Cookie") || "";
-    if (/gate=ok/.test(cookie)) return fetch(req);
-
-    if (req.method === "POST" && url.pathname === "/__gate") {
-      const form = await req.formData();
-      const pwd = prep(form.get("password") || "");
-      const ok = await verifySha256(pwd, PASSWORD_HASH);
-      if (ok) {
-        return new Response(null, {
-          status: 303,
-          headers: {
-            "Location": "/",
-            "Set-Cookie": `gate=ok; Max-Age=${TTL_SECONDS}; HttpOnly; Secure; SameSite=Strict; Path=/`
-          }
-        });
-      }
-      return html(renderForm("Senha incorreta."));
-    }
-
-    if (req.method === "GET") return html(renderForm());
-    return new Response("Unauthorized", { status: 401 });
-  }
-}
-
-function html(b){ return new Response(b, { headers: { "content-type":"text/html; charset=utf-8" } }); }
-function renderForm(msg=""){ return `<!doctype html><meta charset="utf-8"><title>Acesso restrito</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<form method="post" action="/__gate" style="display:grid;place-items:center;min-height:100svh">
-  <div><h1>Conteúdo protegido</h1><p>Digite a senha para acessar.</p>
-  <input type="password" name="password" placeholder="Senha" required>
-  <button type="submit">Desbloquear</button>
-  ${msg ? `<div style="color:#b91c1c">${msg}</div>` : ``}
-</div></form>`; }
-
-async function verifySha256(s, hashHex){
-  const enc = new TextEncoder().encode(s);
-  const digest = await crypto.subtle.digest("SHA-256", enc);
-  const hex = [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,"0")).join("");
-  return hex === String(hashHex).trim().toLowerCase();
-}
-
-</script>
   </div>
 </body>
 </html>
