@@ -1,540 +1,1069 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prisma Talentos | Orçamento para Instagram</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --primary:#0f172a; --secondary:#64748b; --accent:#3b82f6; --success:#10b981; --surface:#f8fafc; --border:#e2e8f0; }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:2rem 1rem}
-    .container{max-width:900px;margin:0 auto;background:#fff;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
-    .header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:3rem 2rem;color:#fff;text-align:center;position:relative;overflow:hidden}
-    .header::before{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.1) 1px,transparent 1px);background-size:20px 20px;animation:float 20s linear infinite}
-    @keyframes float{0%{transform:translate(0,0)}100%{transform:translate(-50%,-50%)}}
-    .form-section{padding:2rem}
-    .form-group{margin-bottom:1.5rem}
-    .form-label{display:block;font-size:.875rem;font-weight:500;color:var(--secondary);margin-bottom:.5rem}
-    .form-input{width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;transition:.2s;background:var(--surface)}
-    .form-input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.1);background:#fff}
-    .service-card{background:#fff;border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;margin-bottom:1rem;transition:.3s;cursor:pointer}
-    .service-card:hover{border-color:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-2px)}
-    .service-card.selected{border-color:var(--accent);background:linear-gradient(135deg,rgba(59,130,246,.05) 0%,rgba(103,126,234,.05) 100%)}
-    .checkbox-custom{width:1.25rem;height:1.25rem;accent-color:var(--accent);cursor:pointer}
-    .qty-input{width:80px;padding:.5rem;border:1px solid var(--border);border-radius:.375rem;text-align:center;font-size:.875rem}
-    .section-title{font-size:1.125rem;font-weight:600;color:var(--primary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--surface)}
-    .btn{padding:.75rem 1.5rem;border-radius:.5rem;font-weight:500;cursor:pointer;transition:.2s;border:none;display:inline-flex;align-items:center;gap:.5rem}
-    .btn-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
-    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 20px -10px rgba(103,126,234,.5)}
-    .btn-secondary{background:var(--surface);color:var(--secondary);border:1px solid var(--border)}
-    .summary-box{background:linear-gradient(135deg,rgba(103,126,234,.05) 0%,rgba(118,75,162,.05) 100%);border-radius:.75rem;padding:1.5rem;margin-top:2rem}
-    .summary-item{display:flex;justify-content:space-between;padding:.5rem 0;font-size:.875rem;color:var(--secondary)}
-    .summary-total{font-size:1.125rem;font-weight:600;color:var(--primary);padding-top:1rem;border-top:2px solid var(--border);margin-top:1rem}
-    .tag{display:inline-block;padding:.25rem .75rem;background:var(--surface);color:var(--secondary);border-radius:999px;font-size:.75rem;font-weight:500}
-    @media print{body{background:#fff;padding:0}.no-print{display:none !important}.container{box-shadow:none}.service-card{break-inside:avoid}}
-    .logo-instagram{width:48px;height:48px;margin:0 auto 1rem;position:relative;z-index:1}
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prisma Talentos | Orçamento para Instagram</title>
+
+    <meta name="description"
+        content="Solicite orçamento de gestão de Instagram: estratégia, conteúdo, gestão e análise. Prisma Talentos." />
+    <meta property="og:title" content="Prisma Talentos | Orçamento Instagram" />
+    <meta property="og:description" content="Escolha os serviços e envie seu pedido." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Libs -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <!-- Caminho corrigido (conforme sua observação) -->
+    <script src="https://unpkg.com/cpf-cnpj-validator@1.0.3/dist/cpf.js"></script>
+    <script src="https://unpkg.com/cpf-cnpj-validator@1.0.3/dist/cnpj.js"></script>
+
+    <!-- CSP corrigida -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+                 img-src 'self' data:;
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                 font-src https://fonts.gstatic.com;
+                 script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com;
+                 connect-src https://formspree.io https://*.formspree.io;
+                 form-action 'self' https://formspree.io https://*.formspree.io;
+                 frame-src 'self' https://formspree.io https://*.formspree.io;
+                 base-uri 'self'">
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --surface: #f8fafc;
+            --border: #e2e8f0
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+            overflow: hidden
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 2rem;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, .1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0)
+            }
+
+            100% {
+                transform: translate(-50%, -50%)
+            }
+        }
+
+        .form-section {
+            padding: 2rem
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem
+        }
+
+        .form-label {
+            display: block;
+            font-size: .875rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: .5rem
+        }
+
+        .form-input {
+            width: 100%;
+            padding: .75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: .5rem;
+            font-size: .95rem;
+            transition: .2s;
+            background: var(--surface)
+        }
+
+        .form-input.is-invalid {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, .1)
+        }
+
+        .form-input:focus {
+            outline: 0;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+            background: #fff
+        }
+
+        .service-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: .75rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: .3s;
+            cursor: pointer;
+            position: relative
+        }
+
+        .service-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+            transform: translateY(-2px)
+        }
+
+        .service-card.selected {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(59, 130, 246, .05) 0%, rgba(103, 126, 234, .05) 100%)
+        }
+
+        .checkbox-custom {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: var(--accent);
+            cursor: pointer
+        }
+
+        .qty-input {
+            width: 80px;
+            padding: .5rem;
+            border: 1px solid var(--border);
+            border-radius: .375rem;
+            text-align: center;
+            font-size: .875rem;
+            transition: .2s
+        }
+
+        .qty-input:disabled {
+            background: #f1f5f9;
+            cursor: not-allowed;
+            opacity: .7
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 2px solid var(--surface)
+        }
+
+        .btn {
+            padding: .75rem 1.5rem;
+            border-radius: .5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: .2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px -10px rgba(103, 126, 234, .5)
+        }
+
+        .btn-primary:disabled {
+            opacity: .6;
+            cursor: not-allowed
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--secondary);
+            border: 1px solid var(--border)
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, rgba(103, 126, 234, .05) 0%, rgba(118, 75, 162, .05) 100%);
+            border-radius: .75rem;
+            padding: 1.5rem;
+            margin-top: 2rem
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: .5rem 0;
+            font-size: .875rem;
+            color: var(--secondary)
+        }
+
+        .summary-total {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            padding-top: 1rem;
+            border-top: 2px solid var(--border);
+            margin-top: 1rem
+        }
+
+        .tag {
+            display: inline-block;
+            padding: .25rem .75rem;
+            background: var(--surface);
+            color: var(--secondary);
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 500
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0
+            }
+
+            .no-print {
+                display: none !important
+            }
+
+            .container {
+                box-shadow: none
+            }
+
+            .service-card {
+                break-inside: avoid
+            }
+        }
+
+        .logo-instagram {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 1
+        }
+
+        :focus-visible {
+            outline: 3px solid rgba(59, 130, 246, .5);
+            outline-offset: 2px
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, .6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: .3s ease-out
+        }
+
+        .modal-overlay.show {
+            display: flex
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1
+        }
+
+        .modal-success-icon {
+            color: var(--success);
+            margin-bottom: 1.5rem
+        }
+
+        .alert-box {
+            background: #fefcbf;
+            color: #854900;
+            padding: 1rem;
+            border-radius: .5rem;
+            margin-top: 1rem;
+            display: none;
+            font-size: .875rem
+        }
+
+        /* Spinner simples */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <!-- Cabeçalho -->
-    <div class="header">
-      <svg class="logo-instagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="2" />
-        <circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" />
-        <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
-      </svg>
-      <h1 class="text-3xl font-bold mb-2">Prisma Talentos | Orçamento para Instagram</h1>
-      <p class="text-white/90">Marketing Digital para Instagram</p>
-      <div class="flex justify-center gap-3 mt-4">
-        <span class="tag bg-white/20 text-white">Estratégia</span>
-        <span class="tag bg-white/20 text-white">Conteúdo</span>
-        <span class="tag bg-white/20 text-white">Análise</span>
-      </div>
-    </div>
-
-    <!-- Dados do Cliente -->
-    <div class="form-section">
-      <h2 class="section-title">Dados do Solicitante</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="form-group">
-          <label for="cli-nome" class="form-label">Nome Completo / Empresa</label>
-          <input id="cli-nome" type="text" class="form-input" placeholder="Digite o nome completo ou razão social" />
-        </div>
-        <div class="form-group">
-          <label for="cli-doc" class="form-label">CNPJ / CPF</label>
-          <input id="cli-doc" type="text" class="form-input" placeholder="00.000.000/0000-00" />
-        </div>
-        <div class="form-group">
-          <label for="cli-email" class="form-label">E-mail</label>
-          <input id="cli-email" type="email" class="form-input" placeholder="contato@empresa.com.br" />
-        </div>
-        <div class="form-group">
-          <label for="cli-fone" class="form-label">Telefone</label>
-          <input id="cli-fone" type="tel" class="form-input" placeholder="(00) 00000-0000" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Serviços -->
-    <div class="form-section">
-      <h2 class="section-title">Serviços Disponíveis</h2>
-
-      <!-- 1. Diagnóstico -->
-      <div class="mb-6">
-        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">1</span>
-          Diagnóstico
-        </h3>
-        <div class="service-card">
-          <label class="flex items-start gap-3">
-            <input type="checkbox" class="checkbox-custom mt-1" data-service="diagnostico" />
-            <div class="flex-1">
-              <p class="font-medium">Auditoria Completa do Perfil</p>
-              <p class="text-sm text-gray-600 mt-1">Análise de bio, destaques, grid, formatos, legendas, CTAs, hashtags, frequência e métricas. Entrego relatório com prioridades e quick wins.</p>
+    <div class="container">
+        <div class="header">
+            <svg class="logo-instagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="2" />
+                <circle cx="12" cy="12" r="4" stroke="white" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
+            </svg>
+            <h1 class="text-3xl font-bold mb-2">Prisma Talentos | Orçamento para Instagram</h1>
+            <p class="text-white/90">Marketing Digital para Instagram</p>
+            <div class="flex justify-center gap-3 mt-4">
+                <span class="tag bg-white/20 text-white">Estratégia</span>
+                <span class="tag bg-white/20 text-white">Conteúdo</span>
+                <span class="tag bg-white/20 text-white">Análise</span>
             </div>
-          </label>
         </div>
-      </div>
 
-      <!-- 2. Estratégia e Setup -->
-      <div class="mb-6">
-        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">2</span>
-          Estratégia
-        </h3>
-        <div class="space-y-2">
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="otimizacao" />
-              <div>
-                <p class="font-medium">Otimização de Perfil</p>
-                <p class="text-sm text-gray-600">Bio estratégica, foto de perfil, destaques organizados</p>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="pilares" />
-              <div>
-                <p class="font-medium">Definição de Pilares de Conteúdo</p>
-                <p class="text-sm text-gray-600">3 a 5 categorias estratégicas para o perfil</p>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="calendario" />
-              <div>
-                <p class="font-medium">Calendário Editorial (30 dias)</p>
-                <p class="text-sm text-gray-600">Planejamento detalhado do primeiro mês</p>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="templates" />
-              <div>
-                <p class="font-medium">Templates Visuais</p>
-                <p class="text-sm text-gray-600">Modelos personalizados para posts e stories</p>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
+        <noscript>
+            <div
+                style="padding:12px;margin:16px;background:#fff3cd;border:1px solid #ffeeba;border-radius:8px;color:#854900">
+                Para enviar seu orçamento, ative o JavaScript no navegador.
+            </div>
+        </noscript>
 
-      <!-- 3. Produção de Conteúdo -->
-      <div class="mb-6">
-        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">3</span>
-          Produção de Conteúdo
-        </h3>
-        <div class="space-y-2">
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="feed" data-qty="feed" />
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="font-medium">Posts para Feed</p>
-                    <p class="text-sm text-gray-600">Carrosséis e posts estáticos com design e copy</p>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">Qtd/semana:</span>
-                    <input type="number" min="0" class="qty-input" id="qty-feed" value="0" />
-                  </div>
+        <div id="status-alert" class="alert-box" role="alert" aria-live="polite"></div>
+
+        <div class="form-section">
+            <h2 class="section-title">Dados do Solicitante</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="form-group">
+                    <label for="cli-nome" class="form-label">Nome Completo / Empresa *</label>
+                    <input id="cli-nome" name="nome" type="text" class="form-input"
+                        placeholder="Digite o nome completo ou razão social" required aria-required="true"
+                        autocomplete="name" />
                 </div>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="reels" data-qty="reels" />
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="font-medium">Reels</p>
-                    <p class="text-sm text-gray-600">Roteiro, captação guiada, edição e legenda</p>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">Qtd/semana:</span>
-                    <input type="number" min="0" class="qty-input" id="qty-reels" value="0" />
-                  </div>
+                <div class="form-group">
+                    <label for="cli-doc" class="form-label">CNPJ / CPF</label>
+                    <input id="cli-doc" name="documento" type="text" class="form-input"
+                        placeholder="00.000.000/0000-00 ou 000.000.000-00" maxlength="18" inputmode="numeric"
+                        autocomplete="off" aria-describedby="doc-error-feedback" />
+                    <small id="doc-error-feedback" class="text-red-500 text-xs mt-1 hidden" role="alert">CPF/CNPJ
+                        inválido.</small>
                 </div>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="stories" data-qty="stories" />
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="font-medium">Stories</p>
-                    <p class="text-sm text-gray-600">Sequências diárias com CTAs estratégicos</p>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">Qtd/semana:</span>
-                    <input type="number" min="0" class="qty-input" id="qty-stories" value="0" />
-                  </div>
+                <div class="form-group">
+                    <label for="cli-email" class="form-label">E-mail *</label>
+                    <input id="cli-email" name="email" type="email" class="form-input"
+                        placeholder="contato@empresa.com.br" required aria-required="true" autocomplete="email" />
                 </div>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="copy" />
-              <div>
-                <p class="font-medium">Copywriting e Acessibilidade</p>
-                <p class="text-sm text-gray-600">Legendas persuasivas com alt-text para inclusão</p>
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Gestão e Engajamento -->
-      <div class="mb-6">
-        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">4</span>
-          Gestão e Engajamento
-        </h3>
-        <div class="space-y-2">
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="agendamento" />
-              <div>
-                <p class="font-medium">Agendamento de Publicações</p>
-                <p class="text-sm text-gray-600">Postagem nos melhores horários</p>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="moderacao" data-qty="moderacao" />
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="font-medium">Moderação de Comentários e DMs</p>
-                    <p class="text-sm text-gray-600">Resposta humanizada seguindo tom de voz</p>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-500">Horas/semana:</span>
-                    <input type="number" min="0" class="qty-input" id="qty-moderacao" value="0" />
-                  </div>
+                <div class="form-group">
+                    <label for="cli-fone" class="form-label">Telefone</label>
+                    <input id="cli-fone" name="telefone" type="tel" class="form-input" placeholder="(00) 00000-0000"
+                        maxlength="15" inputmode="tel" autocomplete="tel" />
                 </div>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="engajamento" />
-              <div>
-                <p class="font-medium">Engajamento Ativo</p>
-                <p class="text-sm text-gray-600">Interação com perfis relevantes do nicho</p>
-              </div>
-            </label>
-          </div>
+            </div>
         </div>
-      </div>
 
-      <!-- 5. Análise e Otimização -->
-      <div class="mb-6">
-        <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">5</span>
-          Análise e Otimização
-        </h3>
-        <div class="space-y-2">
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="relatorio" />
-              <div>
-                <p class="font-medium">Relatório Mensal de Performance</p>
-                <p class="text-sm text-gray-600">Métricas detalhadas e insights acionáveis</p>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="plano" />
-              <div>
-                <p class="font-medium">Planejamento Mensal</p>
-                <p class="text-sm text-gray-600">Estratégia e calendário do mês seguinte</p>
-              </div>
-            </label>
-          </div>
-          <div class="service-card">
-            <label class="flex items-start gap-3">
-              <input type="checkbox" class="checkbox-custom mt-1" data-service="testes" />
-              <div>
-                <p class="font-medium">Testes A/B</p>
-                <p class="text-sm text-gray-600">Experimentos para otimizar resultados</p>
-              </div>
-            </label>
-          </div>
+        <div class="form-section">
+            <h2 class="section-title">Serviços Disponíveis</h2>
+
+            <!-- 1. Diagnóstico (sem quantidade) -->
+            <div class="mb-6">
+                <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">1</span>
+                    Diagnóstico
+                </h3>
+                <div class="service-card">
+                    <div class="flex items-start gap-3">
+                        <input id="svc-diagnostico" type="checkbox" class="checkbox-custom mt-1"
+                            data-service="diagnostico" />
+                        <label for="svc-diagnostico" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Auditoria Completa do Perfil</p>
+                            <p class="text-sm text-gray-700 mt-1">Análise de bio, destaques, grid, formatos, legendas,
+                                CTAs, hashtags, frequência e métricas. Entrego relatório com prioridades e quick wins.
+                            </p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Estratégia (sem quantidade) -->
+            <div class="mb-6">
+                <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">2</span>
+                    Estratégia
+                </h3>
+                <div class="space-y-2">
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-otimizacao" type="checkbox" class="checkbox-custom mt-1"
+                                data-service="otimizacao" />
+                            <label for="svc-otimizacao" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Otimização de Perfil</p>
+                                <p class="text-sm text-gray-700">Bio estratégica, foto de perfil, destaques organizados
+                                </p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-pilares" type="checkbox" class="checkbox-custom mt-1"
+                                data-service="pilares" />
+                            <label for="svc-pilares" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Definição de Pilares de Conteúdo</p>
+                                <p class="text-sm text-gray-700">3 a 5 categorias estratégicas para o perfil</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-calendario" type="checkbox" class="checkbox-custom mt-1"
+                                data-service="calendario" />
+                            <label for="svc-calendario" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Calendário Editorial (30 dias)</p>
+                                <p class="text-sm text-gray-700">Planejamento detalhado do primeiro mês</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-templates" type="checkbox" class="checkbox-custom mt-1"
+                                data-service="templates" />
+                            <label for="svc-templates" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Templates Visuais</p>
+                                <p class="text-sm text-gray-700">Modelos personalizados para posts e stories</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Produção de Conteúdo (com quantidade - inputs fora do label) -->
+            <div class="mb-6">
+                <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">3</span>
+                    Produção de Conteúdo
+                </h3>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3 w-full">
+                        <input id="svc-feed" type="checkbox" class="checkbox-custom mt-1" data-service="feed"
+                            data-qty-id="qty-feed" />
+                        <label for="svc-feed" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Posts para Feed</p>
+                            <p class="text-sm text-gray-700">Carrosséis e posts estáticos com design e copy</p>
+                        </label>
+                        <div class="flex items-center gap-2 ml-auto">
+                            <span class="text-sm text-gray-600">Qtd/semana:</span>
+                            <input type="number" min="0" class="qty-input" id="qty-feed" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3 w-full">
+                        <input id="svc-reels" type="checkbox" class="checkbox-custom mt-1" data-service="reels"
+                            data-qty-id="qty-reels" />
+                        <label for="svc-reels" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Reels</p>
+                            <p class="text-sm text-gray-700">Roteiro, captação guiada, edição e legenda</p>
+                        </label>
+                        <div class="flex items-center gap-2 ml-auto">
+                            <span class="text-sm text-gray-600">Qtd/semana:</span>
+                            <input type="number" min="0" class="qty-input" id="qty-reels" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3 w-full">
+                        <input id="svc-stories" type="checkbox" class="checkbox-custom mt-1" data-service="stories"
+                            data-qty-id="qty-stories" />
+                        <label for="svc-stories" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Stories</p>
+                            <p class="text-sm text-gray-700">Sequências diárias com CTAs estratégicos</p>
+                        </label>
+                        <div class="flex items-center gap-2 ml-auto">
+                            <span class="text-sm text-gray-600">Qtd/semana:</span>
+                            <input type="number" min="0" class="qty-input" id="qty-stories" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3">
+                        <input id="svc-copy" type="checkbox" class="checkbox-custom mt-1" data-service="copy" />
+                        <label for="svc-copy" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Copywriting e Acessibilidade</p>
+                            <p class="text-sm text-gray-700">Legendas persuasivas com alt-text para inclusão</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Gestão e Engajamento -->
+            <div class="mb-6">
+                <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">4</span>
+                    Gestão e Engajamento
+                </h3>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3">
+                        <input id="svc-agendamento" type="checkbox" class="checkbox-custom mt-1"
+                            data-service="agendamento" />
+                        <label for="svc-agendamento" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Agendamento de Publicações</p>
+                            <p class="text-sm text-gray-700">Postagem nos melhores horários</p>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3 w-full">
+                        <input id="svc-moderacao" type="checkbox" class="checkbox-custom mt-1" data-service="moderacao"
+                            data-qty-id="qty-moderacao" />
+                        <label for="svc-moderacao" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Moderação de Comentários e DMs</p>
+                            <p class="text-sm text-gray-700">Resposta humanizada seguindo tom de voz</p>
+                        </label>
+                        <div class="flex items-center gap-2 ml-auto">
+                            <span class="text-sm text-gray-600">Horas/semana:</span>
+                            <input type="number" min="0" class="qty-input" id="qty-moderacao" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="flex items-start gap-3">
+                        <input id="svc-engajamento" type="checkbox" class="checkbox-custom mt-1"
+                            data-service="engajamento" />
+                        <label for="svc-engajamento" class="flex-1 cursor-pointer">
+                            <p class="font-medium">Engajamento Ativo</p>
+                            <p class="text-sm text-gray-700">Interação com perfis relevantes do nicho</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Análise e Otimização -->
+            <div class="mb-6">
+                <h3 class="font-semibold text-purple-700 mb-3 flex items-center gap-2">
+                    <span
+                        class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center">5</span>
+                    Análise e Otimização
+                </h3>
+                <div class="space-y-2">
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-relatorio" type="checkbox" class="checkbox-custom mt-1"
+                                data-service="relatorio" />
+                            <label for="svc-relatorio" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Relatório Mensal de Performance</p>
+                                <p class="text-sm text-gray-700">Métricas detalhadas e insights acionáveis</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-plano" type="checkbox" class="checkbox-custom mt-1" data-service="plano" />
+                            <label for="svc-plano" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Planejamento Mensal</p>
+                                <p class="text-sm text-gray-700">Estratégia e calendário do mês seguinte</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="flex items-start gap-3">
+                            <input id="svc-testes" type="checkbox" class="checkbox-custom mt-1" data-service="testes" />
+                            <label for="svc-testes" class="flex-1 cursor-pointer">
+                                <p class="font-medium">Testes A/B</p>
+                                <p class="text-sm text-gray-700">Experimentos para otimizar resultados</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3 class="font-semibold mb-3">Resumo do Orçamento</h3>
+                <div id="summary-list" class="text-sm text-gray-700 mb-3">Selecione os serviços desejados acima</div>
+                <div class="summary-item summary-total">
+                    <span>Total de serviços selecionados:</span>
+                    <span id="total-count">0</span>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <label for="cli-obs" class="form-label">Observações ou Necessidades Específicas</label>
+                <textarea id="cli-obs" name="observacoes" class="form-input" rows="4"
+                    placeholder="Descreva aqui qualquer detalhe adicional sobre seu projeto..."></textarea>
+            </div>
+
+            <div class="flex gap-3 justify-end mt-6 no-print">
+                <button type="button" class="btn btn-secondary" onclick="window.print()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor"
+                        stroke-width="2" aria-hidden="true">
+                        <path
+                            d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z" />
+                    </svg>
+                    Imprimir
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="generatePDF()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor"
+                        stroke-width="2" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                        <path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3" />
+                    </svg>
+                    Baixar PDF
+                </button>
+                <button type="button" id="btn-email" class="btn btn-primary"
+                    title="Enviar para contato@prismatalentos.com.br">
+                    <span class="btn-text">Enviar por e-mail</span>
+                </button>
+            </div>
         </div>
-      </div>
 
-      <!-- Resumo -->
-      <div class="summary-box">
-        <h3 class="font-semibold mb-3">Resumo do Orçamento</h3>
-        <div id="summary-list" class="text-sm text-gray-600 mb-3">Selecione os serviços desejados acima</div>
-        <div class="summary-item summary-total">
-          <span>Total de serviços selecionados:</span>
-          <span id="total-count">0</span>
+        <div class="bg-gray-50 px-8 py-6 text-center text-sm text-gray-600">
+            <p>Este orçamento tem validade de 15 dias a partir da data de emissão.</p>
+            <p class="mt-2">Os valores serão informados mediante análise detalhada do escopo selecionado.</p>
         </div>
-      </div>
-
-      <!-- Observações -->
-      <div class="mt-6">
-        <label for="cli-obs" class="form-label">Observações ou Necessidades Específicas</label>
-        <textarea id="cli-obs" class="form-input" rows="4" placeholder="Descreva aqui qualquer detalhe adicional sobre seu projeto..."></textarea>
-      </div>
-
-      <!-- Ações -->
-      <div class="flex gap-3 justify-end mt-6 no-print">
-        <button type="button" class="btn btn-secondary" onclick="window.print()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/>
-          </svg>
-          Imprimir
-        </button>
-        <button type="button" class="btn btn-primary" onclick="generatePDF()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/>
-          </svg>
-          Baixar PDF
-        </button>
-        <!--forms -->
-
-        <!-- Novo: enviar por e-mail fixo -->
-        <button type="button" id="btn-email" class="btn btn-primary" title="Enviar para contato@prismatalentos.com.br">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/>
-          </svg>
-          Enviar por e-mail
-        </button>
-      </div>
     </div>
 
-    <!-- Rodapé -->
-    <div class="bg-gray-50 px-8 py-6 text-center text-sm text-gray-600">
-      <p>Este orçamento tem validade de 15 dias a partir da data de emissão.</p>
-      <p class="mt-2">Os valores serão informados mediante análise detalhada do escopo selecionado.</p>
+    <!-- Modal -->
+    <div id="success-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content" tabindex="-1">
+            <svg class="modal-success-icon mx-auto" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <path d="M22 4L12 14.01l-3-3" />
+            </svg>
+            <h3 id="modal-title" class="text-xl font-bold text-gray-900 mb-2">Orçamento solicitado</h3>
+            <p class="text-gray-700 mb-4">Recebemos seu pedido. Aguarde o nosso retorno.</p>
+            <button id="modal-close-btn" class="btn btn-primary w-full" type="button">Entendi</button>
+        </div>
     </div>
-  </div>
 
-<script>
-(function(){
-  "use strict";
+    // ... (código CSS e HTML permanece o mesmo)
+    <script>
+        (function () {
+            "use strict";
 
-  // ===== Config =====
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xandvlgp";
-  const MAIL_TO_LABEL = "contato@prismatalentos.com.br";
+            // Variáveis globais para Rate Limiting e Guard Timer
+            let lastSubmitTime = 0;
+            const MIN_INTERVAL = 3000; // 3 segundos de intervalo mínimo entre envios
+            let submitGuardTimer;
+            const GUARD_TIMEOUT = 15000; // 15 segundos para o guard timer
 
-  // ===== Util =====
-  const $ = (s, r=document)=>r.querySelector(s);
-  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+            // Acessando as bibliotecas CPF/CNPJ de forma robusta
+            const CPF_LIB = window.CPF || window.cpf || { isValid: () => false };
+            const CNPJ_LIB = window.CNPJ || window.cnpj || { isValid: () => false };
 
-  const SERVICE_LABELS = {
-    diagnostico:'Auditoria Completa do Perfil',
-    otimizacao:'Otimização de Perfil',
-    pilares:'Definição de Pilares de Conteúdo',
-    calendario:'Calendário Editorial (30 dias)',
-    templates:'Templates Visuais',
-    feed:'Posts para Feed',
-    reels:'Reels',
-    stories:'Stories',
-    copy:'Copywriting e Acessibilidade',
-    agendamento:'Agendamento de Publicações',
-    moderacao:'Moderação de Comentários e DMs',
-    engajamento:'Engajamento Ativo',
-    relatorio:'Relatório Mensal de Performance',
-    plano:'Planejamento Mensal',
-    testes:'Testes A/B'
-  };
+            // 1. Elementos do DOM
+            const form = document.body; // Usa body para escutar clicks fora do modal
+            const nameInput = document.getElementById('cli-nome');
+            const emailInput = document.getElementById('cli-email');
+            const docInput = document.getElementById('cli-doc');
+            const docErrorFeedback = document.getElementById('doc-error-feedback');
+            const submitButton = document.getElementById('btn-email');
+            const alertBox = document.getElementById('status-alert');
+            const summaryList = document.getElementById('summary-list');
+            const totalCountSpan = document.getElementById('total-count');
+            const serviceCards = document.querySelectorAll('.service-card');
+            const modalOverlay = document.getElementById('success-modal-overlay');
+            const modalContent = modalOverlay.querySelector('.modal-content');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalMessageP = modalOverlay.querySelector('p:nth-child(3)');
 
-  function collectSelected(){
-    const out=[];
-    $$('input[type="checkbox"][data-service]:checked').forEach(cb=>{
-      const key = cb.dataset.service;
-      const label = SERVICE_LABELS[key] || key;
-      let qty=0, unit='';
-      if(cb.dataset.qty){
-        const id = cb.dataset.qty.startsWith('qty-') ? cb.dataset.qty : `qty-${cb.dataset.qty}`;
-        const el = document.getElementById(id);
-        qty = el ? parseFloat(el.value || '0') : 0;
-        if(qty>0) unit = key==='moderacao' ? 'h/sem' : '/sem';
-      }
-      out.push({label, qty, unit});
-    });
-    return out;
-  }
+            // 2. Funções de Utilidade
+            const formatDocument = (value) => {
+                const clean = value.replace(/\D/g, '');
+                if (clean.length <= 11) {
+                    // CPF: 000.000.000-00
+                    return clean.replace(/(\d{3})(\d)/, '$1.$2')
+                        .replace(/(\d{3})(\d)/, '$1.$2')
+                        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                } else {
+                    // CNPJ: 00.000.000/0000-00
+                    return clean.replace(/^(\d{2})(\d)/, '$1.$2')
+                        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                        .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                        .replace(/(\d{4})(\d)/, '$1-$2');
+                }
+            };
 
-  function getCompactServices(max=12){
-    const items=collectSelected();
-    if(!items.length) return "Nenhum serviço selecionado";
-    const first = items.slice(0,max).map(it=>`${it.label}${it.qty>0?` (${it.qty}${it.unit})`:''}`);
-    return first.join(", ") + (items.length>max ? ` e mais ${items.length-max} serviços` : "");
-  }
+            const isValidDocument = (value) => {
+                const clean = value.replace(/\D/g, '');
+                if (clean.length === 0) {
+                    return true;
+                }
+                if (clean.length === 11) {
+                    return CPF_LIB.isValid(clean);
+                }
+                if (clean.length === 14) {
+                    return CNPJ_LIB.isValid(clean);
+                }
+                return false;
+            };
 
-  function validate(){
-    const nome = $('#cli-nome')?.value?.trim();
-    const email = $('#cli-email')?.value?.trim();
-    const selected = collectSelected();
-    if(!nome){ alert('Preencha o Nome.'); return false; }
-    if(!email || !email.includes('@')){ alert('E-mail inválido.'); return false; }
-    if(selected.length===0){ alert('Selecione pelo menos um serviço.'); return false; }
-    return true;
-  }
+            const toggleAlert = (message, show) => {
+                alertBox.textContent = DOMPurify.sanitize(message);
+                alertBox.style.display = show ? 'block' : 'none';
+            };
 
-  async function submitViaFetch(payload){
-    const res = await fetch(FORMSPREE_ENDPOINT, {
-      method: "POST",
-      headers: { "Accept":"application/json", "Content-Type":"application/json" },
-      body: JSON.stringify(payload)
-    });
-    if(!res.ok) throw new Error("Formspree status "+res.status);
-    const data = await res.json().catch(()=> ({}));
-    if(data?.ok === false) throw new Error("Formspree ok=false");
-    return true;
-  }
+            const showModal = (email) => {
+                modalMessageP.textContent = `Recebemos seu pedido. A confirmação foi enviada para ${DOMPurify.sanitize(email)}. Aguarde o nosso retorno.`;
 
-  // >>> CORRIGIDO: usa <textarea> para campos com quebras de linha
-  function submitViaHiddenForm(payload){
-    let form = document.getElementById('contact-form');
-    if(!form){
-      form = document.createElement('form');
-      form.id = 'contact-form';
-      form.action = FORMSPREE_ENDPOINT;
-      form.method = 'POST';
-      form.style.display = 'none';
-      document.body.appendChild(form);
-      // honeypot
-      const hpWrap = document.createElement('div');
-      hpWrap.style.display = 'none';
-      const hp = document.createElement('input');
-      hp.type = 'text'; hp.name = '_gotcha'; hp.id = 'hp';
-      hpWrap.appendChild(hp); form.appendChild(hpWrap);
-    }
+                modalOverlay.classList.add('show');
+                modalOverlay.setAttribute('aria-hidden', 'false');
 
-    // limpa anteriores (hidden e textareas)
-    $$('#contact-form input[type="hidden"], #contact-form textarea[name]').forEach(n=>n.remove());
+                const focusableElements = modalContent.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const firstFocusable = modalCloseBtn;
 
-    const add = (name, value) => {
-      const input = document.createElement('input');
-      input.type = 'hidden'; input.name = name; input.value = value ?? '';
-      form.appendChild(input);
-    };
-    const addTextArea = (name, value) => {
-      const ta = document.createElement('textarea');
-      ta.name = name; ta.value = value ?? '';
-      ta.style.display = 'none';
-      form.appendChild(ta);
-    };
+                firstFocusable.focus();
 
-    // campos simples
-    add('subject', payload.subject || 'Orçamento Instagram');
-    add('_subject', payload.subject || 'Orçamento Instagram');
-    add('nome', payload.nome || '');
-    add('documento', payload.documento || '');
-    add('email', payload.email || '');
-    add('telefone', payload.telefone || '');
-    add('servicos_compacto', payload.servicos_compacto || '');
-    add('origem', payload.origem || '');
-    add('timestamp', payload.timestamp || '');
-    add('_redirect', (window.location.href.split('#')[0] + '#enviado'));
+                // Focus Trap
+                modalContent.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab') {
+                        if (e.shiftKey) {
+                            if (document.activeElement === firstFocusable) {
+                                e.preventDefault();
+                                firstFocusable.focus();
+                            }
+                        } else {
+                            if (document.activeElement === firstFocusable) {
+                                e.preventDefault();
+                                firstFocusable.focus();
+                            }
+                        }
+                    }
+                });
+            };
 
-    // multiline
-    addTextArea('servicos_detalhado', payload.servicos_detalhado || '');
-    addTextArea('observacoes', payload.observacoes || '');
+            const hideModal = () => {
+                modalOverlay.classList.remove('show');
+                modalOverlay.setAttribute('aria-hidden', 'true');
+                submitButton.focus();
+            };
 
-    form.submit();
-  }
+            // 3. Lógica do Formulário
+            const updateSummaryAndValidation = () => {
+                const selectedServices = [];
+                let totalCount = 0;
+                let isFormValid = nameInput.value.trim().length > 0 && emailInput.checkValidity();
 
-  async function sendFormspree(){
-    if(!validate()) return;
+                // Validação de Documento
+                const docValue = docInput.value.trim();
+                const isDocValid = isValidDocument(docValue);
+                if (docValue.length > 0 && !isDocValid) {
+                    docInput.classList.add('is-invalid');
+                    docErrorFeedback.classList.remove('hidden');
+                    isFormValid = false;
+                } else {
+                    docInput.classList.remove('is-invalid');
+                    docErrorFeedback.classList.add('hidden');
+                }
 
-    const nome = $('#cli-nome')?.value?.trim() || '';
-    const doc  = $('#cli-doc')?.value?.trim() || '';
-    const mail = $('#cli-email')?.value?.trim() || '';
-    const fone = $('#cli-fone')?.value?.trim() || '';
-    const obs  = $('#cli-obs')?.value?.trim() || '';
-    const selected = collectSelected();
+                // Validação de Nome/Email
+                if (!nameInput.value.trim().length) isFormValid = false;
+                if (!emailInput.checkValidity()) isFormValid = false;
 
-    const linhasDetalhadas = selected.map(it => `- ${it.label}${it.qty>0?` (${it.qty}${it.unit})`:''}`).join('\n');
 
-    const payload = {
-      subject: `Orçamento Instagram - ${nome}`,
-      nome, documento: doc, email: mail, telefone: fone, observacoes: obs,
-      servicos_compacto: getCompactServices(12),
-      servicos_detalhado: linhasDetalhadas || '- (nenhum selecionado)',
-      origem: document.title || 'Prisma Talentos',
-      timestamp: new Date().toISOString()
-    };
+                // Processamento dos Serviços e validação (Lógica #1 - Quantidade Mínima)
+                document.querySelectorAll('input[type="checkbox"][data-service]').forEach(checkbox => {
+                    const card = checkbox.closest('.service-card');
+                    const serviceName = card.querySelector('p.font-medium').textContent;
+                    let qtyInput = null;
+                    let qty = 1;
 
-    const btn = $('#btn-email');
-    const old = btn ? btn.textContent : '';
-    if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+                    if (checkbox.hasAttribute('data-qty-id')) {
+                        const qtyId = checkbox.getAttribute('data-qty-id');
+                        qtyInput = document.getElementById(qtyId);
+                        qty = parseInt(qtyInput.value) || 0;
 
-    try {
-      await submitViaFetch(payload);
-      alert('Enviado com sucesso para ' + MAIL_TO_LABEL + '.');
-    } catch (e) {
-      try {
-        submitViaHiddenForm(payload);
-        // Formspree redireciona; não mostrar alert aqui.
-      } catch (err) {
-        const texto = [
-          'Orçamento Instagram',
-          `Nome: ${payload.nome}`,
-          `Documento: ${payload.documento}`,
-          `E-mail: ${payload.email}`,
-          `Telefone: ${payload.telefone}`,
-          '',
-          'Serviços:',
-          payload.servicos_detalhado,
-          '',
-          'Observações:',
-          obs || '(sem observações)'
-        ].join('\n');
-        try{ await navigator.clipboard.writeText(texto); }catch{}
-        alert('Falha no envio automático. Dados copiados; cole em um e-mail para ' + MAIL_TO_LABEL + '.');
-      }
-    } finally {
-      if(btn){ btn.disabled = false; btn.textContent = old || 'Enviar por e-mail'; }
-    }
-  }
+                        if (checkbox.checked && qty === 0) {
+                            // Se marcado, força quantidade para 1
+                            qty = 1;
+                            qtyInput.value = '1';
+                        }
 
-  // Botão
-  $('#btn-email')?.addEventListener('click', e => { e.preventDefault(); sendFormspree(); });
+                        if (qty > 0) {
+                            qtyInput.disabled = false;
+                            checkbox.checked = true;
+                        } else {
+                            qtyInput.disabled = true;
+                            checkbox.checked = false; // Se Qty=0, desmarca
+                        }
+                    } else {
+                        // Serviços sem quantidade
+                        if (checkbox.checked) {
+                            qty = 1;
+                        } else {
+                            qty = 0;
+                        }
+                    }
 
-  // Exposição opcional
-  window.sendFormspree = sendFormspree;
-})();
-</script>
+                    if (qty > 0) {
+                        card.classList.add('selected');
+                        totalCount++;
+                        selectedServices.push({
+                            name: serviceName,
+                            qty: qty
+                        });
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                });
 
+                // Atualizar Resumo
+                totalCountSpan.textContent = totalCount;
+                if (totalCount === 0) {
+                    summaryList.innerHTML = 'Selecione os serviços desejados acima';
+                    isFormValid = false;
+                } else {
+                    summaryList.innerHTML = selectedServices.map(s => {
+                        const qtyText = s.qty > 1 ? ` (${s.qty}/semana)` : '';
+                        return `<div class="summary-item"><span>${DOMPurify.sanitize(s.name)}</span><span>${qtyText}</span></div>`;
+                    }).join('');
+                }
+
+                // Habilita/Desabilita botão de envio
+                submitButton.disabled = !isFormValid || totalCount === 0;
+
+                // Retorna os dados para o payload (apenas os selecionados)
+                return {
+                    selectedServices,
+                    isFormValid
+                };
+            };
+
+            const handleSubmit = async () => {
+                const now = Date.now();
+                if (now - lastSubmitTime < MIN_INTERVAL) {
+                    toggleAlert('Aguarde um momento antes de tentar enviar novamente.', true);
+                    return;
+                }
+
+                const { selectedServices, isFormValid } = updateSummaryAndValidation();
+
+                if (!isFormValid || selectedServices.length === 0) {
+                    toggleAlert('Por favor, preencha todos os campos obrigatórios e selecione pelo menos um serviço.', true);
+                    return;
+                }
+
+                toggleAlert('', false);
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner"></span> Enviando...';
+                lastSubmitTime = now;
+
+                // Ativa o guard timer
+                submitGuardTimer = setTimeout(() => {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Recarregar Página';
+                    submitButton.onclick = () => window.location.reload();
+                    toggleAlert('O servidor demorou a responder. Tente novamente ou verifique sua conexão.', true);
+                }, GUARD_TIMEOUT);
+
+                // Prepara o payload
+                const serviceDetails = selectedServices.map(s => `${s.name}${s.qty > 1 ? ` (Qtd: ${s.qty}/semana)` : ''}`).join('\n- ');
+
+                const formData = {
+                    nome: nameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    documento: docInput.value.trim(),
+                    telefone: document.getElementById('cli-fone').value.trim(),
+                    observacoes: document.getElementById('cli-obs').value.trim(),
+                    _subject: `Orçamento para Instagram - ${nameInput.value.trim()}`,
+                    servicos: 'Serviços Selecionados:\n- ' + serviceDetails
+                };
+
+                try {
+                    // Endpoint Corrigido (Linha 222)
+                    const response = await fetch('https://formspree.io/f/xandvlgp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (response.ok) {
+                        // Limpar o formulário
+                        document.querySelectorAll('.form-input').forEach(input => input.value = '');
+                        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+                        document.querySelectorAll('.qty-input').forEach(input => {
+                            input.value = '0';
+                            input.disabled = true;
+                        });
+                        updateSummaryAndValidation();
+                        showModal(formData.email);
+
+                    } else {
+                        const errorData = await response.json();
+                        const errorMessage = errorData.errors ? errorData.errors.map(e => e.message).join('; ') : 'Ocorreu um erro no envio. Tente novamente.';
+                        toggleAlert(errorMessage, true);
+                    }
+                } catch (error) {
+                    toggleAlert('Erro de conexão. Verifique sua rede e tente novamente.', true);
+                } finally {
+                    // Limpa o timer em caso de sucesso ou erro
+                    clearTimeout(submitGuardTimer);
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<span class="btn-text">Enviar por e-mail</span>';
+                }
+            };
+
+            const generatePDF = () => {
+                // Manutenção da função de impressão, conforme limitação documentada
+                window.print();
+            };
+
+            // 4. Listeners de Eventos
+
+            // Validação e Formatação do Documento em tempo real
+            docInput.addEventListener('input', (e) => {
+                e.target.value = formatDocument(e.target.value);
+                updateSummaryAndValidation();
+            });
+            docInput.addEventListener('blur', updateSummaryAndValidation);
+            nameInput.addEventListener('input', updateSummaryAndValidation);
+            emailInput.addEventListener('input', updateSummaryAndValidation);
+
+            // Toggle de Checkbox/Quantidade e Destaque do Card
+            document.querySelectorAll('input[type="checkbox"][data-service]').forEach(checkbox => {
+                const qtyId = checkbox.getAttribute('data-qty-id');
+                const qtyInput = qtyId ? document.getElementById(qtyId) : null;
+                const card = checkbox.closest('.service-card');
+
+                // Lógica de Checagem/Quantidade
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        if (qtyInput) {
+                            qtyInput.value = '1';
+                            qtyInput.disabled = false;
+                        }
+                    } else {
+                        if (qtyInput) {
+                            qtyInput.value = '0';
+                            qtyInput.disabled = true;
+                        }
+                    }
+                    updateSummaryAndValidation();
+                });
+
+                if (qtyInput) {
+                    // Lógica: Se a quantidade mudar para 0, desmarca
+                    qtyInput.addEventListener('input', (e) => {
+                        let val = parseInt(e.target.value) || 0;
+                        if (val < 0) {
+                            val = 0;
+                            e.target.value = '0';
+                        }
+
+                        if (val === 0) {
+                            checkbox.checked = false;
+                        } else {
+                            checkbox.checked = true;
+                        }
+                        updateSummaryAndValidation();
+                    });
+                }
+            });
+
+            // Delegação de eventos para acionar o checkbox ao clicar no CARD
+            form.addEventListener('click', (e) => {
+                // Bloqueia cliques em inputs, botões, selects, textareas
+                // NOTA: O clique em 'label' é permitido (ou redundante, mas agora não é bloqueado)
+                // Correção de Bug Crítico 2 (v2): Remove if(e.target.matches('label')) return; (redundante/desnecessário)
+                if (e.target.matches('input,button,select,textarea')) return;
+
+                const card = e.target.closest('.service-card');
+                if (card) {
+                    const checkbox = card.querySelector('input[type="checkbox"]');
+                    if (checkbox && !e.target.matches('.qty-input') && !e.target.matches('label')) { // Evita toggle duplo
+                        // Se o clique não foi no checkbox ou label associado, simula o clique nele
+                        checkbox.checked = !checkbox.checked;
+                        const changeEvent = new Event('change');
+                        checkbox.dispatchEvent(changeEvent);
+                        updateSummaryAndValidation();
+                    }
+                }
+            });
+
+            // Eventos do Botão e Modal
+            submitButton.addEventListener('click', handleSubmit);
+            modalCloseBtn.addEventListener('click', hideModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) hideModal();
+            });
+
+            // Modal: Fechar com ESC
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+                    hideModal();
+                }
+            });
+
+            // Exposição da função (apenas o necessário)
+            window.generatePDF = generatePDF;
+
+            // Inicialização
+            updateSummaryAndValidation();
+
+        })();
+    </script>
 </body>
+
 </html>
