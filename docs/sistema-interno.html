@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Criar Orçamento | Prisma Talentos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --surface: #f8fafc;
+            --border: #e2e8f0
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .25);
+            overflow: hidden
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, .1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0)
+            }
+
+            100% {
+                transform: translate(-50%, -50%)
+            }
+        }
+
+        .form-section {
+            padding: 2rem
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem
+        }
+
+        .form-label {
+            display: block;
+            font-size: .875rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: .5rem
+        }
+
+        .form-input {
+            width: 100%;
+            padding: .75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: .5rem;
+            font-size: .95rem;
+            transition: .2s;
+            background: var(--surface)
+        }
+
+        .form-input:focus {
+            outline: 0;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .1);
+            background: #fff
+        }
+
+        .service-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: .75rem;
+            padding: 1rem;
+            margin-bottom: .75rem;
+            transition: .3s
+        }
+
+        .service-item.selected {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(59, 130, 246, .05) 0%, rgba(103, 126, 234, .05) 100%)
+        }
+
+        .checkbox-custom {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: var(--accent);
+            cursor: pointer
+        }
+
+        .qty-input,
+        .price-input {
+            width: 100px;
+            padding: .5rem;
+            border: 1px solid var(--border);
+            border-radius: .375rem;
+            text-align: center;
+            font-size: .875rem;
+            transition: .2s
+        }
+
+        .qty-input:disabled,
+        .price-input:disabled {
+            background: #f1f5f9;
+            cursor: not-allowed;
+            opacity: .7
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: .5rem;
+            border-bottom: 2px solid var(--surface)
+        }
+
+        .btn {
+            padding: .75rem 1.5rem;
+            border-radius: .5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: .2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px -10px rgba(103, 126, 234, .5)
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--secondary);
+            border: 1px solid var(--border)
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, rgba(103, 126, 234, .05) 0%, rgba(118, 75, 162, .05) 100%);
+            border-radius: .75rem;
+            padding: 1.5rem;
+            position: sticky;
+            top: 2rem
+        }
+
+        .tag {
+            display: inline-block;
+            padding: .25rem .75rem;
+            background: var(--surface);
+            color: var(--secondary);
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 500
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0
+            }
+
+            .no-print {
+                display: none !important
+            }
+
+            .container {
+                box-shadow: none;
+                max-width: 100%
+            }
+        }
+
+        .preview-section {
+            background: #f9fafb;
+            border: 2px dashed #e5e7eb;
+            border-radius: .75rem;
+            padding: 2rem;
+            margin: 2rem 0
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold mb-1">Sistema de Orçamentos</h1>
+                    <p class="text-white/90">Prisma Talentos - Marketing Digital</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="tag bg-white/20 text-white">Novo Orçamento</span>
+                    <span class="tag bg-white/20 text-white" id="orcamento-numero">#001</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+            <!-- Coluna Principal -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Dados do Cliente -->
+                <div>
+                    <h2 class="section-title">Dados do Cliente</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Nome/Empresa *</label>
+                            <input type="text" class="form-input" id="cliente-nome"
+                                placeholder="Nome completo ou razão social">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CPF/CNPJ</label>
+                            <input type="text" class="form-input" id="cliente-doc" placeholder="000.000.000-00">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">E-mail *</label>
+                            <input type="email" class="form-input" id="cliente-email" placeholder="contato@empresa.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-input" id="cliente-telefone" placeholder="(00) 00000-0000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configurações do Orçamento -->
+                <div>
+                    <h2 class="section-title">Configurações</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Validade (dias)</label>
+                            <input type="number" class="form-input" id="validade" value="15" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Desconto (%)</label>
+                            <input type="number" class="form-input" id="desconto" value="0" min="0" max="100"
+                                step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Forma de Pagamento</label>
+                            <select class="form-input" id="forma-pagamento">
+                                <option>PIX</option>
+                                <option>Boleto</option>
+                                <option>Cartão (até 3x)</option>
+                                <option>Cartão (até 6x)</option>
+                                <option>Cartão (até 12x)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Serviços -->
+                <div>
+                    <h2 class="section-title">Serviços e Valores</h2>
+
+                    <!-- Diagnóstico -->
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-purple-700 mb-3">1. Diagnóstico</h3>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="diagnostico">
+                                <div class="flex-1">
+                                    <p class="font-medium">Auditoria Completa do Perfil</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="diagnostico"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estratégia -->
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-purple-700 mb-3">2. Estratégia</h3>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="otimizacao">
+                                <div class="flex-1">
+                                    <p class="font-medium">Otimização de Perfil</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="otimizacao"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="pilares">
+                                <div class="flex-1">
+                                    <p class="font-medium">Definição de Pilares de Conteúdo</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="pilares"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="calendario">
+                                <div class="flex-1">
+                                    <p class="font-medium">Calendário Editorial (30 dias)</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="calendario"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="templates">
+                                <div class="flex-1">
+                                    <p class="font-medium">Templates Visuais</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="templates"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Produção de Conteúdo -->
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-purple-700 mb-3">3. Produção de Conteúdo</h3>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="feed">
+                                <div class="flex-1">
+                                    <p class="font-medium">Posts para Feed</p>
+                                </div>
+                                <input type="number" class="qty-input" placeholder="Qtd/sem" data-qty="feed" disabled
+                                    min="1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00/un" data-price="feed"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="reels">
+                                <div class="flex-1">
+                                    <p class="font-medium">Reels</p>
+                                </div>
+                                <input type="number" class="qty-input" placeholder="Qtd/sem" data-qty="reels" disabled
+                                    min="1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00/un" data-price="reels"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="stories">
+                                <div class="flex-1">
+                                    <p class="font-medium">Stories</p>
+                                </div>
+                                <input type="number" class="qty-input" placeholder="Qtd/sem" data-qty="stories" disabled
+                                    min="1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00/un" data-price="stories"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="copy">
+                                <div class="flex-1">
+                                    <p class="font-medium">Copywriting e Acessibilidade</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="copy"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gestão e Engajamento -->
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-purple-700 mb-3">4. Gestão e Engajamento</h3>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="agendamento">
+                                <div class="flex-1">
+                                    <p class="font-medium">Agendamento de Publicações</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="agendamento"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="moderacao">
+                                <div class="flex-1">
+                                    <p class="font-medium">Moderação de Comentários e DMs</p>
+                                </div>
+                                <input type="number" class="qty-input" placeholder="Horas/sem" data-qty="moderacao"
+                                    disabled min="1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00/h" data-price="moderacao"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="engajamento">
+                                <div class="flex-1">
+                                    <p class="font-medium">Engajamento Ativo</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="engajamento"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Análise e Otimização -->
+                    <div class="mb-4">
+                        <h3 class="font-semibold text-purple-700 mb-3">5. Análise e Otimização</h3>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="relatorio">
+                                <div class="flex-1">
+                                    <p class="font-medium">Relatório Mensal de Performance</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="relatorio"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="plano">
+                                <div class="flex-1">
+                                    <p class="font-medium">Planejamento Mensal</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="plano"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-item">
+                            <div class="flex items-center gap-4">
+                                <input type="checkbox" class="checkbox-custom" data-service="testes">
+                                <div class="flex-1">
+                                    <p class="font-medium">Testes A/B</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600">R$</span>
+                                    <input type="number" class="price-input" placeholder="0,00" data-price="testes"
+                                        disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div>
+                    <h2 class="section-title">Observações</h2>
+                    <textarea class="form-input" rows="4" id="observacoes"
+                        placeholder="Informações adicionais, condições especiais, etc..."></textarea>
+                </div>
+            </div>
+
+            <!-- Resumo Lateral -->
+            <div>
+                <div class="summary-box">
+                    <h3 class="font-bold text-lg mb-4">Resumo do Orçamento</h3>
+
+                    <div class="space-y-2 mb-4">
+                        <div id="resumo-servicos" class="text-sm text-gray-600">
+                            Nenhum serviço selecionado
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-4 border-t border-gray-200">
+                        <div class="flex justify-between text-sm">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-green-600">
+                            <span>Desconto:</span>
+                            <span id="valor-desconto">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
+                            <span>Total:</span>
+                            <span id="total" class="text-purple-700">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 pt-2">
+                            <span>Valor Mensal:</span>
+                            <span id="valor-mensal">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 space-y-2">
+                        <button class="btn btn-primary w-full" onclick="gerarOrcamento()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                <path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3" />
+                            </svg>
+                            Gerar Orçamento
+                        </button>
+                        <button class="btn btn-secondary w-full" onclick="limparFormulario()">
+                            Limpar Tudo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview do Orçamento (inicialmente oculto) -->
+        <div id="preview-orcamento" class="preview-section hidden mx-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Prévia do Orçamento</h3>
+            <div id="preview-content">
+                <!-- Conteúdo será gerado dinamicamente -->
+            </div>
+            <div class="flex gap-3 justify-end mt-4 no-print">
+                <button class="btn btn-secondary" onclick="window.print()">Imprimir</button>
+                <button class="btn btn-primary" onclick="enviarPorEmail()">Enviar por E-mail</button>
+                <button class="btn btn-secondary" onclick="copiarOrcamento()">Copiar Texto</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Número do orçamento (simulado - em produção seria do banco de dados)
+        let numeroOrcamento = 1;
+        document.getElementById('orcamento-numero').textContent = `#${String(numeroOrcamento).padStart(3, '0')}`;
+
+        // Gerenciamento de checkboxes e campos
+        document.querySelectorAll('.checkbox-custom').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const service = this.dataset.service;
+                const priceInput = document.querySelector(`[data-price="${service}"]`);
+                const qtyInput = document.querySelector(`[data-qty="${service}"]`);
+                const serviceItem = this.closest('.service-item');
+
+                if (this.checked) {
+                    serviceItem.classList.add('selected');
+                    if (priceInput) priceInput.disabled = false;
+                    if (qtyInput) {
+                        qtyInput.disabled = false;
+                        qtyInput.value = qtyInput.value || 1;
+                    }
+                } else {
+                    serviceItem.classList.remove('selected');
+                    if (priceInput) {
+                        priceInput.disabled = true;
+                        priceInput.value = '';
+                    }
+                    if (qtyInput) {
+                        qtyInput.disabled = true;
+                        qtyInput.value = '';
+                    }
+                }
+
+                calcularTotal();
+            });
+        });
+
+        // Recalcular ao mudar valores
+        document.querySelectorAll('.price-input, .qty-input').forEach(input => {
+            input.addEventListener('input', calcularTotal);
+        });
+
+        document.getElementById('desconto').addEventListener('input', calcularTotal);
+
+        function calcularTotal() {
+            let subtotal = 0;
+            const resumoServicos = [];
+
+            document.querySelectorAll('.checkbox-custom:checked').forEach(checkbox => {
+                const service = checkbox.dataset.service;
+                const serviceName = checkbox.closest('.service-item').querySelector('.font-medium').textContent;
+                const priceInput = document.querySelector(`[data-price="${service}"]`);
+                const qtyInput = document.querySelector(`[data-qty="${service}"]`);
+
+                if (priceInput && priceInput.value) {
+                    const price = parseFloat(priceInput.value) || 0;
+                    const qty = qtyInput ? (parseFloat(qtyInput.value) || 1) : 1;
+                    const total = price * qty;
+
+                    subtotal += total;
+
+                    if (qtyInput && qty > 1) {
+                        resumoServicos.push(`${serviceName} (${qty}x) - R$ ${total.toFixed(2)}`);
+                    } else {
+                        resumoServicos.push(`${serviceName} - R$ ${total.toFixed(2)}`);
+                    }
+                }
+            });
+
+            const desconto = parseFloat(document.getElementById('desconto').value) || 0;
+            const valorDesconto = subtotal * (desconto / 100);
+            const total = subtotal - valorDesconto;
+
+            // Calcular valor mensal (considerando serviços recorrentes)
+            let valorMensal = 0;
+            ['feed', 'reels', 'stories', 'moderacao'].forEach(service => {
+                const checkbox = document.querySelector(`[data-service="${service}"]`);
+                if (checkbox && checkbox.checked) {
+                    const priceInput = document.querySelector(`[data-price="${service}"]`);
+                    const qtyInput = document.querySelector(`[data-qty="${service}"]`);
+                    if (priceInput && priceInput.value) {
+                        const price = parseFloat(priceInput.value) || 0;
+                        const qty = qtyInput ? (parseFloat(qtyInput.value) || 1) : 1;
+                        valorMensal += price * qty * 4; // 4 semanas por mês
+                    }
+                }
+            });
+
+            // Atualizar interface
+            document.getElementById('resumo-servicos').innerHTML = resumoServicos.length
+                ? resumoServicos.join('<br>')
+                : 'Nenhum serviço selecionado';
+
+            document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+            document.getElementById('valor-desconto').textContent = `R$ ${valorDesconto.toFixed(2)}`;
+            document.getElementById('total').textContent = `R$ ${total.toFixed(2)}`;
+            document.getElementById('valor-mensal').textContent = `R$ ${valorMensal.toFixed(2)}`;
+        }
+
+        function gerarOrcamento() {
+            const nome = document.getElementById('cliente-nome').value;
+            const email = document.getElementById('cliente-email').value;
+
+            if (!nome || !email) {
+                alert('Por favor, preencha nome e e-mail do cliente');
+                return;
+            }
+
+            const preview = document.getElementById('preview-orcamento');
+            const content = document.getElementById('preview-content');
+
+            const data = new Date();
+            const dataFormatada = data.toLocaleDateString('pt-BR');
+            const validadeData = new Date(data.setDate(data.getDate() + parseInt(document.getElementById('validade').value)));
+            const validadeFormatada = validadeData.toLocaleDateString('pt-BR');
+
+            content.innerHTML = `
+                <div style="font-family: 'Inter', sans-serif; max-width: 800px; margin: 0 auto;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h1 style="color: #667eea; font-size: 1.5rem; margin-bottom: 0.5rem;">ORÇAMENTO #${String(numeroOrcamento).padStart(3, '0')}</h1>
+                        <p style="color: #666;">Prisma Talentos - Marketing Digital para Instagram</p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <p><strong>Cliente:</strong> ${document.getElementById('cliente-nome').value}</p>
+                        <p><strong>E-mail:</strong> ${document.getElementById('cliente-email').value}</p>
+                        ${document.getElementById('cliente-telefone').value ? `<p><strong>Telefone:</strong> ${document.getElementById('cliente-telefone').value}</p>` : ''}
+                        ${document.getElementById('cliente-doc').value ? `<p><strong>CPF/CNPJ:</strong> ${document.getElementById('cliente-doc').value}</p>` : ''}
+                        <p><strong>Data:</strong> ${dataFormatada}</p>
+                        <p><strong>Validade:</strong> ${validadeFormatada}</p>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                        <thead>
+                            <tr style="background: #f3f4f6;">
+                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Serviço</th>
+                                <th style="padding: 0.75rem; text-align: center; border-bottom: 2px solid #e5e7eb;">Qtd</th>
+                                <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e5e7eb;">Valor Unit.</th>
+                                <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e5e7eb;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${gerarLinhasServicos()}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="padding: 0.75rem; text-align: right; border-top: 2px solid #e5e7eb;">Subtotal:</td>
+                                <td style="padding: 0.75rem; text-align: right; border-top: 2px solid #e5e7eb;">${document.getElementById('subtotal').textContent}</td>
+                            </tr>
+                            ${parseFloat(document.getElementById('desconto').value) > 0 ? `
+                            <tr>
+                                <td colspan="3" style="padding: 0.75rem; text-align: right;">Desconto (${document.getElementById('desconto').value}%):</td>
+                                <td style="padding: 0.75rem; text-align: right; color: #10b981;">${document.getElementById('valor-desconto').textContent}</td>
+                            </tr>
+                            ` : ''}
+                            <tr style="background: #f3f4f6; font-weight: bold;">
+                                <td colspan="3" style="padding: 0.75rem; text-align: right; font-size: 1.125rem;">Total:</td>
+                                <td style="padding: 0.75rem; text-align: right; font-size: 1.125rem; color: #667eea;">${document.getElementById('total').textContent}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    ${document.getElementById('observacoes').value ? `
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #333; margin-bottom: 0.5rem;">Observações:</h3>
+                        <p style="color: #666;">${document.getElementById('observacoes').value}</p>
+                    </div>
+                    ` : ''}
+
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #333; margin-bottom: 0.5rem;">Forma de Pagamento:</h3>
+                        <p style="color: #666;">${document.getElementById('forma-pagamento').value}</p>
+                    </div>
+
+                    <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #e5e7eb; color: #666; font-size: 0.875rem;">
+                        <p>Este orçamento tem validade até ${validadeFormatada}</p>
+                        <p>Prisma Talentos - contato@prismatalentos.com.br</p>
+                    </div>
+                </div>
+            `;
+
+            preview.classList.remove('hidden');
+            preview.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function gerarLinhasServicos() {
+            let html = '';
+
+            document.querySelectorAll('.checkbox-custom:checked').forEach(checkbox => {
+                const service = checkbox.dataset.service;
+                const serviceName = checkbox.closest('.service-item').querySelector('.font-medium').textContent;
+                const priceInput = document.querySelector(`[data-price="${service}"]`);
+                const qtyInput = document.querySelector(`[data-qty="${service}"]`);
+
+                if (priceInput && priceInput.value) {
+                    const price = parseFloat(priceInput.value) || 0;
+                    const qty = qtyInput ? (parseFloat(qtyInput.value) || 1) : 1;
+                    const total = price * qty;
+
+                    html += `
+                        <tr>
+                            <td style="padding: 0.75rem; border-bottom: 1px solid #e5e7eb;">${serviceName}</td>
+                            <td style="padding: 0.75rem; text-align: center; border-bottom: 1px solid #e5e7eb;">${qty > 1 ? qty : '-'}</td>
+                            <td style="padding: 0.75rem; text-align: right; border-bottom: 1px solid #e5e7eb;">R$ ${price.toFixed(2)}</td>
+                            <td style="padding: 0.75rem; text-align: right; border-bottom: 1px solid #e5e7eb;">R$ ${total.toFixed(2)}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            return html;
+        }
+
+        function limparFormulario() {
+            if (confirm('Deseja limpar todos os campos?')) {
+                document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(input => {
+                    input.value = '';
+                });
+                document.querySelectorAll('.checkbox-custom').forEach(cb => {
+                    cb.checked = false;
+                    cb.dispatchEvent(new Event('change'));
+                });
+                document.getElementById('validade').value = '15';
+                document.getElementById('desconto').value = '0';
+                document.getElementById('forma-pagamento').selectedIndex = 0;
+                document.getElementById('preview-orcamento').classList.add('hidden');
+                calcularTotal();
+            }
+        }
+
+        function enviarPorEmail() {
+            const email = document.getElementById('cliente-email').value;
+            const subject = `Orçamento #${String(numeroOrcamento).padStart(3, '0')} - Prisma Talentos`;
+            const body = document.getElementById('preview-content').innerText;
+
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function copiarOrcamento() {
+            const content = document.getElementById('preview-content').innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                alert('Orçamento copiado para a área de transferência!');
+            });
+        }
+
+        // Formatação de telefone
+        document.getElementById('cliente-telefone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+
+            if (value.length > 10) {
+                value = value.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+            } else if (value.length > 6) {
+                value = value.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                value = value.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+            }
+
+            e.target.value = value;
+        });
+
+        // Inicialização
+        calcularTotal();
+    </script>
+</body>
+
+</html>
